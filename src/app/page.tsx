@@ -1,13 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { pdfjs } from "react-pdf";
 import { getKeyPhrases } from "./lib/text-extractor";
-
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.js",
-  import.meta.url
-).toString();
 
 function Home() {
   const [summary, setSummary] = useState("");
