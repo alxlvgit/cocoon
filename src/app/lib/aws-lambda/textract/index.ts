@@ -17,6 +17,7 @@ export const handler = async (
         .catch((err) => {
           console.log(err);
         });
+      console.log(response, "response");
       const blocks: Block[] | undefined = response!.Blocks;
       const lines = blocks?.filter((block) => block.BlockType === "LINE");
       const text = lines?.map((line) => line.Text).join(" ");

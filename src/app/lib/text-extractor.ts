@@ -1,9 +1,8 @@
 "use server";
 
 // extract keywords from the text
-export const getKeyPhrases = async (requestBody: { Bytes: string }) => {
+export const getKeyPhrases = async (text: string) => {
   try {
-    const text = await extractText(requestBody);
     const options = {
       method: "POST",
       headers: {
@@ -25,7 +24,7 @@ export const getKeyPhrases = async (requestBody: { Bytes: string }) => {
 
     const json = await response.json();
     const data = json.choices[0].text.trim();
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (err) {
     console.log(err);
@@ -33,14 +32,14 @@ export const getKeyPhrases = async (requestBody: { Bytes: string }) => {
 };
 
 // send request to lambda function to extract text from pdf
-const extractText = async (requestBody: { Bytes: string }) => {
+export const extractText = async (requestBody: { Bytes: string }) => {
   try {
-    const test = await fetch(process.env.LAMBDA_ENDPOINT_TEXTRACT!, {
+    const extractedText = await fetch(process.env.LAMBDA_ENDPOINT_TEXTRACT!, {
       method: "POST",
       body: JSON.stringify(requestBody),
     });
-    const data = await test.json();
-    console.log(data);
+    const data = await extractedText.json();
+    // console.log(data);
     return data;
   } catch (err) {
     console.log(err);

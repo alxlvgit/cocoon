@@ -1,15 +1,24 @@
 "use client";
 
+import React from "react";
 import { useState } from "react";
-import { getKeyPhrases } from "./lib/text-extractor";
+import { extractText, getKeyPhrases } from "./lib/text-extractor";
+import UploadStatus from "./components/UploadStatus";
 
 function Home() {
   const [summary, setSummary] = useState("");
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<React.JSX.Element[]>([]);
   const [file, setFile] = useState<File | null>(null);
+
+  const analysisStatusComponents = [
+    <UploadStatus key={"uploaded"} done={true} text="File Uploaded" />,
+    <UploadStatus key={"extracted"} done={true} text="Extracted Key Phrases" />,
+  ];
 
   const handleFileUpload = async () => {
     setSummary("");
+    setStatus([]);
     const reader = new FileReader();
     if (!file) {
       return;
@@ -23,7 +32,10 @@ function Home() {
         Bytes: base64Bytes,
       };
       setLoading(true);
-      const keyPhrases = await getKeyPhrases(requestBody);
+      const extractedText = await extractText(requestBody);
+      setStatus([analysisStatusComponents[0]]);
+      const keyPhrases = await getKeyPhrases(extractedText);
+      setStatus(analysisStatusComponents);
       setLoading(false);
       setSummary(keyPhrases);
     };
@@ -51,9 +63,9 @@ function Home() {
       >
         Upload
       </button>
+      {...status}
       {loading && (
         <>
-          <p className="mt-6 text-lg font-semibold">Processing...</p>
           <div className="mt-8 animate-spin rounded-full h-32 w-32 border-b-2 border-black dark:border-white"></div>
         </>
       )}
