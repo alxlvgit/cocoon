@@ -9,21 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.423.0",
+    "@aws-sdk/client-textract": "^3.423.0",
+    "mammoth": "^1.6.0",
     "next": "latest",
     "openai": "^4.0.0",
     "react": "latest",
-    "react-dom": "latest",
-    "@aws-sdk/client-textract": "^3.423.0",
-    "@aws-sdk/client-s3": "^3.423.0"
+    "react-dom": "latest"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.122",
-    "esbuild": "^0.19.4",
-    "@types/node": "latest",
     "@aws-sdk/client-s3": "^3.28.0",
+    "@types/aws-lambda": "^8.10.122",
+    "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "autoprefixer": "latest",
+    "esbuild": "^0.19.4",
     "eslint": "latest",
     "eslint-config-next": "latest",
     "postcss": "latest",
