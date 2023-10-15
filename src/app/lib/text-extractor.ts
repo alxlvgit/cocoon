@@ -1,9 +1,54 @@
 "use server";
 
-// extract keywords from the text
-export const getKeyPhrases = async (requestBody: { Bytes: string }) => {
+// send request to lambda function to extract text from pdf
+export const extractTextFromPdf = async (
+  requestBody: string
+): Promise<string | undefined> => {
   try {
-    const text = await extractText(requestBody);
+    const extractedText = await fetch(process.env.LAMBDA_ENDPOINT_TEXTRACT!, {
+      method: "POST",
+      body: JSON.stringify({ Bytes: requestBody }),
+    });
+    if (extractedText.status !== 200) {
+      return undefined;
+    }
+    const data = await extractedText.json();
+    if (Object.keys(data).length === 0) {
+      return undefined;
+    } else {
+      return data;
+    }
+  } catch (err) {
+    console.log(err);
+    return undefined;
+  }
+};
+
+// send request to lambda function to extract text from docx
+export const extractTextFromDocx = async (
+  requestBody: string
+): Promise<string | undefined> => {
+  try {
+    const extractedText = await fetch(process.env.LAMBDA_ENDPOINT_DOCXTRACT!, {
+      method: "POST",
+      body: JSON.stringify({ file: requestBody }),
+    });
+    const data = await extractedText.json();
+    if (data.trim().length === 0) {
+      return undefined;
+    } else {
+      return data;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// extract keywords from the text
+export const getKeyPhrases = async (
+  text: string
+): Promise<string | undefined> => {
+  try {
     const options = {
       method: "POST",
       headers: {
@@ -25,22 +70,10 @@ export const getKeyPhrases = async (requestBody: { Bytes: string }) => {
 
     const json = await response.json();
     const data = json.choices[0].text.trim();
-    console.log(data);
-    return data;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-// send request to lambda function to extract text from pdf
-const extractText = async (requestBody: { Bytes: string }) => {
-  try {
-    const test = await fetch(process.env.LAMBDA_ENDPOINT_TEXTRACT!, {
-      method: "POST",
-      body: JSON.stringify(requestBody),
-    });
-    const data = await test.json();
-    console.log(data);
+    if (data.length === 0) {
+      return undefined;
+    }
+    // console.log(data);
     return data;
   } catch (err) {
     console.log(err);
