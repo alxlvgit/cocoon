@@ -1,49 +1,58 @@
-//get the job titles by keyword api
-//below are only valid keywords to search for design-related IT jobs.
-const validJobSearchKeywords = [
-    "softwareengineer",
-    "software",
-    "uidesigner",
-    "uxdesigner",
-    "uxresearcher",
-  ];
+import { JobKeyword, SOCcode, CareerSection } from "./enums";
 
-async function odotnetKeyword(keyword: string) {
-    const res = await fetch(
-      `https://services.onetcenter.org/ws/mnm/search?keyword=${keyword}`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          Authorization: `Basic ${process.env.ODOTNET_CREDENTIALS}`,
-        },
-      }
-    );
+interface ODOTNetCredentials {
+  Authorization: string;
+}
 
-    const data = await res.json();
-    return data;
+async function fetchData(
+  url: string,
+  credentials: ODOTNetCredentials
+): Promise<Response> {
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      ...credentials,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch data from ${url}. Status: ${res.status}`);
   }
 
-//get the career overview (description, tasks)
-const validONetSOC2019 = ["15-1252.00", "15-1254.00", "15-1255.00", "15-1251.00"];
+  return res;
+}
 
-//15-1252.00: Sofware Developers, 
-//15-1254.00: Web Devlopers, 
-//15-1255.00: Web and Digital Interface Designers
-//15-1251.00: Computer Programmers
+// Function to fetch job titles by keyword
+export async function odotnetKeyword(keyword: JobKeyword): Promise<any> {
+  const credentials: ODOTNetCredentials = {
+    Authorization: `Basic ${process.env.ODOTNET_CREDENTIALS}`,
+  };
 
-async function odotnetCareerOverview(code: string, careerSecton: ) {
-  const res = await fetch(
-    `https://services.onetcenter.org/ws/mnm/careers/${code}/`,
-    {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Basic ${process.env.ODOTNET_CREDENTIALS}`,
-      },
-    }
+  const res = await fetchData(
+    `https://services.onetcenter.org/ws/mnm/search?keyword=${keyword}`,
+    credentials
   );
-
   const data = await res.json();
+  console.log(data);
+  return data;
+}
+
+// Function to fetch career overview (description, tasks)
+export async function odotnetCareerOverview(
+  code: SOCcode,
+  careerSection?: CareerSection
+): Promise<any> {
+  const credentials: ODOTNetCredentials = {
+    Authorization: `Basic ${process.env.ODOTNET_CREDENTIALS}`,
+  };
+
+  const endpoint = careerSection
+    ? `https://services.onetcenter.org/ws/mnm/careers/${code}/${careerSection}`
+    : `https://services.onetcenter.org/ws/mnm/careers/${code}/report`;
+
+  const res = await fetchData(endpoint, credentials);
+  const data = await res.json();
+
   return data;
 }
