@@ -6,8 +6,8 @@ import {
   extractTextFromDocx,
   extractTextFromPdf,
   getKeyPhrases,
-} from "./lib/text-extractor";
-import UploadStatus from "./components/UploadStatus";
+} from "../lib/text-extractor";
+import UploadStatus from "../components/UploadStatus";
 
 function Home() {
   const [summary, setSummary] = useState("");
