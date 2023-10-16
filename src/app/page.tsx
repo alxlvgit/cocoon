@@ -6,8 +6,8 @@ import {
   extractTextFromDocx,
   extractTextFromPdf,
   getStructuredKeywords,
-} from "./lib/resume-parsers";
-import UploadStatus from "./components/UploadStatus";
+} from "../lib/resume-parsers";
+import UploadStatus from "../components/UploadStatus";
 
 function Home() {
   const [summary, setSummary] = useState<string[]>([]);
