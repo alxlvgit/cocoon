@@ -5,12 +5,12 @@ import { useState } from "react";
 import {
   extractTextFromDocx,
   extractTextFromPdf,
-  getKeyPhrases,
-} from "./lib/text-extractor";
+  getStructuredKeywords,
+} from "./lib/resume-parsers";
 import UploadStatus from "./components/UploadStatus";
 
 function Home() {
-  const [summary, setSummary] = useState("");
+  const [summary, setSummary] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<React.JSX.Element[]>([]);
   const [file, setFile] = useState<File | null>(null);
@@ -32,7 +32,7 @@ function Home() {
   ];
 
   const handleFileUpload = async () => {
-    setSummary("");
+    setSummary([]);
     setStatus([]);
     const reader = new FileReader();
     if (!file) {
@@ -55,7 +55,7 @@ function Home() {
       } else {
         setStatus([statusComponents[1]]);
         // if text is extracted, extract key phrases by using ChatOpenAI API
-        const keyPhrases = await getKeyPhrases(extractedText);
+        const keyPhrases = await getStructuredKeywords(extractedText);
         if (!keyPhrases) {
           setLoading(false);
           setStatus([statusComponents[4]]);
@@ -97,7 +97,13 @@ function Home() {
           <div className="mt-8 animate-spin rounded-full h-32 w-32 border-b-2 border-black dark:border-white"></div>
         </>
       )}
-      <div className="w-3/4 mt-6">{summary}</div>
+      <div className="w-3/4 mt-6">
+        {summary.map((phrase, index) => (
+          <div key={index} className="flex flex-col mb-4">
+            <p className="text-lg font-semibold">{phrase}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
