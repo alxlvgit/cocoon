@@ -8,12 +8,15 @@ import {
   getKeyPhrases,
 } from "./lib/text-extractor";
 import UploadStatus from "./components/UploadStatus";
+import main from './api/odotnet';
 
 function Home() {
   const [summary, setSummary] = useState("");
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<React.JSX.Element[]>([]);
   const [file, setFile] = useState<File | null>(null);
+
+  main()
 
   const statusComponents = [
     <UploadStatus key={"uploaded"} done={true} text="File Uploaded" />,
