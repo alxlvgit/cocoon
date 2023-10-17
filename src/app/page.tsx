@@ -6,9 +6,9 @@ import {
   extractTextFromDocx,
   extractTextFromPdf,
   getKeyPhrases,
-} from "./lib/text-extractor";
-import UploadStatus from "./components/UploadStatus";
-import main from './api/odotnet';
+} from "../lib/text-extractor";
+import UploadStatus from "../components/UploadStatus";
+import main from "./api/odotnet";
 
 function Home() {
   const [summary, setSummary] = useState("");
@@ -16,7 +16,7 @@ function Home() {
   const [status, setStatus] = useState<React.JSX.Element[]>([]);
   const [file, setFile] = useState<File | null>(null);
 
-  main()
+  main();
 
   const statusComponents = [
     <UploadStatus key={"uploaded"} done={true} text="File Uploaded" />,
