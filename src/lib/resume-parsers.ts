@@ -1,6 +1,5 @@
 "use server";
 
-import natural from "natural";
 import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { ChatOpenAI } from "langchain/chat_models/openai";
@@ -11,17 +10,6 @@ import {
 } from "langchain/prompts";
 import { JsonOutputFunctionsParser } from "langchain/output_parsers";
 
-const schema = {
-  properties: {
-    skills: {
-      type: "array",
-    },
-    qualifications: {
-      type: "array",
-    },
-  },
-  required: ["skills", "qualifications"],
-};
 
 // send request to lambda function to extract text from pdf
 export const extractTextFromPdf = async (
