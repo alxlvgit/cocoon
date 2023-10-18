@@ -6,8 +6,9 @@ import {
   extractTextFromDocx,
   extractTextFromPdf,
   getKeyPhrases,
-} from "./lib/text-extractor";
-import UploadStatus from "./components/UploadStatus";
+} from "../lib/text-extractor";
+import UploadStatus from "../components/UploadStatus";
+import main from "./api/odotnet";
 
 function Home() {
   const [summary, setSummary] = useState("");
@@ -16,6 +17,8 @@ function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [googleDocId, setGoogleDocId] = useState("");
 
+
+  main();
 
   const statusComponents = [
     <UploadStatus key={"uploaded"} done={true} text="File Uploaded" />,

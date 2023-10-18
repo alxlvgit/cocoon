@@ -8,7 +8,7 @@ export enum JobKeyword {
 
 export enum SOCcode {
   SoftwareEngineer = "15-1252.00",
-  WebDevlopers = "15-1254.00",
+  WebDevelopers = "15-1254.00",
   WebandDigitalInterfaceDesigners = "15-1255.00",
   ComputerProgrammers = "15-1251.00",
 }
