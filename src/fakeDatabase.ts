@@ -173,3 +173,5 @@ const ITDesignerJobDescription = {
     ],
   },
 };
+
+export default ITDesignerJobDescription;
