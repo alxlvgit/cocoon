@@ -10,7 +10,6 @@ import {
 } from "langchain/prompts";
 import { JsonOutputFunctionsParser } from "langchain/output_parsers";
 
-
 // send request to lambda function to extract text from pdf
 export const extractTextFromPdf = async (
   requestBody: string
@@ -55,7 +54,7 @@ export const extractTextFromDocx = async (
   }
 };
 
-// extract keywords from the text
+// extract keyphrases from text
 export const getStructuredKeywords = async (
   text: string
 ): Promise<string[] | undefined> => {
@@ -63,7 +62,9 @@ export const getStructuredKeywords = async (
     const zodSchema = z
       .object({
         skills: z.array(z.string()).describe("An array of skills"),
-        qualifications: z.array(z.string()).describe("An array of skills"),
+        qualifications: z
+          .array(z.string())
+          .describe("An array of qualifications"),
       })
       .describe("The object with the skills and qualifications");
 

@@ -1,7 +1,8 @@
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 // Api route for uploading files to S3
-// A file is uploaded to the route as a form data object
+// A file should be sent in request as a form data object
+// Thi route currently is not used in the app
 export const PUT = async (req: Request, res: Response) => {
   const s3 = new S3Client({
     credentials: {
