@@ -8,7 +8,6 @@ import {
   getKeyPhrases,
 } from "../lib/text-extractor";
 import UploadStatus from "../components/UploadStatus";
-import main from "./api/odotnet";
 
 function Home() {
   const [summary, setSummary] = useState("");
@@ -16,9 +15,6 @@ function Home() {
   const [status, setStatus] = useState<React.JSX.Element[]>([]);
   const [file, setFile] = useState<File | null>(null);
   const [googleDocId, setGoogleDocId] = useState("");
-
-
-  main();
 
   const statusComponents = [
     <UploadStatus key={"uploaded"} done={true} text="File Uploaded" />,
@@ -79,13 +75,13 @@ function Home() {
     e.preventDefault();
     const form = {
       googleDocId: googleDocId,
-    }
+    };
 
     const res = await fetch("/api/googledoc", {
       method: "POST",
       body: JSON.stringify(form),
     });
-  }
+  };
 
   return (
     <div className="flex flex-col m-4  items-center">
@@ -117,29 +113,31 @@ function Home() {
       )}
       <div className="w-3/4 mt-6">{summary}</div>
 
-
       {/* Google Docs Link */}
-      <form className="flex flex-col items-center justify-center" onSubmit={handleSubmit}>  
-
-        <p className="mb-4 text-lg font-semibold">Enter your Google Doc link of the resume</p>
+      <form
+        className="flex flex-col items-center justify-center"
+        onSubmit={handleSubmit}
+      >
+        <p className="mb-4 text-lg font-semibold">
+          Enter your Google Doc link of the resume
+        </p>
         <input
           className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
           type="text"
           name={googleDocId}
           placeholder="Enter Google Doc ID"
-          onChange={e => setGoogleDocId(e.target.value)}
+          onChange={(e) => setGoogleDocId(e.target.value)}
         />
 
-
         <button
-          type='submit'
+          type="submit"
           className=" mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           Submit
         </button>
-    </form>
+      </form>
     </div>
-  ); 
+  );
 }
 
 export default Home;
