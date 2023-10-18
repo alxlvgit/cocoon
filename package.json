@@ -17,9 +17,12 @@
     "googleapis": "^127.0.0",
     "mammoth": "^1.6.0",
     "next": "latest",
-    "openai": "^4.0.0",
+    "openai": "^4.12.1",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "langchain": "^0.0.167",
+    "zod": "^3.22.4",
+    "zod-to-json-schema": "^3.21.4"
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.28.0",
@@ -28,6 +31,7 @@
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "autoprefixer": "latest",
+    "encoding": "^0.1.13",
     "esbuild": "^0.19.4",
     "eslint": "latest",
     "eslint-config-next": "latest",

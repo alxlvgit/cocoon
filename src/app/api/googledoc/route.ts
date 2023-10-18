@@ -2,9 +2,21 @@
 // 1AxYfDetPKgx93CPd-XCUd1US9yB3evkvW_9TLrFUmSo
 // 1PGljSiD0fphcWSfpkOpuw1tmIxtFfWSiYLOrmuuqTNU
 
-import fs from "fs";
+const keysjson = {
+  type: "service_account",
+  project_id: "idyllic-mantis-375620",
+  private_key_id: process.env.GOOGLE_PRIVATE_KEY_ID,
+  private_key: process.env.GOOGLE_PRIVATE_KEY!.replace(/\\n/g, "\n"),
+  client_email: process.env.GOOGLE_CLIENT_EMAIL,
+  client_id: process.env.GOOGLE_CLIENT_ID,
+  auth_uri: "https://accounts.google.com/o/oauth2/auth",
+  token_uri: "https://oauth2.googleapis.com/token",
+  auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
+  client_x509_cert_url: process.env.GOOGLE_CLIENT_X509_CERT_URL,
+  universe_domain: "googleapis.com",
+};
+
 import { google } from "googleapis";
-import { auth } from "google-auth-library";
 import { GoogleAuth } from "google-auth-library/build/src/auth/googleauth";
 
 type googleDoc = {
@@ -13,21 +25,16 @@ type googleDoc = {
 
 // Read the google doc file and return the text
 export const POST = async function handler(req: Request, res: Response) {
-  // Load the JSON key file you downloaded when creating the service account.
-  const keysjson = fs.readFileSync(
-    process.env.GOOGLE_APPLICATION_CREDENTIALS!,
-    "utf-8"
-  );
-  const keys = JSON.parse(keysjson);
+
+  // const keys = JSON.parse(keysjson);
+  const keys = keysjson;
 
   // Initialize the Google Docs API
   const SCOPES = ["https://www.googleapis.com/auth/documents"];
-  // const docId = "11eRgAkKBHOu1zMj0nWCgwXb8shs5AkLOFeU0KhzLeDo";
   const body = await req.json();
   console.log(body);
 
   const docsBody = body as googleDoc;
-  // console.log(docsBody.googleDocId)
 
   function readParagraphElement(element: any) {
     if (!element.textRun) return "";

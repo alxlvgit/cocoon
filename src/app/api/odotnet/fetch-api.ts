@@ -1,3 +1,5 @@
+"use server";
+
 import { JobKeyword, SOCcode, CareerSection } from "./enums";
 
 interface ODOTNetCredentials {

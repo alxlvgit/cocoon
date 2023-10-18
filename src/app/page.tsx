@@ -5,12 +5,16 @@ import { useState, FormEvent } from "react";
 import {
   extractTextFromDocx,
   extractTextFromPdf,
-  getKeyPhrases,
-} from "../lib/text-extractor";
+  getStructuredKeywords,
+} from "../lib/resume-parsers";
 import UploadStatus from "../components/UploadStatus";
+import { runSimilaritySearch } from "../lib/semantic-search";
+import * as odotnet from "./api/odotnet/fetch-api";
+import * as enums from "./api/odotnet/enums";
 
 function Home() {
-  const [summary, setSummary] = useState("");
+  const [transferableSkills, setTransferableSkills] = useState<string[]>([]);
+  const [missingSkills, setMissingSkills] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<React.JSX.Element[]>([]);
   const [file, setFile] = useState<File | null>(null);
@@ -18,12 +22,10 @@ function Home() {
 
   const statusComponents = [
     <UploadStatus key={"uploaded"} done={true} text="File Uploaded" />,
-    <UploadStatus key={"extracted"} done={true} text="Extracted Text" />,
-    <UploadStatus key={"phrases"} done={true} text="Key Phrases Extracted" />,
     <UploadStatus
-      key={"failed"}
-      done={false}
-      text="Could not extract text from the document."
+      key={"extracted"}
+      done={true}
+      text="Extracted Text. Analysing document..."
     />,
     <UploadStatus
       key={"fail"}
@@ -32,9 +34,15 @@ function Home() {
     />,
   ];
 
-  const handleFileUpload = async () => {
-    setSummary("");
+  const resetState = () => {
+    setTransferableSkills([]);
+    setMissingSkills([]);
+    setLoading(false);
     setStatus([]);
+  };
+
+  const handleFileUpload = async () => {
+    resetState();
     const reader = new FileReader();
     if (!file) {
       return;
@@ -45,26 +53,47 @@ function Home() {
       const base64Bytes = Buffer.from(fileContent, "binary").toString("base64");
       setLoading(true);
       setStatus([statusComponents[0]]);
-      // extract text from pdf or docx
+      // Step 1: extract text from pdf or docx
       const extractedText = file.name.endsWith(".docx")
         ? await extractTextFromDocx(base64Bytes)
         : await extractTextFromPdf(base64Bytes);
       if (!extractedText) {
         setLoading(false);
-        setStatus([statusComponents[3]]);
+        setStatus([statusComponents[2]]);
         return;
       } else {
         setStatus([statusComponents[1]]);
-        // if text is extracted, extract key phrases by using ChatOpenAI API
-        const keyPhrases = await getKeyPhrases(extractedText);
-        if (!keyPhrases) {
-          setLoading(false);
-          setStatus([statusComponents[4]]);
-          return;
+        // Step 2: if text is extracted, extract key phrases by using ChatOpenAI API
+        const keyPhrases = await getStructuredKeywords(extractedText);
+        // Step 3: if key phrases are extracted, run similarity search against career data
+        const careerData = await odotnet.odotnetCareerOverview(
+          enums.SOCcode.WebandDigitalInterfaceDesigners
+        );
+        if (keyPhrases && careerData) {
+          const skills = careerData?.career?.what_they_do ?? null;
+          if (skills) {
+            const careerSkillsKeyPhrases = await getStructuredKeywords(skills);
+            if (careerSkillsKeyPhrases) {
+              const { matchingSkills, missingSkills } =
+                (await runSimilaritySearch(
+                  careerSkillsKeyPhrases,
+                  keyPhrases
+                )) as { matchingSkills: string[]; missingSkills: string[] };
+              setTransferableSkills(matchingSkills);
+              setMissingSkills(missingSkills);
+              setStatus([]);
+              setLoading(false);
+            } else {
+              setStatus([statusComponents[2]]);
+              return;
+            }
+          } else {
+            setStatus([statusComponents[2]]);
+            return;
+          }
         } else {
           setStatus([statusComponents[2]]);
-          setLoading(false);
-          setSummary(keyPhrases);
+          return;
         }
       }
     };
@@ -76,11 +105,14 @@ function Home() {
     const form = {
       googleDocId: googleDocId,
     };
-
+    setLoading(true);
     const res = await fetch("/api/googledoc", {
       method: "POST",
       body: JSON.stringify(form),
     });
+    const data = await res.json();
+    console.log(data);
+    setLoading(false);
   };
 
   return (
@@ -111,8 +143,29 @@ function Home() {
           <div className="mt-8 animate-spin rounded-full h-32 w-32 border-b-2 border-black dark:border-white"></div>
         </>
       )}
-      <div className="w-3/4 mt-6">{summary}</div>
-
+      <div className="w-3/4 mt-6">
+        {transferableSkills.length > 0 && (
+          <>
+            <p className="text-lg font-semibold m-5">
+              Transitioning to: Web and Digital Interface Designers
+            </p>
+            <p className="text-lg font-semibold m-5">Transferable Skills:</p>
+          </>
+        )}
+        {transferableSkills.map((phrase, index) => (
+          <div key={index} className="flex flex-col mb-4">
+            <p className="text-sm font-semibold">- {phrase}</p>
+          </div>
+        ))}
+        {missingSkills.length > 0 && (
+          <p className="text-lg font-semibold m-5">Missing Skills:</p>
+        )}
+        {missingSkills.map((phrase, index) => (
+          <div key={index} className="flex flex-col mb-4">
+            <p className="text-sm font-semibold">- {phrase}</p>
+          </div>
+        ))}
+      </div>
       {/* Google Docs Link */}
       <form
         className="flex flex-col items-center justify-center"
