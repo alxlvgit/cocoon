@@ -1,6 +1,8 @@
+import NavBar from '@/components/navbar';
 import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+import Link from "next/link";
 
 const inter = Roboto({ weight: "400", subsets: ["latin-ext"] });
 
@@ -15,8 +17,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="bg-slate-500 text-white  dark:bg-black">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className="dark:bg-black dark:text-white">
+      <body className={inter.className}>
+        <header className="px-5 py-10">
+          <NavBar />
+        </header>
+        <main> {children}</main>
+      </body>
     </html>
   );
 }
