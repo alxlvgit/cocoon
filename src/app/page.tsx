@@ -105,11 +105,14 @@ function Home() {
     const form = {
       googleDocId: googleDocId,
     };
-
+    setLoading(true);
     const res = await fetch("/api/googledoc", {
       method: "POST",
       body: JSON.stringify(form),
     });
+    const data = await res.json();
+    console.log(data);
+    setLoading(false);
   };
 
   return (
