@@ -1,0 +1,40 @@
+{
+  "Programs": [
+    {
+      "ProgramName": "Digital Photography",
+      "TuitionDomestic": "$2,100*",
+      "Intakes": ["January", "April", "September"],
+      "Degree": "Statement of Completion",
+      "Link": "https://www.bcit.ca/programs/digital-photography-statement-of-completion-part-time-0445000000/"
+    },
+
+    {
+      "ProgramName": "User Interface (UI) and User Experience (UX) Design",
+      "TuitionDomestic": "$3,000",
+      "Intakes": ["September", "January", "April"],
+      "Degree": "Associate Certificate",
+      "Link": "https://www.bcit.ca/programs/user-interface-ui-and-user-experience-ux-design-associate-certificate-part-time-5985acert/"
+    },
+    {
+      "ProgramName": "Graphic Design Foundations",
+      "TuitionDomestic": "$2,700",
+      "Intakes": ["September", "January", "April"],
+      "Degree": "Associate Certificate",
+      "Link": "https://www.bcit.ca/programs/graphic-design-foundations-associate-certificate-part-time-6505acert/"
+    },
+    {
+      "ProgramName": "Media Techniques for Business",
+      "TuitionDomestic": "$9,000",
+      "Intakes": ["September", "January", "April"],
+      "Degree": "Certificate",
+      "Link": "https://www.bcit.ca/programs/media-techniques-for-business-certificate-part-time-6450mcert/"
+    },
+
+    {
+      "ProgramName": "Graphic Design",
+      "Intakes": ["May", "September"],
+      "Degree": "Certificate",
+      "Link": "https://www.bcit.ca/programs/graphic-design-foundations-associate-certificate-part-time-6505acert/"
+    }
+  ]
+}
