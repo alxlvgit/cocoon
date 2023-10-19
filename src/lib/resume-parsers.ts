@@ -10,6 +10,24 @@ import {
 } from "langchain/prompts";
 import { JsonOutputFunctionsParser } from "langchain/output_parsers";
 
+const resumeKeyWordsSchema = z
+  .object({
+    skills: z.array(z.string()).describe("An array of skills"),
+    qualifications: z.array(z.string()).describe("An array of qualifications"),
+  })
+  .describe("The object with the skills and qualifications");
+
+const careerKeyWordsSchema = z
+  .object({
+    skills: z.array(z.string()).describe("An array of skills"),
+  })
+  .describe("The object with the skills");
+
+export type KeyPhrases = {
+  skills: string[];
+  qualifications?: string[];
+};
+
 // send request to lambda function to extract text from pdf
 export const extractTextFromPdf = async (
   requestBody: string
@@ -56,25 +74,14 @@ export const extractTextFromDocx = async (
 
 // extract keyphrases from text
 export const getStructuredKeywords = async (
-  text: string
-): Promise<string[] | undefined> => {
+  text: string,
+  promptMessage: string,
+  skillsOnly: boolean
+): Promise<KeyPhrases | undefined> => {
   try {
-    const zodSchema = z
-      .object({
-        skills: z.array(z.string()).describe("An array of skills"),
-        qualifications: z
-          .array(z.string())
-          .describe("An array of qualifications"),
-      })
-      .describe("The object with the skills and qualifications");
-
-    type Response = z.infer<typeof zodSchema>;
-
     const prompt = new ChatPromptTemplate({
       promptMessages: [
-        SystemMessagePromptTemplate.fromTemplate(
-          "List all skills and qualifications mentioned in the following text."
-        ),
+        SystemMessagePromptTemplate.fromTemplate(promptMessage),
         HumanMessagePromptTemplate.fromTemplate("{inputText}"),
       ],
       inputVariables: ["inputText"],
@@ -84,6 +91,8 @@ export const getStructuredKeywords = async (
       modelName: "gpt-3.5-turbo-0613",
       temperature: 0,
     });
+
+    const zodSchema = skillsOnly ? careerKeyWordsSchema : resumeKeyWordsSchema;
 
     // Binding "function_call" below makes the model always call the specified function.
     // If you want to allow the model to call functions selectively, omit it.
@@ -102,13 +111,12 @@ export const getStructuredKeywords = async (
 
     const chain = prompt.pipe(functionCallingModel).pipe(outputParser);
 
-    const response = (await chain.invoke({
+    const response = await chain.invoke({
       inputText: text,
-    })) as Response;
+    });
 
-    console.log(JSON.stringify(response, null, 2));
-
-    return [...response.skills, ...response.qualifications];
+    console.log(JSON.stringify(response, null, 2), "extracted keywords");
+    return response as KeyPhrases;
   } catch (err) {
     console.log(err);
   }

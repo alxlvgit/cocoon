@@ -2,24 +2,25 @@
 
 import React from "react";
 import { useState, FormEvent } from "react";
-import {
-  extractTextFromDocx,
-  extractTextFromPdf,
-  getStructuredKeywords,
-} from "../lib/resume-parsers";
+import { extractTextFromDocx, extractTextFromPdf } from "../lib/resume-parsers";
 import UploadStatus from "../components/UploadStatus";
-import { runSimilaritySearch } from "../lib/semantic-search";
-import * as odotnet from "./api/odotnet/fetch-api";
-import * as enums from "./api/odotnet/enums";
+import {
+  extractCareerKeyPhrases,
+  extractResumeKeyPhrases,
+  findMissingSkills,
+} from "./document-processing";
 
 function Home() {
-  const [transferableSkills, setTransferableSkills] = useState<string[]>([]);
+  const [transferableSkills, setTransferableSkillsFromResume] = useState<
+    string[]
+  >([]);
   const [missingSkills, setMissingSkills] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<React.JSX.Element[]>([]);
   const [file, setFile] = useState<File | null>(null);
   const [googleDocId, setGoogleDocId] = useState("");
 
+  // Status components to display during document processing
   const statusComponents = [
     <UploadStatus key={"uploaded"} done={true} text="File Uploaded" />,
     <UploadStatus
@@ -34,73 +35,56 @@ function Home() {
     />,
   ];
 
+  // Reset state to initial state
   const resetState = () => {
-    setTransferableSkills([]);
+    setTransferableSkillsFromResume([]);
     setMissingSkills([]);
     setLoading(false);
     setStatus([]);
   };
 
+  // Handle pdf or docx file upload
   const handleFileUpload = async () => {
     resetState();
     const reader = new FileReader();
-    if (!file) {
-      return;
-    }
-    reader.readAsBinaryString(file!);
-    reader.onload = async () => {
-      const fileContent = reader.result as string;
-      const base64Bytes = Buffer.from(fileContent, "binary").toString("base64");
-      setLoading(true);
-      setStatus([statusComponents[0]]);
-      // Step 1: extract text from pdf or docx
-      const extractedText = file.name.endsWith(".docx")
-        ? await extractTextFromDocx(base64Bytes)
-        : await extractTextFromPdf(base64Bytes);
-      if (!extractedText) {
-        setLoading(false);
-        setStatus([statusComponents[2]]);
-        return;
-      } else {
-        setStatus([statusComponents[1]]);
-        // Step 2: if text is extracted, extract key phrases by using ChatOpenAI API
-        const keyPhrases = await getStructuredKeywords(extractedText);
-        // Step 3: if key phrases are extracted, run similarity search against career data
-        const careerData = await odotnet.odotnetCareerOverview(
-          enums.SOCcode.WebandDigitalInterfaceDesigners
+    if (file) {
+      reader.readAsBinaryString(file!);
+      reader.onload = async () => {
+        const fileContent = reader.result as string;
+        const base64Bytes = Buffer.from(fileContent, "binary").toString(
+          "base64"
         );
-        if (keyPhrases && careerData) {
-          const skills = careerData?.career?.what_they_do ?? null;
-          if (skills) {
-            const careerSkillsKeyPhrases = await getStructuredKeywords(skills);
-            if (careerSkillsKeyPhrases) {
-              const { matchingSkills, missingSkills } =
-                (await runSimilaritySearch(
-                  careerSkillsKeyPhrases,
-                  keyPhrases
-                )) as { matchingSkills: string[]; missingSkills: string[] };
-              setTransferableSkills(matchingSkills);
-              setMissingSkills(missingSkills);
-              setStatus([]);
-              setLoading(false);
-            } else {
-              setStatus([statusComponents[2]]);
-              return;
-            }
-          } else {
-            setStatus([statusComponents[2]]);
-            return;
+        setLoading(true);
+        setStatus([statusComponents[0]]);
+        const extractedText = file.name.endsWith(".docx")
+          ? await extractTextFromDocx(base64Bytes)
+          : await extractTextFromPdf(base64Bytes); // Step 1: extract text from pdf or docx
+        if (extractedText) {
+          setStatus([statusComponents[1]]);
+          const resumeKeyPhrases = await extractResumeKeyPhrases(extractedText); // Step 2: if text is extracted, extract key phrases by using ChatOpenAI API
+          const careerSkillsKeyPhrases = await extractCareerKeyPhrases(); // Step 3: extract key phrases from career skills
+          if (careerSkillsKeyPhrases && resumeKeyPhrases) {
+            const matchingMissingSkills = await findMissingSkills(
+              careerSkillsKeyPhrases,
+              resumeKeyPhrases
+            ); // Step 4: if key phrases are extracted from both resume and career skills, find missing skills by using semantic search
+            const { matchedResumeSkills, missingCareerSkills } =
+              matchingMissingSkills;
+            setTransferableSkillsFromResume(matchedResumeSkills);
+            setMissingSkills(missingCareerSkills);
+            setStatus([]);
+            setLoading(false);
           }
-        } else {
-          setStatus([statusComponents[2]]);
-          return;
         }
-      }
-    };
+      };
+    } else {
+      setStatus([statusComponents[2]]);
+      setLoading(false);
+    }
   };
 
   // handle google doc link submit
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleGoogleDocLinkSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = {
       googleDocId: googleDocId,
@@ -149,7 +133,9 @@ function Home() {
             <p className="text-lg font-semibold m-5">
               Transitioning to: Web and Digital Interface Designers
             </p>
-            <p className="text-lg font-semibold m-5">Transferable Skills:</p>
+            <p className="text-lg font-semibold m-5">
+              Transferable Skills From Resume:
+            </p>
           </>
         )}
         {transferableSkills.map((phrase, index) => (
@@ -158,7 +144,9 @@ function Home() {
           </div>
         ))}
         {missingSkills.length > 0 && (
-          <p className="text-lg font-semibold m-5">Missing Skills:</p>
+          <p className="text-lg font-semibold m-5">
+            Missing Career Required Skills:
+          </p>
         )}
         {missingSkills.map((phrase, index) => (
           <div key={index} className="flex flex-col mb-4">
@@ -169,7 +157,7 @@ function Home() {
       {/* Google Docs Link */}
       <form
         className="flex flex-col items-center justify-center"
-        onSubmit={handleSubmit}
+        onSubmit={handleGoogleDocLinkSubmit}
       >
         <p className="mb-4 text-lg font-semibold">
           Enter your Google Doc link of the resume

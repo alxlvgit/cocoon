@@ -5,10 +5,15 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 // import { JSONLoader } from "langchain/document_loaders/fs/json";
 import { ScoreThresholdRetriever } from "langchain/retrievers/score_threshold";
 
+export type SimilaritySearchResult = {
+  dataToCompareMatched: string[];
+  vectorStoreMatched: string[];
+};
+
 export const runSimilaritySearch = async (
-  careerData: string[],
-  resumeData: string[]
-) => {
+  dataToStoreInVectorStore: string[],
+  dataToCompare: string[]
+): Promise<SimilaritySearchResult> => {
   // Use this if you want to load the json docs into the vector store from the file
   // Create docs with a loader, and specify the paths to the text fields in the json like so: ["/ProgramName", "/CourseName"]
   //   const loader = new JSONLoader("src/app/api/test/bcit-programs.json", [
@@ -23,41 +28,41 @@ export const runSimilaritySearch = async (
   // );
 
   // Load the text array into the memory vector store
-  const metadata = careerData.map((text, index) => ({ id: index }));
+  const metadata = dataToStoreInVectorStore.map((text, index) => ({
+    id: index,
+  }));
   const vectorStore = await MemoryVectorStore.fromTexts(
-    careerData,
+    dataToStoreInVectorStore,
     metadata,
     new OpenAIEmbeddings()
   );
 
   const retriever = ScoreThresholdRetriever.fromVectorStore(vectorStore, {
-    minSimilarityScore: 0.8, // Finds results with at least this similarity score
+    minSimilarityScore: 0.6, // Finds results with at least this similarity score
     maxK: 1, // The maximum K value to use. Use it based to your chunk size to make sure you don't run out of tokens
     kIncrement: 1, // How much to increase K by each time. It'll fetch N results, then N + kIncrement, then N + kIncrement * 2, etc.
   });
 
-  const uniquePersonSkillsMatches = new Set();
-  const uniqueCareerSkillsMatches = new Set();
+  const uniqueDataToCompareMatches: Set<string> = new Set();
+  const uniqueVectorStoreMatches: Set<string> = new Set();
 
-  for (const skill of resumeData) {
-    const result = await retriever.getRelevantDocuments(skill);
-    console.log(result, "matching result");
+  for (const comparedPhrase of dataToCompare) {
+    const result = await retriever.getRelevantDocuments(comparedPhrase);
+    // console.log(result, "matching result");
     if (result.length > 0) {
-      const uniqueResult = result[0].pageContent;
-      if (!uniqueCareerSkillsMatches.has(uniqueResult)) {
-        uniqueCareerSkillsMatches.add(uniqueResult);
+      const resultContent = result[0].pageContent;
+      if (!uniqueVectorStoreMatches.has(resultContent)) {
+        uniqueVectorStoreMatches.add(resultContent.toLowerCase());
       }
-      uniquePersonSkillsMatches.add(skill);
+      uniqueDataToCompareMatches.add(comparedPhrase.toLowerCase());
+      console.log(comparedPhrase + " matches " + resultContent);
     }
   }
-  const missingSkills = careerData.filter(
-    (skill) => !uniqueCareerSkillsMatches.has(skill)
-  );
-  console.log(missingSkills, "missing skills");
-  console.log(uniquePersonSkillsMatches, "matching skills");
+  console.log(uniqueDataToCompareMatches, "uniqueDataToCompareMatches");
+  console.log(uniqueVectorStoreMatches, "uniqueVectorStoreMatches");
 
   return {
-    matchingSkills: Array.from(uniquePersonSkillsMatches),
-    missingSkills,
+    dataToCompareMatched: [...uniqueDataToCompareMatches],
+    vectorStoreMatched: [...uniqueVectorStoreMatches],
   };
 };
