@@ -173,3 +173,7 @@ const ITDesignerJobDescription = {
     ],
   },
 };
+
+export function getAllJobData() {
+  return ITDesignerJobDescription;
+}
