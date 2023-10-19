@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { useState, FormEvent } from "react";
+import React, { useState } from "react";
+import { FormEvent } from "react";
 import { extractTextFromDocx, extractTextFromPdf } from "../lib/resume-parsers";
 import UploadStatus from "../components/UploadStatus";
 import {
@@ -9,16 +9,29 @@ import {
   extractResumeKeyPhrases,
   findMissingSkills,
 } from "./document-processing";
+import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  resetResumeProcessingState,
+  setGoogleDocUrl,
+  setMissingSkills,
+  setProcessing,
+  setProcessingStep,
+  setTransferableSkills,
+} from "@/redux/features/resumeProcessingSlice";
 
 function Home() {
-  const [transferableSkills, setTransferableSkillsFromResume] = useState<
-    string[]
-  >([]);
-  const [missingSkills, setMissingSkills] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState<React.JSX.Element[]>([]);
-  const [file, setFile] = useState<File | null>(null);
-  const [googleDocId, setGoogleDocId] = useState("");
+  const dispatch = useAppDispatch();
+  const state = useAppSelector((state) => state.resumeProcessingSlice);
+  const {
+    transferableSkills,
+    missingSkills,
+    processing,
+    processingStep,
+    googleDocUrl,
+  } = state;
+  const router = useRouter();
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
   // Status components to display during document processing
   const statusComponents = [
@@ -35,32 +48,24 @@ function Home() {
     />,
   ];
 
-  // Reset state to initial state
-  const resetState = () => {
-    setTransferableSkillsFromResume([]);
-    setMissingSkills([]);
-    setLoading(false);
-    setStatus([]);
-  };
-
   // Handle pdf or docx file upload
   const handleFileUpload = async () => {
-    resetState();
+    dispatch(resetResumeProcessingState());
     const reader = new FileReader();
-    if (file) {
-      reader.readAsBinaryString(file!);
+    if (uploadedFile) {
+      reader.readAsBinaryString(uploadedFile!);
       reader.onload = async () => {
         const fileContent = reader.result as string;
         const base64Bytes = Buffer.from(fileContent, "binary").toString(
           "base64"
         );
-        setLoading(true);
-        setStatus([statusComponents[0]]);
-        const extractedText = file.name.endsWith(".docx")
+        dispatch(setProcessing(true));
+        dispatch(setProcessingStep(1));
+        const extractedText = uploadedFile.name.endsWith(".docx")
           ? await extractTextFromDocx(base64Bytes)
           : await extractTextFromPdf(base64Bytes); // Step 1: extract text from pdf or docx
         if (extractedText) {
-          setStatus([statusComponents[1]]);
+          dispatch(setProcessingStep(2));
           const resumeKeyPhrases = await extractResumeKeyPhrases(extractedText); // Step 2: if text is extracted, extract key phrases by using ChatOpenAI API
           const careerSkillsKeyPhrases = await extractCareerKeyPhrases(); // Step 3: extract key phrases from career skills
           if (careerSkillsKeyPhrases && resumeKeyPhrases) {
@@ -70,16 +75,17 @@ function Home() {
             ); // Step 4: if key phrases are extracted from both resume and career skills, find missing skills by using semantic search
             const { matchedResumeSkills, missingCareerSkills } =
               matchingMissingSkills;
-            setTransferableSkillsFromResume(matchedResumeSkills);
-            setMissingSkills(missingCareerSkills);
-            setStatus([]);
-            setLoading(false);
+            dispatch(setTransferableSkills(matchedResumeSkills));
+            dispatch(setMissingSkills(missingCareerSkills));
+            dispatch(setProcessing(false));
+            dispatch(setProcessingStep(null));
+            router.push("/suggestions");
           }
         }
       };
     } else {
-      setStatus([statusComponents[2]]);
-      setLoading(false);
+      dispatch(setProcessingStep(3));
+      dispatch(setProcessing(false));
     }
   };
 
@@ -87,16 +93,16 @@ function Home() {
   const handleGoogleDocLinkSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = {
-      googleDocId: googleDocId,
+      googleDocId: googleDocUrl,
     };
-    setLoading(true);
+    dispatch(setProcessing(true));
     const res = await fetch("/api/googledoc", {
       method: "POST",
       body: JSON.stringify(form),
     });
     const data = await res.json();
     console.log(data);
-    setLoading(false);
+    dispatch(setProcessing(false));
   };
 
   return (
@@ -106,7 +112,7 @@ function Home() {
         className="block w-1/4 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
         type="file"
         accept="application/pdf,.docx"
-        onChange={(e) => setFile(e.target.files![0])}
+        onChange={(e) => setUploadedFile(e.target.files![0])}
       />
       <p
         className="mt-2 w-1/4 text-xs text-left text-white dark:text-gray-300"
@@ -121,39 +127,13 @@ function Home() {
       >
         Upload
       </button>
-      {...status}
-      {loading && (
+      {processingStep && statusComponents[processingStep - 1]}
+      {processing && (
         <>
           <div className="mt-8 animate-spin rounded-full h-32 w-32 border-b-2 border-black dark:border-white"></div>
         </>
       )}
-      <div className="w-3/4 mt-6">
-        {transferableSkills.length > 0 && (
-          <>
-            <p className="text-lg font-semibold m-5">
-              Transitioning to: Web and Digital Interface Designers
-            </p>
-            <p className="text-lg font-semibold m-5">
-              Transferable Skills From Resume:
-            </p>
-          </>
-        )}
-        {transferableSkills.map((phrase, index) => (
-          <div key={index} className="flex flex-col mb-4">
-            <p className="text-sm font-semibold">- {phrase}</p>
-          </div>
-        ))}
-        {missingSkills.length > 0 && (
-          <p className="text-lg font-semibold m-5">
-            Missing Career Required Skills:
-          </p>
-        )}
-        {missingSkills.map((phrase, index) => (
-          <div key={index} className="flex flex-col mb-4">
-            <p className="text-sm font-semibold">- {phrase}</p>
-          </div>
-        ))}
-      </div>
+    
       {/* Google Docs Link */}
       <form
         className="flex flex-col items-center justify-center"
@@ -165,9 +145,9 @@ function Home() {
         <input
           className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
           type="text"
-          name={googleDocId}
+          name={googleDocUrl!}
           placeholder="Enter Google Doc ID"
-          onChange={(e) => setGoogleDocId(e.target.value)}
+          onChange={(e) => dispatch(setGoogleDocUrl(e.target.value))}
         />
 
         <button
