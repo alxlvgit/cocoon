@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -119,7 +118,11 @@ function Uploads() {
   };
 
   return (
-    <div className="flex flex-col m-4  items-center">
+    <div className="flex flex-col m-16  items-center bg-blue-100 rounded-xl border-2 shadow-2xl  h-screen">
+     <div >
+      <p>Cocoon</p>
+     </div>
+      
       <p className="mb-4 text-lg font-semibold">Upload Your Resume</p>
       <input
         className="block w-1/4 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
