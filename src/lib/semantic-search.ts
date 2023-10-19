@@ -41,6 +41,10 @@ export const runSimilaritySearch = async (
 
   for (const skill of resumeData) {
     const result = await retriever.getRelevantDocuments(skill);
+
+    // Use this if you want to use the similarity search function instead of the threshold retriever
+    // const result = await vectorStore.similaritySearch(skill, 1);
+
     console.log(result, "matching result");
     if (result.length > 0) {
       const uniqueResult = result[0].pageContent;

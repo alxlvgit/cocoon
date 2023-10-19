@@ -42,7 +42,7 @@ export async function odotnetKeyword(keyword: JobKeyword): Promise<any> {
 
 // Function to fetch career overview (description, tasks)
 export async function odotnetCareerOverview(
-  code: SOCcode,
+  code: string,
   careerSection?: CareerSection
 ): Promise<any> {
   const credentials: ODOTNetCredentials = {
