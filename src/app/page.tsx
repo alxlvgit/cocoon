@@ -11,6 +11,8 @@ import UploadStatus from "../components/UploadStatus";
 import { runSimilaritySearch } from "../lib/semantic-search";
 import * as odotnet from "./api/odotnet/fetch-api";
 import * as enums from "./api/odotnet/enums";
+import main from "./api/odotnet";
+import { NextUIProvider } from "@nextui-org/system";
 
 function Home() {
   const [transferableSkills, setTransferableSkills] = useState<string[]>([]);
@@ -113,6 +115,8 @@ function Home() {
     const data = await res.json();
     console.log(data);
     setLoading(false);
+    // const careerData = await odotnet.odotnetKeyword(enums.JobKeyword.UIDesigner);
+    // console.log(careerData);
   };
 
   return (

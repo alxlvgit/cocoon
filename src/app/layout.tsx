@@ -1,8 +1,7 @@
-import NavBar from '@/components/navbar';
+import NavBar from "@/components/navbar";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-import Link from "next/link";
 
 const inter = Roboto({ weight: "400", subsets: ["latin-ext"] });
 
@@ -22,7 +21,9 @@ export default function RootLayout({
         <header className="px-5 py-10">
           <NavBar />
         </header>
-        <main> {children}</main>
+        <main className="flex flex-col m-4 items-center h-screen mx-20 justify-start">
+          {children}
+        </main>
       </body>
     </html>
   );
