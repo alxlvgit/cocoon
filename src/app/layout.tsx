@@ -1,3 +1,4 @@
+import NavBar from "@/components/Navbar";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
@@ -18,7 +19,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-slate-500 text-white  dark:bg-black">
       <ReduxProvider>
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <header className="px-5 py-10">
+            <NavBar />
+          </header>
+          {children}
+        </body>
       </ReduxProvider>
     </html>
   );
