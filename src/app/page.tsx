@@ -11,7 +11,8 @@ import UploadStatus from "../components/UploadStatus";
 import { runSimilaritySearch } from "../lib/semantic-search";
 import * as odotnet from "./api/odotnet/fetch-api";
 import * as enums from "./api/odotnet/enums";
-import main from './api/odotnet';
+import main from "./api/odotnet";
+import { NextUIProvider } from "@nextui-org/system";
 
 function Home() {
   const [transferableSkills, setTransferableSkills] = useState<string[]>([]);
@@ -20,8 +21,6 @@ function Home() {
   const [status, setStatus] = useState<React.JSX.Element[]>([]);
   const [file, setFile] = useState<File | null>(null);
   const [googleDocId, setGoogleDocId] = useState("");
-
-   
 
   const statusComponents = [
     <UploadStatus key={"uploaded"} done={true} text="File Uploaded" />,

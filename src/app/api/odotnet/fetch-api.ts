@@ -1,3 +1,5 @@
+//This page has the functions that call specific api from O.NET
+
 "use server";
 
 import { JobKeyword, SOCcode, CareerSection } from "./enums";
