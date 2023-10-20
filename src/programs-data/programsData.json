@@ -1,15 +1,31 @@
 {
-  "Programs": [
+  "programs": [
     {
       "ProgramName": "Digital Photography",
       "TuitionDomestic": "$2,100*",
-      "Intakes": ["January", "April", "September"],
+      "Intakes": [
+        "January",
+        "April",
+        "September"
+      ],
       "Degree": "Statement of Completion",
       "RequiredCourses": [
-        { "CourseName": "Raster Graphics: Adobe Photoshop", "Credits": 3.0 },
-        { "CourseName": "Photography 1", "Credits": 1.5 },
-        { "CourseName": "Digital Darkroom", "Credits": 1.5 },
-        { "CourseName": "Photography 2", "Credits": 1.5 }
+        {
+          "CourseName": "Raster Graphics: Adobe Photoshop",
+          "Credits": 3.0
+        },
+        {
+          "CourseName": "Photography 1",
+          "Credits": 1.5
+        },
+        {
+          "CourseName": "Digital Darkroom",
+          "Credits": 1.5
+        },
+        {
+          "CourseName": "Photography 2",
+          "Credits": 1.5
+        }
       ],
       "TotalCredits": 7.5,
       "Delivery": "Blended",
@@ -23,7 +39,11 @@
     {
       "ProgramName": "User Interface (UI) and User Experience (UX) Design",
       "TuitionDomestic": "$3,000",
-      "Intakes": ["September", "January", "April"],
+      "Intakes": [
+        "September",
+        "January",
+        "April"
+      ],
       "Degree": "Associate Certificate",
       "Delivery": "Online",
       "Contact": {
@@ -36,7 +56,11 @@
     {
       "ProgramName": "Graphic Design Foundations",
       "TuitionDomestic": "$2,700",
-      "Intakes": ["September", "January", "April"],
+      "Intakes": [
+        "September",
+        "January",
+        "April"
+      ],
       "Degree": "Associate Certificate",
       "Delivery": "Burnaby, Vancouver, Online",
       "Contact": {
@@ -49,7 +73,11 @@
     {
       "ProgramName": "Media Techniques for Business",
       "TuitionDomestic": "$9,000",
-      "Intakes": ["September", "January", "April"],
+      "Intakes": [
+        "September",
+        "January",
+        "April"
+      ],
       "Degree": "Certificate",
       "Contact": {
         "Name": "Gabriela Silva-Paula",
@@ -61,12 +89,19 @@
     {
       "ProgramName": "Media Techniques and Marketing Communications",
       "TuitionDomestic": "$9,500",
-      "Intakes": ["September", "January", "April"],
+      "Intakes": [
+        "September",
+        "January",
+        "April"
+      ],
       "Degree": "Certificate"
     },
     {
       "ProgramName": "Graphic Design",
-      "Intakes": ["May", "September"],
+      "Intakes": [
+        "May",
+        "September"
+      ],
       "Degree": "Certificate",
       "Tuition": {
         "Domestic": {
@@ -87,13 +122,19 @@
       }
     }
   ],
-
-  "Courses": [
+  "courses": [
     {
       "CourseCode": "GDES 1069",
       "CourseName": "Layout: Adobe InDesign",
-      "Terms": ["Fall", "Winter", "Spring"],
-      "Campus": ["Downtown", "Online"],
+      "Terms": [
+        "Fall",
+        "Winter",
+        "Spring"
+      ],
+      "Campus": [
+        "Downtown",
+        "Online"
+      ],
       "Offerings": [
         {
           "CRN": "50134",
@@ -130,8 +171,15 @@
     {
       "CourseCode": "GDES 1105",
       "CourseName": "Visual Composition + Layout",
-      "Terms": ["Fall", "Winter", "Spring"],
-      "Campus": ["Downtown", "Online"],
+      "Terms": [
+        "Fall",
+        "Winter",
+        "Spring"
+      ],
+      "Campus": [
+        "Downtown",
+        "Online"
+      ],
       "Offerings": [
         {
           "CRN": "50130",
@@ -168,8 +216,15 @@
     {
       "CourseCode": "GDES 1140",
       "CourseName": "Colour Theory",
-      "Terms": ["Fall", "Winter", "Spring"],
-      "Campus": ["Downtown", "Online"],
+      "Terms": [
+        "Fall",
+        "Winter",
+        "Spring"
+      ],
+      "Campus": [
+        "Downtown",
+        "Online"
+      ],
       "Offerings": [
         {
           "CRN": "50126",
@@ -206,8 +261,13 @@
     {
       "CourseCode": "GDES 1190",
       "CourseName": "Web Design",
-      "Terms": ["Fall"],
-      "Campus": ["Downtown", "Online"],
+      "Terms": [
+        "Fall"
+      ],
+      "Campus": [
+        "Downtown",
+        "Online"
+      ],
       "Offerings": [
         {
           "CRN": "50136",
@@ -229,8 +289,13 @@
     {
       "CourseCode": "GDES 1235",
       "CourseName": "Graphic Design Process",
-      "Terms": ["Fall"],
-      "Campus": ["Downtown", "Online"],
+      "Terms": [
+        "Fall"
+      ],
+      "Campus": [
+        "Downtown",
+        "Online"
+      ],
       "Offerings": [
         {
           "CRN": "50165",
@@ -282,8 +347,13 @@
     {
       "CourseCode": "GDES 1255",
       "CourseName": "Visual Language",
-      "Terms": ["Fall"],
-      "Campus": ["Downtown", "Online"],
+      "Terms": [
+        "Fall"
+      ],
+      "Campus": [
+        "Downtown",
+        "Online"
+      ],
       "Offerings": [
         {
           "CRN": "50137",
@@ -305,8 +375,13 @@
     {
       "CourseCode": "GDES 1270",
       "CourseName": "Vector Graphics: Adobe Illustrator",
-      "Terms": ["Fall"],
-      "Campus": ["Downtown", "Online"],
+      "Terms": [
+        "Fall"
+      ],
+      "Campus": [
+        "Downtown",
+        "Online"
+      ],
       "Offerings": [
         {
           "CRN": "50162",
@@ -358,8 +433,13 @@
     {
       "CourseCode": "GDES 1275",
       "CourseName": "Raster Graphics: Adobe Photoshop",
-      "Terms": ["Fall"],
-      "Campus": ["Downtown", "Online"],
+      "Terms": [
+        "Fall"
+      ],
+      "Campus": [
+        "Downtown",
+        "Online"
+      ],
       "Credits": "3.0",
       "Cost": "$575.20 - $602.31",
       "Offerings": [
@@ -413,8 +493,12 @@
     {
       "CourseCode": "GDES 2012",
       "CourseName": "Image Post Production",
-      "Terms": ["Fall"],
-      "Campus": ["Online"],
+      "Terms": [
+        "Fall"
+      ],
+      "Campus": [
+        "Online"
+      ],
       "Prerequisites": "50% in GDES 1275 and 50% in GDES 1140",
       "Credits": "3.0",
       "Cost": "$575.20",
@@ -439,8 +523,13 @@
     {
       "CourseCode": "GDES 2087",
       "CourseName": "Prepress",
-      "Terms": ["Fall"],
-      "Campus": ["Downtown", "Online"],
+      "Terms": [
+        "Fall"
+      ],
+      "Campus": [
+        "Downtown",
+        "Online"
+      ],
       "Prerequisites": "50% in GDES 1069 and 50% in GDES 1270 and 50% in GDES 1275",
       "Credits": "3.0",
       "Cost": "$575.20",
@@ -465,8 +554,12 @@
     {
       "CourseCode": "GDES 2088",
       "CourseName": "Strategic Design for Business",
-      "Terms": ["Fall"],
-      "Campus": ["Online"],
+      "Terms": [
+        "Fall"
+      ],
+      "Campus": [
+        "Online"
+      ],
       "Prerequisites": "50% in GDES 1235 and 50% in GDES 1105 and 50% in GDES 1069 and 50% in GDES 1270 and 50% in GDES 1275",
       "Credits": "3.0",
       "Cost": "$575.20",
@@ -491,8 +584,12 @@
     {
       "CourseCode": "GDES 2125",
       "CourseName": "Brand Identity",
-      "Terms": ["Fall"],
-      "Campus": ["Online"],
+      "Terms": [
+        "Fall"
+      ],
+      "Campus": [
+        "Online"
+      ],
       "Prerequisites": "50% in GDES 1235 and 50% in GDES 1105 and 50% in GDES 1069 and 50% in GDES 1270 and 50% in GDES 1275",
       "Credits": "3.0",
       "Cost": "$575.20",

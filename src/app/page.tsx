@@ -23,13 +23,7 @@ import {
 function Home() {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.resumeProcessingSlice);
-  const {
-    transferableSkills,
-    missingSkills,
-    processing,
-    processingStep,
-    googleDocUrl,
-  } = state;
+  const { processing, processingStep, googleDocUrl } = state;
   const router = useRouter();
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
@@ -92,6 +86,9 @@ function Home() {
   // handle google doc link submit
   const handleGoogleDocLinkSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (processing) {
+      return;
+    }
     const form = {
       googleDocId: googleDocUrl,
     };
@@ -133,7 +130,7 @@ function Home() {
           <div className="mt-8 animate-spin rounded-full h-32 w-32 border-b-2 border-black dark:border-white"></div>
         </>
       )}
-    
+
       {/* Google Docs Link */}
       <form
         className="flex flex-col items-center justify-center"

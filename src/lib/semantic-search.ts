@@ -34,7 +34,9 @@ export const runSimilaritySearch = async (
   const vectorStore = await MemoryVectorStore.fromTexts(
     dataToStoreInVectorStore,
     metadata,
-    new OpenAIEmbeddings()
+    new OpenAIEmbeddings({
+      modelName: "text-embedding-ada-002",
+    })
   );
 
   const retriever = ScoreThresholdRetriever.fromVectorStore(vectorStore, {
@@ -55,7 +57,7 @@ export const runSimilaritySearch = async (
         uniqueVectorStoreMatches.add(resultContent.toLowerCase());
       }
       uniqueDataToCompareMatches.add(comparedPhrase.toLowerCase());
-      console.log(comparedPhrase + " matches " + resultContent);
+      console.log(comparedPhrase + " Matches " + resultContent);
     }
   }
   console.log(uniqueDataToCompareMatches, "uniqueDataToCompareMatches");
