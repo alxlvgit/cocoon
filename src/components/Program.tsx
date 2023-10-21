@@ -67,7 +67,7 @@ export default function Program(programProps: ProgramProps) {
         <div className="flex flex-col bg-gray-400 rounded-lg m-3">
             <h2 className="m-3 font-bold">{programProps.ProgramName}</h2>
             <div className="flex flex-row justify-between m-3">
-                <p>Tuition Domestic: ${programProps.TuitionDomestic}</p>
+                <p>Tuition Domestic: {programProps.TuitionDomestic}</p>
                 <p>Degree: {programProps.Degree}</p>
             </div>
             <p className="m-3">Intakes: {intakeString}</p>
