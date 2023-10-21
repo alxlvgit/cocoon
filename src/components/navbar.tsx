@@ -17,9 +17,9 @@ export default function NavBar() {
           <Link href="/careers" className="hover:text-black">
             Careers
           </Link>
-          <Link href="/uploads" className="hover:text-black">
+          {/* <Link href="/uploads" className="hover:text-black">
             Upload
-          </Link>
+          </Link> */}
         </div>
         <div className="flex">
           <Link href="/profile">Profile</Link>
