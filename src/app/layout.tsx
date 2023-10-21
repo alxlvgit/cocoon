@@ -17,8 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="bg-slate-500 text-white  dark:bg-black">
-      <ReduxProvider>
+    <html lang="en" className="dark:bg-black dark:text-white">
+       <ReduxProvider>
         <body className={inter.className}>
           <header className="px-5 py-10">
             <NavBar />

@@ -1,3 +1,5 @@
+//This page has the functions that call specific api from O.NET
+
 "use server";
 
 import { JobKeyword, SOCcode, CareerSection } from "./enums";
@@ -42,7 +44,7 @@ export async function odotnetKeyword(keyword: JobKeyword): Promise<any> {
 
 // Function to fetch career overview (description, tasks)
 export async function odotnetCareerOverview(
-  code: SOCcode,
+  code: string,
   careerSection?: CareerSection
 ): Promise<any> {
   const credentials: ODOTNetCredentials = {

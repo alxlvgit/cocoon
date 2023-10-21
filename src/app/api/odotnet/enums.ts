@@ -3,6 +3,7 @@ export enum JobKeyword {
   Software = "software",
   UIDesigner = "uidesigner",
   UXDesigner = "uxdesigner",
+  UXUIDesigner = "designer-user-interface-user-experience",
   UXResearcher = "uxresearcher",
 }
 
