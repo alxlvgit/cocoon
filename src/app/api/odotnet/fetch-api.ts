@@ -2,7 +2,7 @@
 
 "use server";
 
-import { JobKeyword, SOCcode, CareerSection } from "./enums";
+import { JobKeyword, CareerSection } from "./enums";
 
 interface ODOTNetCredentials {
   Authorization: string;
