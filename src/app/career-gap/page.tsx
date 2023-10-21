@@ -3,6 +3,36 @@ import Course from '@/components/Course';
 import Program from '@/components/Program';
 import React, { useState } from 'react';
 
+import { useAsyncFn } from "react-use"
+
+interface RequiredCourses {
+    CourseName: string;
+    Credits: number;
+}
+
+interface Contact {
+    Name: string;
+    Role: string;
+    Phone: string;
+    Email: string;
+}
+
+interface SearchResults {
+    results: {
+
+        ProgramName: string;
+        TuitionDomestic: string;
+        Intakes: string[];
+        Degree: string;
+        RequiredCourses: RequiredCourses[];
+        TotalCredits: number;
+        Delivery: string;
+        Contact: Contact;
+    }[]
+};
+
+
+
 // sample course & program data for testing props
 const course = {
     "CourseCode": "GDES 1069",
@@ -88,7 +118,17 @@ const program = {
 };
 
 export default function Career() {
-    const [selectedButton, setSelectedButton] = useState("Courses");
+    const [selectedButton, setSelectedButton] = useState("Courses")
+    const [query, setQuery] = useState("")
+
+    const [{ value, loading }, search] = useAsyncFn<() => Promise<SearchResults>>(
+        async () => {
+            const response = await fetch("/api/search?q=" + query);
+            const data = await response.json();
+            return data;
+        },
+        [query]
+    )
 
     const handleClick = (buttonText: string) => {
         setSelectedButton(buttonText);
@@ -98,8 +138,15 @@ export default function Career() {
         <div className="flex flex-col justify-center my-5 mx-10">
 
             <div className="bg-gray-400 p-3 rounded-lg flex items-center justify-center place-self-center max-w-md my-5">
-                <form action="" method="POST" className="flex-1">
-                    <input type="text" name="keyword" placeholder="Search" className="w-full p-2 rounded-lg focus:outline-none bg-gray-400"></input>
+                <form 
+                onSubmit={(e) => {
+                    e.preventDefault()
+                    search()
+                }} 
+                method="POST" 
+                className="flex-1"
+                >
+                    <input type="text" name="keyword" value={query} placeholder="Search" className="w-full p-2 rounded-lg focus:outline-none bg-gray-400" onChange={(e) => setQuery(e.target.value)}></input>
                 </form>
                 <div className="p-2 bg-gray-300 rounded-lg cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
@@ -136,10 +183,29 @@ export default function Career() {
                 {/* course cards */}
                 {selectedButton === 'Courses' && <Course {...course} />}
                 {/* <Course {...course} /> */}
-                
+
                 {/* program cards */}
                 {selectedButton === 'Programs' && <Program {...program} />}
                 {/* <Program {...program} /> */}
+                <div className="mt-10">
+                    {loading ? (
+                        <div>Loading...</div>
+                    ) : (
+                        <div className="flex flex-wrap gap-5">
+                                {value?.results.map((program) => (
+                                <div
+                                        key={program.ProgramName}
+                                    className="flex flex-col bg-black rounded-lg shadow-lg p-5 w-full max-w-sm text-gray-300"
+                                >
+                                        <h2 className="text-xl font-bold">{program.ProgramName}</h2>
+                                        <p className="text-sm">{program.TuitionDomestic}</p>
+                                        <p className="text-sm">{program.Degree}</p>
+                                        <p className="text-sm">{program.Intakes.join(", ")}</p>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
 
 
                 {/* hardcoded data for testing */}
