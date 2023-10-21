@@ -1,10 +1,10 @@
-import { getStructuredKeywords, KeyPhrases } from "@/lib/resume-parsers";
-import * as odotnet from "./api/odotnet/fetch-api";
-import * as enums from "./api/odotnet/enums";
+import { getStructuredKeywords, KeyPhrases } from "@/utils/resume-parsers";
+import * as odotnet from "../api/odotnet/fetch-api";
+import * as enums from "../api/odotnet/enums";
 import {
   runSimilaritySearch,
   SimilaritySearchResult,
-} from "@/lib/semantic-search";
+} from "@/utils/semantic-search";
 
 export const extractResumeKeyPhrases = async (extractedText: string) => {
   const prompt =

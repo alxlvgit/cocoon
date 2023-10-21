@@ -1,6 +1,6 @@
 "use server";
 
-import { runSimilaritySearch } from "@/lib/semantic-search";
+import { runSimilaritySearch } from "@/utils/semantic-search";
 import { readFile } from "fs/promises";
 
 export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {

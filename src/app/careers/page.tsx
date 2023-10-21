@@ -2,7 +2,7 @@ import * as odotnet from "@/app/api/odotnet/fetch-api";
 import * as enums from "@/app/api/odotnet/enums";
 import CareerTile from "@/components/CareerTitleTile";
 
-async function Career() {
+async function Careers() {
   // Fetch careers data for those interested in ux/ui designer
   const fetchResult = await odotnet.odotnetKeyword(
     enums.JobKeyword.UXUIDesigner
@@ -26,4 +26,4 @@ async function Career() {
   );
 }
 
-export default Career;
+export default Careers;
