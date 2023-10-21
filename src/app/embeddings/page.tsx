@@ -60,10 +60,12 @@ const generateCoursesEmbeddings = async () => {
             (course) =>
                 `CourseCode:${course.CourseCode}
                 \n\nCourseName: ${course.CourseName}
-                \n\nCredits: ${course.Credits}
-                \n\nPrerequisites: ${JSON.stringify(course.Prerequisites)}
+                \n\nTerms: ${course.Terms?.join(',')}
+                \n\nCampus: ${course.Campus?.join(',')}
                 \n\nOfferings: ${JSON.stringify(course.Offerings)}
                 \n\n`
+
+                
         )
 
         // It creates an array of these strings (textsToEmbed) and an associated array of metadata (metadata). Each element in the metadata array is an object with an id field corresponding to the id of the movie.

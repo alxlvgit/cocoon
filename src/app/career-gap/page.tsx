@@ -138,13 +138,13 @@ export default function Career() {
         <div className="flex flex-col justify-center my-5 mx-10">
 
             <div className="bg-gray-400 p-3 rounded-lg flex items-center justify-center place-self-center max-w-md my-5">
-                <form 
-                onSubmit={(e) => {
-                    e.preventDefault()
-                    search()
-                }} 
-                method="POST" 
-                className="flex-1"
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault()
+                        search()
+                    }}
+                    method="POST"
+                    className="flex-1"
                 >
                     <input type="text" name="keyword" value={query} placeholder="Search" className="w-full p-2 rounded-lg focus:outline-none bg-gray-400" onChange={(e) => setQuery(e.target.value)}></input>
                 </form>
@@ -192,15 +192,15 @@ export default function Career() {
                         <div>Loading...</div>
                     ) : (
                         <div className="flex flex-wrap gap-5">
-                                {value?.results.map((program) => (
+                            {value?.results.map((program) => (
                                 <div
-                                        key={program.ProgramName}
+                                    key={program.ProgramName}
                                     className="flex flex-col bg-black rounded-lg shadow-lg p-5 w-full max-w-sm text-gray-300"
                                 >
-                                        <h2 className="text-xl font-bold">{program.ProgramName}</h2>
-                                        <p className="text-sm">{program.TuitionDomestic}</p>
-                                        <p className="text-sm">{program.Degree}</p>
-                                        <p className="text-sm">{program.Intakes.join(", ")}</p>
+                                    <h2 className="text-xl font-bold">{program.ProgramName}</h2>
+                                    <p className="text-sm">{program.TuitionDomestic}</p>
+                                    <p className="text-sm">{program.Degree}</p>
+                                    <p className="text-sm">{program.Intakes.join(", ")}</p>
                                 </div>
                             ))}
                         </div>

@@ -18,17 +18,17 @@ export async function GET(req: Request) {
         })
     }
 
-    const programVectorStore = await HNSWLib.load("programs", new OpenAIEmbeddings())
-    const courseVectorStore = await HNSWLib.load("courses", new OpenAIEmbeddings())
+    const vectorStore = await HNSWLib.load("programs", new OpenAIEmbeddings())
+    // const courseVectorStore = await HNSWLib.load("courses", new OpenAIEmbeddings())
 
-    const programSearchResult = await programVectorStore.similaritySearch(q, 6)
-    const courseSearchResult = await courseVectorStore.similaritySearch(q, 6)
+    const searchResult = await vectorStore.similaritySearch(q, 4)
+    // const courseSearchResult = await courseVectorStore.similaritySearch(q, 2)
 
-    const programSearchResultIds = programSearchResult.map((r) => r.metadata.id)
-    const courseSearchResultIds = courseSearchResult.map((r) => r.metadata.id)
+    const searchResultIds = searchResult.map((r) => r.metadata.id)
+    // const courseSearchResultIds = courseSearchResult.map((r) => r.metadata.id)
 
-    let programResults = programs.filter((program) => programSearchResultIds.includes(program.ProgramName))
-    let courseResults = courses.filter((course) => courseSearchResultIds.includes(course.CourseName))
+    let results = programs.filter((program) => searchResultIds.includes(program.ProgramName))
+    // let courseResults = courses.filter((course) => courseSearchResultIds.includes(course.CourseName))
 
-    return NextResponse.json({ programResults, courseResults })
+    return NextResponse.json({ results })
 }

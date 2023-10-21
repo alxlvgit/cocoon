@@ -7,8 +7,8 @@ const search = async (text: string) => {
         const programsVectorStore = await HNSWLib.load("programs", new OpenAIEmbeddings())
         const coursesVectorStore = await HNSWLib.load("courses", new OpenAIEmbeddings())
 
-        const programResults = await programsVectorStore.similaritySearch(text, 6) // returns only 2 entries
-        const courseResults = await coursesVectorStore.similaritySearch(text, 6) // returns only 2 entries
+        const programResults = await programsVectorStore.similaritySearch(text, 2) // returns only 2 entries
+        const courseResults = await coursesVectorStore.similaritySearch(text, 2) // returns only 2 entries
 
         programResults.forEach((r) => {
             console.log(r.pageContent.match(/Program Name:(.*)/)?.[0]) // Use regex to extract the title from the result text
