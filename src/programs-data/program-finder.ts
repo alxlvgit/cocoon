@@ -4,6 +4,10 @@ import { runSimilaritySearch } from "@/utils/semantic-search";
 import programsData from "./programsData.json";
 
 export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {
+  if (!keyPhrases || keyPhrases.length === 0) {
+    console.log("No key phrases provided for program finder.");
+    return { retrievedPrograms: [], retrievedCourses: [] };
+  }
   const data = JSON.stringify(programsData);
   const { programs, courses } = JSON.parse(data);
   const programsNames = programs.map(

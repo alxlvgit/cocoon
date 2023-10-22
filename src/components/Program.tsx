@@ -37,7 +37,7 @@ export default function Program({
     : "N/A";
 
   return (
-    <div className="flex flex-col bg-gray-400 rounded-lg m-3">
+    <div className="flex flex-col bg-blue-200 rounded-lg m-3">
       <h2 className="m-3 font-bold">{programProps.ProgramName}</h2>
       <div className="flex flex-row justify-between m-3">
         <p>Tuition Domestic: {tuition}</p>
