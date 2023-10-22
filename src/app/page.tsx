@@ -52,10 +52,10 @@ function Home() {
             experience, and aspirations. By using AI to bridge the gap between
             job seekers and employers, Cocoon not only streamlines the job hunt
             process but also enhances the chances of a perfect fit for both
-            parties. In an era where job markets are rapidly evolving, Cocoon's
-            AI-driven approach ensures that individuals can seamlessly
-            transition into new roles and contribute their skills to companies
-            seeking top talent.
+            parties. In an era where job markets are rapidly evolving,
+            Cocoon&apos;s AI-driven approach ensures that individuals can
+            seamlessly transition into new roles and contribute their skills to
+            companies seeking top talent.
           </p>
           <Link
             href="/about"
