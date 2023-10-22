@@ -22,7 +22,7 @@ export default function StartAnalysisContainer({
           href={`/uploads/${careerCode}`}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
-          Click me
+          Start
         </Link>
       </div>
     </div>

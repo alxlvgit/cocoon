@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark:bg-black dark:text-white">
-       <ReduxProvider>
+      <ReduxProvider>
         <body className={inter.className}>
           <header className="px-5 py-10">
             <NavBar />

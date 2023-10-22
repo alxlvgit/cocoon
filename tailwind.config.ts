@@ -13,6 +13,9 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      backgroundColor: {
+        "356CBE": "#356CBE",
+      },
     },
     screens: {
       xs: "475px",
@@ -23,6 +26,6 @@ const config: Config = {
     },
   },
   darkMode: "class",
-  plugins: [],
+  plugins: [require("tailwindcss-animated")],
 };
 export default config;
