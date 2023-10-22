@@ -12,6 +12,7 @@ const nextConfig = {
     serverActionsBodySizeLimit: "3mb",
     // appDir: true,
   },
+  reactStrictMode: false,
   // webpack(config) {
   //   config.experiments = { ...config.experiments, topLevelAwait: true };
   //   config.externals = [...config.externals, 'hnswlib-node'];  // by adding this line, solved the import

@@ -12,15 +12,14 @@ import React, { useEffect, useState } from "react";
 export default function Career() {
   const [selectedButton, setSelectedButton] = useState("Programs");
   const [loading, setLoading] = useState(true);
+  const dispatch = useAppDispatch();
+  const { missingSkills, programs, courses, pickedCareer } = useAppSelector(
+    (state) => state.resumeProcessingSlice
+  );
 
   const handleClick = (buttonText: string) => {
     setSelectedButton(buttonText);
   };
-
-  const dispatch = useAppDispatch();
-  const { missingSkills, programs, courses } = useAppSelector(
-    (state) => state.resumeProcessingSlice
-  );
 
   useEffect(() => {
     const findProgramsCourses = async () => {
@@ -31,15 +30,36 @@ export default function Career() {
       dispatch(setCourses(retrievedCourses));
       setLoading(false);
     };
+    if (programs.length > 0 && courses.length > 0) {
+      setLoading(false);
+      return;
+    }
     findProgramsCourses();
-  }, [missingSkills, dispatch]);
+  }, [missingSkills, dispatch, programs.length, courses.length]);
 
   return (
     <div className="flex flex-col justify-center my-5 mx-10">
+      <h1 className="m-5 text-center font-bold text-xl">
+        Courses and Programs to help you fill your skill gaps
+      </h1>
+      <div>
+        {pickedCareer ? (
+          <p className="font-bold mb-6 text-sm  text-center">
+            {" "}
+            {pickedCareer} Path
+          </p>
+        ) : (
+          <p className="font-bold mb-6 text-xs text-red-500  text-center">
+            Please choose your preferred career on Careers page and run analysis
+            first
+          </p>
+        )}
+      </div>
+
       {loading ? (
         <>
           <h1 className="place-self-center my-5">Loading your paths...</h1>
-          <div className="mx-auto mt-8 animate-spin rounded-full h-32 w-32 border-b-2 border-black dark:border-white"></div>
+          <div className="mx-auto mt-8 animate-spin rounded-full h-32 w-32 border-b-2 border-blue-700 dark:border-white"></div>
         </>
       ) : (
         <>

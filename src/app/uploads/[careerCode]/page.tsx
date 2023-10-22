@@ -18,6 +18,7 @@ import {
   resetResumeProcessingState,
   setGoogleDocUrl,
   setMissingSkills,
+  setPickedCareer,
   setProcessing,
   setProcessingStep,
   setTransferableSkills,
@@ -31,7 +32,7 @@ function Uploads({ params }: { params: { careerCode: string } }) {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const careerCode = params.careerCode;
 
-  // // Status components to display during document processing
+  // Status components to display during document processing
   const statusComponents = [
     <UploadStatus key={"uploaded"} done={true} text="File Uploaded" />,
     <UploadStatus
@@ -45,6 +46,28 @@ function Uploads({ params }: { params: { careerCode: string } }) {
       text="Failed to retrieve key phrases."
     />,
   ];
+
+  // // Run analysis on extracted text
+  const runAnalysis = async (extractedText: string) => {
+    dispatch(setProcessingStep(2));
+    const resumeKeyPhrases = await extractResumeKeyPhrases(extractedText); // Step 2: if text is extracted, extract key phrases by using ChatOpenAI API
+    const careerSkillsKeyPhrases = await extractCareerKeyPhrases(careerCode); // Step 3: extract key phrases from career skills
+    const { title, requiredSkills } = careerSkillsKeyPhrases;
+    if (requiredSkills && resumeKeyPhrases) {
+      const matchingMissingSkills = await findMissingSkills(
+        requiredSkills,
+        resumeKeyPhrases
+      ); // Step 4: if key phrases are extracted from both resume and career skills, find missing skills by using semantic search
+      const { matchedResumeSkills, missingCareerSkills } =
+        matchingMissingSkills;
+      dispatch(setPickedCareer(title));
+      dispatch(setMissingSkills(missingCareerSkills));
+      dispatch(setTransferableSkills(matchedResumeSkills));
+      dispatch(setProcessing(false));
+      dispatch(setProcessingStep(null));
+      router.push("/career-gap");
+    }
+  };
 
   // // Handle pdf or docx file upload
   const handleFileUpload = async () => {
@@ -63,24 +86,7 @@ function Uploads({ params }: { params: { careerCode: string } }) {
           ? await extractTextFromDocx(base64Bytes)
           : await extractTextFromPdf(base64Bytes); // Step 1: extract text from pdf or docx
         if (extractedText) {
-          dispatch(setProcessingStep(2));
-          const resumeKeyPhrases = await extractResumeKeyPhrases(extractedText); // Step 2: if text is extracted, extract key phrases by using ChatOpenAI API
-          const careerSkillsKeyPhrases = await extractCareerKeyPhrases(
-            careerCode
-          ); // Step 3: extract key phrases from career skills
-          if (careerSkillsKeyPhrases && resumeKeyPhrases) {
-            const matchingMissingSkills = await findMissingSkills(
-              careerSkillsKeyPhrases,
-              resumeKeyPhrases
-            ); // Step 4: if key phrases are extracted from both resume and career skills, find missing skills by using semantic search
-            const { matchedResumeSkills, missingCareerSkills } =
-              matchingMissingSkills;
-            dispatch(setMissingSkills(missingCareerSkills));
-            dispatch(setTransferableSkills(matchedResumeSkills));
-            dispatch(setProcessing(false));
-            dispatch(setProcessingStep(null));
-            router.push("/career-gap");
-          }
+          await runAnalysis(extractedText);
         }
       };
     } else {
@@ -99,13 +105,18 @@ function Uploads({ params }: { params: { careerCode: string } }) {
       googleDocId: googleDocUrl,
     };
     dispatch(setProcessing(true));
+    dispatch(setProcessingStep(1));
     const res = await fetch("/api/googledoc", {
       method: "POST",
       body: JSON.stringify(form),
     });
     const data = await res.json();
-    console.log(data);
-    dispatch(setProcessing(false));
+    if (data) {
+      await runAnalysis(data);
+    } else {
+      dispatch(setProcessingStep(3));
+      dispatch(setProcessing(false));
+    }
   };
 
   return (

@@ -1,51 +1,4 @@
 "use client";
-import React, { useState } from "react";
-
-// const course = {
-//     "CourseCode": "GDES 1069",
-//     "CourseName": "Layout: Adobe InDesign",
-//     "Terms": [
-//         "Fall",
-//         "Winter",
-//         "Spring"
-//     ],
-//     "Campus": [
-//         "Downtown",
-//         "Online"
-//     ],
-//     "Offerings": [
-//         {
-//             "CRN": "50134",
-//             "Duration": "Sat Sep 16 - Sat Dec 16(11 weeks)",
-//             "Tuition": "$575.20",
-//             "Schedule": [
-//                 {
-//                     "Date": "Sep 16 - Dec 16",
-//                     "Day": "Sat",
-//                     "Time": "09:30 - 12:45",
-//                     "Location": "Online"
-//                 }
-//             ],
-//             "Instructor": "Negin Etemadi",
-//             "Status": "IN PROGRESS"
-//         },
-//         {
-//             "CRN": "50125",
-//             "Duration": "Tue Sep 12 - Tue Nov 28(12 weeks)",
-//             "Tuition": "$602.31",
-//             "Schedule": [
-//                 {
-//                     "Date": "Sep 12 - Nov 28",
-//                     "Day": "Tue",
-//                     "Time": "18:00 - 21:00",
-//                     "Location": "DowntownDTC Rm. 890"
-//                 }
-//             ],
-//             "Instructor": "Paul Sawyer",
-//             "Status": "IN PROGRESS"
-//         }
-//     ]
-// };
 
 interface Schedule {
   Date: string;
@@ -109,7 +62,7 @@ export default function Course({ courseProps }: { courseProps: CourseProps }) {
   termString = courseProps.Terms?.join(", ") || "N/A";
 
   return (
-    <div className="flex flex-col bg-gray-400 rounded-lg m-3">
+    <div className="flex flex-col bg-blue-200 rounded-lg m-3">
       <h2 className="m-3 font-bold">
         {courseProps.CourseName ? courseProps.CourseName : courseProps.title}
       </h2>

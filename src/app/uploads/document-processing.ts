@@ -25,19 +25,21 @@ export const extractResumeKeyPhrases = async (extractedText: string) => {
 
 export const extractCareerKeyPhrases = async (careerCode: string) => {
   const careerData = await odotnet.odotnetCareerOverview(careerCode);
-
   const skills = careerData?.career?.what_they_do ?? null;
+  const title = careerData?.career?.title ?? null;
   if (skills) {
     const prompt = "List all skills or duties mentioned in the following text.";
     const careerKeywords = await getStructuredKeywords(skills, prompt, true);
     if (careerKeywords) {
       const { skills } = careerKeywords;
+      let formattedSkills: string[] = [];
       if (skills.length > 0) {
-        return skills.map((skill) => skill.toLowerCase());
+        formattedSkills = skills.map((skill) => skill.toLowerCase());
       }
+      return { title, requiredSkills: formattedSkills };
     }
   }
-  return null;
+  return { title, requiredSkills: null };
 };
 
 export const findMissingSkills = async (
