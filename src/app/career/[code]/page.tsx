@@ -55,6 +55,7 @@ export default async function Career({ params }: { params: { code: string } }) {
         data={
           "This analysis will help define your skills better match you with the best job/career with current applicable skills! "
         }
+        careerCode={params.code}
       />
     </div>
   );
