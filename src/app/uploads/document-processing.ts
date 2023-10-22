@@ -1,6 +1,5 @@
 import { getStructuredKeywords, KeyPhrases } from "@/utils/resume-parsers";
 import * as odotnet from "../api/odotnet/fetch-api";
-import * as enums from "../api/odotnet/enums";
 import {
   runSimilaritySearch,
   SimilaritySearchResult,
@@ -24,10 +23,8 @@ export const extractResumeKeyPhrases = async (extractedText: string) => {
   return null;
 };
 
-export const extractCareerKeyPhrases = async () => {
-  const careerData = await odotnet.odotnetCareerOverview(
-    enums.SOCcode.WebandDigitalInterfaceDesigners
-  );
+export const extractCareerKeyPhrases = async (careerCode: string) => {
+  const careerData = await odotnet.odotnetCareerOverview(careerCode);
 
   const skills = careerData?.career?.what_they_do ?? null;
   if (skills) {
@@ -61,8 +58,8 @@ export const findMissingSkills = async (
     dataToCompareMatched.includes(skill)
   );
 
-  console.log(missingCareerSkills, "missingCareerSkills");
-  console.log(matchedResumeSkills, "matchedResumeSkills");
+  // console.log(missingCareerSkills, "missingCareerSkills");
+  // console.log(matchedResumeSkills, "matchedResumeSkills");
 
   return {
     missingCareerSkills,

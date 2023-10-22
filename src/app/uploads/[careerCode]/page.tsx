@@ -2,7 +2,10 @@
 
 import React, { useState } from "react";
 import { FormEvent } from "react";
-import { extractTextFromDocx, extractTextFromPdf } from "@/utils/resume-parsers";
+import {
+  extractTextFromDocx,
+  extractTextFromPdf,
+} from "@/utils/resume-parsers";
 import UploadStatus from "@/components/UploadStatus";
 import {
   extractCareerKeyPhrases,
@@ -20,14 +23,15 @@ import {
   setTransferableSkills,
 } from "@/redux/features/resumeProcessingSlice";
 
-function Uploads() {
+function Uploads({ params }: { params: { careerCode: string } }) {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.resumeProcessingSlice);
   const { processing, processingStep, googleDocUrl } = state;
   const router = useRouter();
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const careerCode = params.careerCode;
 
-  // Status components to display during document processing
+  // // Status components to display during document processing
   const statusComponents = [
     <UploadStatus key={"uploaded"} done={true} text="File Uploaded" />,
     <UploadStatus
@@ -42,7 +46,7 @@ function Uploads() {
     />,
   ];
 
-  // Handle pdf or docx file upload
+  // // Handle pdf or docx file upload
   const handleFileUpload = async () => {
     dispatch(resetResumeProcessingState());
     const reader = new FileReader();
@@ -61,7 +65,9 @@ function Uploads() {
         if (extractedText) {
           dispatch(setProcessingStep(2));
           const resumeKeyPhrases = await extractResumeKeyPhrases(extractedText); // Step 2: if text is extracted, extract key phrases by using ChatOpenAI API
-          const careerSkillsKeyPhrases = await extractCareerKeyPhrases(); // Step 3: extract key phrases from career skills
+          const careerSkillsKeyPhrases = await extractCareerKeyPhrases(
+            careerCode
+          ); // Step 3: extract key phrases from career skills
           if (careerSkillsKeyPhrases && resumeKeyPhrases) {
             const matchingMissingSkills = await findMissingSkills(
               careerSkillsKeyPhrases,
@@ -69,11 +75,11 @@ function Uploads() {
             ); // Step 4: if key phrases are extracted from both resume and career skills, find missing skills by using semantic search
             const { matchedResumeSkills, missingCareerSkills } =
               matchingMissingSkills;
-            dispatch(setTransferableSkills(matchedResumeSkills));
             dispatch(setMissingSkills(missingCareerSkills));
+            dispatch(setTransferableSkills(matchedResumeSkills));
             dispatch(setProcessing(false));
             dispatch(setProcessingStep(null));
-            router.push("/suggestions");
+            router.push("/career-gap");
           }
         }
       };
@@ -83,7 +89,7 @@ function Uploads() {
     }
   };
 
-  // handle google doc link submit
+  // // handle google doc link submit
   const handleGoogleDocLinkSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (processing) {
@@ -103,28 +109,29 @@ function Uploads() {
   };
 
   return (
-    <div className="flex flex-col m-16 items-center bg-indigo-200 rounded-xl border-2 shadow-2xl h-screen">
-      <div className="relative flex items-center bg-neutral-600 w-8/12 h-72 mt-6 rounded-xl border-2 shadow-lg max-w-full">
-        <p className="absolute mb-12 ml-80 text-white text-5xl">Cocoon</p>
+    <div className="flex flex-col m-16 items-center bg-blue-100 rounded-xl border-2 shadow-2xl h-screen">
+      <div className="relative flex flex-col items-center bg-gray-500 w-96 h-auto m-6 rounded-xl border-2 shadow-lg max-w-full text-center">
+        <p className="text-white text-5xl mt-6 mb-2">Cocoon</p>
       </div>
 
-      <div className=" absolute flex flex-row items-center bg-white rounded-xl mt-60 h-48 w-4/12">
-        <div className=" flex flex-row ml-14 mb-32 text-base ">
-          <p className="text-base font-semibold">Upload Resume</p>
-        </div>
-
+      <div className="flex flex-col items-center bg-white rounded-xl">
+        <p className="mb-4 text-base mt-2">Upload Resume</p>
         <input
-          className=" absolute w-full h-10 text-sm cursor-pointer focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 mb-4
-          ml-8
-          "
+          className="block w-1/4 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
           type="file"
           accept="application/pdf,.docx"
           onChange={(e) => setUploadedFile(e.target.files![0])}
         />
+        <p
+          className="mt-2 w-1/4 text-xs text-left text-black dark:text-gray-300"
+          id="file_input_help"
+        >
+          PDF, DOCX only
+        </p>
 
         <button
           onClick={handleFileUpload}
-          className=" absolute mt-24 ml-20 bg-blue-500 hover:bg-blue-700 text-white text-sm w-14 px-2 rounded"
+          className="mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           Upload
         </button>
@@ -139,9 +146,11 @@ function Uploads() {
           className="flex flex-col items-center justify-center"
           onSubmit={handleGoogleDocLinkSubmit}
         >
-          <p className="mb-32 font-semibold ml-28 mt-1 ">Google Doc Link</p>
+          <p className="mb-4 text-lg font-semibold">
+            Enter your Google Doc link of the resume
+          </p>
           <input
-            className=" absolute mb-8 ml-32 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
             type="text"
             placeholder="Enter Google Doc ID"
             onChange={(e) => dispatch(setGoogleDocUrl(e.target.value))}
@@ -150,7 +159,7 @@ function Uploads() {
 
           <button
             type="submit"
-            className=" absolute mt-28 mb-6 ml-24 bg-blue-500 hover:bg-blue-700 text-white text-sm w-14 px-2 rounded"
+            className="mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
             Submit
           </button>
