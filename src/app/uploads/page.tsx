@@ -103,10 +103,10 @@ function Uploads() {
   };
 
   return (
-    <div className="flex flex-col m-16  items-center bg-blue-100 rounded-xl border-2 shadow-2xl  h-screen">
-      <div className="relative flex items-center bg-gray-500 w-96 h-40 m-6 rounded-xl border-2 shadow-lg">
-        <p className="ml-24 mb-10 text-white text-5xl">Cocoon</p>
-      </div>
+    <div className="flex flex-col m-16 items-center bg-blue-100 rounded-xl border-2 shadow-2xl h-screen">
+     <div className="relative flex flex-col items-center bg-gray-500 w-96 h-auto m-6 rounded-xl border-2 shadow-lg max-w-full text-center">
+  <p className="text-white text-5xl mt-6 mb-2">Cocoon</p>
+</div>
 
       <div className="flex flex-col items-center bg-white rounded-xl">
         <p className="mb-4 text-base mt-2">Upload Resume</p>
@@ -125,7 +125,7 @@ function Uploads() {
 
         <button
           onClick={handleFileUpload}
-          className=" mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           Upload
         </button>
@@ -153,7 +153,7 @@ function Uploads() {
 
           <button
             type="submit"
-            className=" mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
             Submit
           </button>
