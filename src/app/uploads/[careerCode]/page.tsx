@@ -1,12 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
+import { pdfjs } from "react-pdf";
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.js",
+  import.meta.url
+).toString();
 import { FormEvent } from "react";
 import {
   extractTextFromDocx,
   extractTextFromPdf,
 } from "@/utils/resume-parsers";
-import UploadStatus from "@/components/UploadStatus";
+import ProcessingStatus from "@/components/ProcessingStatus";
 import {
   extractCareerKeyPhrases,
   extractResumeKeyPhrases,
@@ -20,7 +25,7 @@ import {
   setMissingSkills,
   setPickedCareer,
   setProcessing,
-  setProcessingStep,
+  setProcessingStep as setProcessingStatus,
   setTransferableSkills,
 } from "@/redux/features/resumeProcessingSlice";
 
@@ -34,22 +39,32 @@ function Uploads({ params }: { params: { careerCode: string } }) {
 
   // Status components to display during document processing
   const statusComponents = [
-    <UploadStatus key={"uploaded"} done={true} text="File Uploaded" />,
-    <UploadStatus
+    <ProcessingStatus key={"uploaded"} done={true} text="File Uploaded" />,
+    <ProcessingStatus
       key={"extracted"}
       done={true}
       text="Extracted Text. Analysing document..."
     />,
-    <UploadStatus
+    <ProcessingStatus
       key={"fail"}
       done={false}
       text="Failed to retrieve key phrases."
     />,
+    <ProcessingStatus
+      key={"fail"}
+      done={false}
+      text="Only single page PDFs are supported at this time."
+    />,
   ];
+
+  const getNumberOfPDFPages = async (pdfData: string) => {
+    const pdf = await pdfjs.getDocument({ data: atob(pdfData) }).promise;
+    return pdf.numPages;
+  };
 
   // // Run analysis on extracted text
   const runAnalysis = async (extractedText: string) => {
-    dispatch(setProcessingStep(2));
+    dispatch(setProcessingStatus(2));
     const resumeKeyPhrases = await extractResumeKeyPhrases(extractedText); // Step 2: if text is extracted, extract key phrases by using ChatOpenAI API
     const careerSkillsKeyPhrases = await extractCareerKeyPhrases(careerCode); // Step 3: extract key phrases from career skills
     const { title, requiredSkills } = careerSkillsKeyPhrases;
@@ -64,7 +79,7 @@ function Uploads({ params }: { params: { careerCode: string } }) {
       dispatch(setMissingSkills(missingCareerSkills));
       dispatch(setTransferableSkills(matchedResumeSkills));
       dispatch(setProcessing(false));
-      dispatch(setProcessingStep(null));
+      dispatch(setProcessingStatus(null));
       router.push("/career-gap");
     }
   };
@@ -81,8 +96,18 @@ function Uploads({ params }: { params: { careerCode: string } }) {
           "base64"
         );
         dispatch(setProcessing(true));
-        dispatch(setProcessingStep(1));
-        const extractedText = uploadedFile.name.endsWith(".docx")
+        dispatch(setProcessingStatus(1));
+        const isPdf = uploadedFile.name.endsWith(".pdf");
+        const isDocx = uploadedFile.name.endsWith(".docx");
+        if (isPdf) {
+          const numPages = await getNumberOfPDFPages(base64Bytes);
+          if (numPages > 1) {
+            dispatch(setProcessingStatus(4));
+            dispatch(setProcessing(false));
+            return;
+          }
+        }
+        const extractedText = isDocx
           ? await extractTextFromDocx(base64Bytes)
           : await extractTextFromPdf(base64Bytes); // Step 1: extract text from pdf or docx
         if (extractedText) {
@@ -90,7 +115,7 @@ function Uploads({ params }: { params: { careerCode: string } }) {
         }
       };
     } else {
-      dispatch(setProcessingStep(3));
+      dispatch(setProcessingStatus(3));
       dispatch(setProcessing(false));
     }
   };
@@ -105,7 +130,7 @@ function Uploads({ params }: { params: { careerCode: string } }) {
       googleDocId: googleDocUrl,
     };
     dispatch(setProcessing(true));
-    dispatch(setProcessingStep(1));
+    dispatch(setProcessingStatus(1));
     const res = await fetch("/api/googledoc", {
       method: "POST",
       body: JSON.stringify(form),
@@ -114,7 +139,7 @@ function Uploads({ params }: { params: { careerCode: string } }) {
     if (data) {
       await runAnalysis(data);
     } else {
-      dispatch(setProcessingStep(3));
+      dispatch(setProcessingStatus(3));
       dispatch(setProcessing(false));
     }
   };
