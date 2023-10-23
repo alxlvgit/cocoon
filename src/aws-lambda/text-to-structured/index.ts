@@ -1,6 +1,5 @@
-"use server";
-
 import { z } from "zod";
+import { Context, APIGatewayProxyResult, APIGatewayEvent } from "aws-lambda";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import {
@@ -28,56 +27,12 @@ export type KeyPhrases = {
   qualifications?: string[];
 };
 
-// send request to lambda function to extract text from pdf
-export const extractTextFromPdf = async (
-  requestBody: string
-): Promise<string | undefined> => {
-  try {
-    const extractedText = await fetch(process.env.LAMBDA_ENDPOINT_TEXTRACT!, {
-      method: "POST",
-      body: JSON.stringify({ Bytes: requestBody }),
-    });
-    if (extractedText.status !== 200) {
-      return undefined;
-    }
-    const data = await extractedText.json();
-    if (Object.keys(data).length === 0) {
-      return undefined;
-    } else {
-      return data;
-    }
-  } catch (err) {
-    console.log(err);
-    return undefined;
-  }
-};
-
-// send request to lambda function to extract text from docx
-export const extractTextFromDocx = async (
-  requestBody: string
-): Promise<string | undefined> => {
-  try {
-    const extractedText = await fetch(process.env.LAMBDA_ENDPOINT_DOCXTRACT!, {
-      method: "POST",
-      body: JSON.stringify({ file: requestBody }),
-    });
-    const data = await extractedText.json();
-    if (data.trim().length === 0) {
-      return undefined;
-    } else {
-      return data;
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-// extract keyphrases from text
-export const getStructuredKeywords = async (
-  text: string,
-  promptMessage: string,
-  skillsOnly: boolean
-): Promise<KeyPhrases | undefined> => {
+export const handler = async (
+  event: APIGatewayEvent,
+  context: Context
+): Promise<APIGatewayProxyResult> => {
+  const requestBody = JSON.parse(event.body!);
+  const { text, skillsOnly, promptMessage } = requestBody;
   try {
     const prompt = new ChatPromptTemplate({
       promptMessages: [
@@ -116,8 +71,15 @@ export const getStructuredKeywords = async (
     });
 
     console.log(JSON.stringify(response, null, 2), "extracted keywords");
-    return response as KeyPhrases;
+    return {
+      statusCode: 200,
+      body: JSON.stringify(response),
+    };
   } catch (err) {
     console.log(err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify(err),
+    };
   }
 };

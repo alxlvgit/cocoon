@@ -1,12 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
+import { pdfjs } from "react-pdf";
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.js",
+  import.meta.url
+).toString();
 import { FormEvent } from "react";
 import {
   extractTextFromDocx,
   extractTextFromPdf,
-} from "@/utils/resume-parsers";
-import UploadStatus from "@/components/UploadStatus";
+} from "@/app/uploads/resume-parsers";
+import ProcessingStatus from "@/components/ProcessingStatus";
 import {
   extractCareerKeyPhrases,
   extractResumeKeyPhrases,
@@ -20,7 +25,7 @@ import {
   setMissingSkills,
   setPickedCareer,
   setProcessing,
-  setProcessingStep,
+  setProcessingStep as setProcessingStatus,
   setTransferableSkills,
 } from "@/redux/features/resumeProcessingSlice";
 
@@ -34,22 +39,32 @@ function Uploads({ params }: { params: { careerCode: string } }) {
 
   // Status components to display during document processing
   const statusComponents = [
-    <UploadStatus key={"uploaded"} done={true} text="File Uploaded" />,
-    <UploadStatus
+    <ProcessingStatus key={"uploaded"} done={true} text="File Uploaded" />,
+    <ProcessingStatus
       key={"extracted"}
       done={true}
       text="Extracted Text. Analysing document..."
     />,
-    <UploadStatus
+    <ProcessingStatus
       key={"fail"}
       done={false}
       text="Failed to retrieve key phrases."
     />,
+    <ProcessingStatus
+      key={"fail"}
+      done={false}
+      text="Only single page PDFs are supported at this time."
+    />,
   ];
+
+  const getNumberOfPDFPages = async (pdfData: string) => {
+    const pdf = await pdfjs.getDocument({ data: atob(pdfData) }).promise;
+    return pdf.numPages;
+  };
 
   // // Run analysis on extracted text
   const runAnalysis = async (extractedText: string) => {
-    dispatch(setProcessingStep(2));
+    dispatch(setProcessingStatus(2));
     const resumeKeyPhrases = await extractResumeKeyPhrases(extractedText); // Step 2: if text is extracted, extract key phrases by using ChatOpenAI API
     const careerSkillsKeyPhrases = await extractCareerKeyPhrases(careerCode); // Step 3: extract key phrases from career skills
     const { title, requiredSkills } = careerSkillsKeyPhrases;
@@ -64,7 +79,7 @@ function Uploads({ params }: { params: { careerCode: string } }) {
       dispatch(setMissingSkills(missingCareerSkills));
       dispatch(setTransferableSkills(matchedResumeSkills));
       dispatch(setProcessing(false));
-      dispatch(setProcessingStep(null));
+      dispatch(setProcessingStatus(null));
       router.push("/career-gap");
     }
   };
@@ -81,8 +96,18 @@ function Uploads({ params }: { params: { careerCode: string } }) {
           "base64"
         );
         dispatch(setProcessing(true));
-        dispatch(setProcessingStep(1));
-        const extractedText = uploadedFile.name.endsWith(".docx")
+        dispatch(setProcessingStatus(1));
+        const isPdf = uploadedFile.name.endsWith(".pdf");
+        const isDocx = uploadedFile.name.endsWith(".docx");
+        if (isPdf) {
+          const numPages = await getNumberOfPDFPages(base64Bytes);
+          if (numPages > 1) {
+            dispatch(setProcessingStatus(4));
+            dispatch(setProcessing(false));
+            return;
+          }
+        }
+        const extractedText = isDocx
           ? await extractTextFromDocx(base64Bytes)
           : await extractTextFromPdf(base64Bytes); // Step 1: extract text from pdf or docx
         if (extractedText) {
@@ -90,7 +115,7 @@ function Uploads({ params }: { params: { careerCode: string } }) {
         }
       };
     } else {
-      dispatch(setProcessingStep(3));
+      dispatch(setProcessingStatus(3));
       dispatch(setProcessing(false));
     }
   };
@@ -105,7 +130,7 @@ function Uploads({ params }: { params: { careerCode: string } }) {
       googleDocId: googleDocUrl,
     };
     dispatch(setProcessing(true));
-    dispatch(setProcessingStep(1));
+    dispatch(setProcessingStatus(1));
     const res = await fetch("/api/googledoc", {
       method: "POST",
       body: JSON.stringify(form),
@@ -114,54 +139,51 @@ function Uploads({ params }: { params: { careerCode: string } }) {
     if (data) {
       await runAnalysis(data);
     } else {
-      dispatch(setProcessingStep(3));
+      dispatch(setProcessingStatus(3));
       dispatch(setProcessing(false));
     }
   };
 
   return (
-    <div className="flex flex-col m-16 items-center bg-blue-100 rounded-xl border-2 shadow-2xl h-screen">
-      <div className="relative flex flex-col items-center bg-gray-500 w-96 h-auto m-6 rounded-xl border-2 shadow-lg max-w-full text-center">
-        <p className="text-white text-5xl mt-6 mb-2">Cocoon</p>
+    <div className="flex flex-col m-16 items-center bg-indigo-200 rounded-xl border-2 shadow-2xl h-screen">
+      <div className="relative flex items-center bg-neutral-600 w-8/12 h-72 mt-6 rounded-xl border-2 shadow-lg max-w-full">
+        <p className="w-full text-center text-white text-5xl">Cocoon</p>
       </div>
 
-      <div className="flex flex-col items-center bg-white rounded-xl">
-        <p className="mb-4 text-base mt-2">Upload Resume</p>
-        <input
-          className="block w-1/4 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-          type="file"
-          accept="application/pdf,.docx"
-          onChange={(e) => setUploadedFile(e.target.files![0])}
-        />
-        <p
-          className="mt-2 w-1/4 text-xs text-left text-black dark:text-gray-300"
-          id="file_input_help"
-        >
-          PDF, DOCX only
-        </p>
+      <div className="flex flex-row items-center justify-center align-middle bg-white rounded-xl mt-20 h-48 w-4/12">
+        <div className="flex flex-col justify-between h-full p-2 items-center align-middle">
+          <p className="text-base font-semibold">Upload Resume</p>
+          <div className="flex flex-col justify-center items-center align-middle w-1/2">
+            <input
+              className=" w-full text-sm cursor-pointer focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+        "
+              type="file"
+              accept="application/pdf,.docx"
+              onChange={(e) => setUploadedFile(e.target.files![0])}
+            />
+            <p
+              className="mt-2 w-full text-xs text-left text-black dark:text-gray-300"
+              id="file_input_help"
+            >
+              PDF, DOCX only
+            </p>
+          </div>
+          <button
+            onClick={handleFileUpload}
+            className=" bg-blue-500 hover:bg-blue-700 text-white text-sm  px-8 py-2 text-center rounded"
+          >
+            Start
+          </button>
+        </div>
 
-        <button
-          onClick={handleFileUpload}
-          className="mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Upload
-        </button>
-        {processingStep && statusComponents[processingStep - 1]}
-        {processing && (
-          <>
-            <div className="mt-8 animate-spin rounded-full h-32 w-32 border-b-2 border-black dark:border-white"></div>
-          </>
-        )}
         {/* Google Docs Link */}
         <form
-          className="flex flex-col items-center justify-center"
+          className="flex flex-col justify-between h-full p-2 items-center align-middle w-1/2"
           onSubmit={handleGoogleDocLinkSubmit}
         >
-          <p className="mb-4 text-lg font-semibold">
-            Enter your Google Doc link of the resume
-          </p>
+          <p className="font-semibold">Google Doc Link</p>
           <input
-            className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            className="text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
             type="text"
             placeholder="Enter Google Doc ID"
             onChange={(e) => dispatch(setGoogleDocUrl(e.target.value))}
@@ -170,11 +192,19 @@ function Uploads({ params }: { params: { careerCode: string } }) {
 
           <button
             type="submit"
-            className="mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className=" bg-blue-500 hover:bg-blue-700 text-white text-center text-sm px-4 py-2 rounded"
           >
-            Submit
+            Start With Google Doc
           </button>
         </form>
+      </div>
+      <div className="flex flex-col items-center mt-12 z-50">
+        {processingStep && statusComponents[processingStep - 1]}
+        {processing && (
+          <>
+            <div className="mt-12 mb-6 animate-spin rounded-full h-24 w-24 border-b-2 border-black dark:border-white"></div>
+          </>
+        )}
       </div>
     </div>
   );
