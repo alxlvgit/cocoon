@@ -1,18 +1,16 @@
-import { getStructuredKeywords, KeyPhrases } from "@/utils/resume-parsers";
+"use server";
+
 import * as odotnet from "../api/odotnet/fetch-api";
-import {
-  runSimilaritySearch,
-  SimilaritySearchResult,
-} from "@/utils/semantic-search";
+import { KeyPhrases } from "@/aws-lambda/text-to-structured";
 
 export const extractResumeKeyPhrases = async (extractedText: string) => {
   const prompt =
     "List all skills, duties and qualifications mentioned in the following text.";
-  const resumeKeyPhrases = (await getStructuredKeywords(
-    extractedText,
-    prompt,
-    false
-  )) as KeyPhrases;
+  const data = await fetch(process.env.LAMBDA_ENDPOINT_TEXT_TO_STRUCTURED!, {
+    method: "POST",
+    body: JSON.stringify({ text: extractedText, promptMessage: prompt }),
+  });
+  const resumeKeyPhrases: KeyPhrases = await data.json();
   if (resumeKeyPhrases) {
     const { skills, qualifications } = resumeKeyPhrases;
     const keyPhrases = [...skills, ...qualifications!];
@@ -29,7 +27,15 @@ export const extractCareerKeyPhrases = async (careerCode: string) => {
   const title = careerData?.career?.title ?? null;
   if (skills) {
     const prompt = "List all skills or duties mentioned in the following text.";
-    const careerKeywords = await getStructuredKeywords(skills, prompt, true);
+    const data = await fetch(process.env.LAMBDA_ENDPOINT_TEXT_TO_STRUCTURED!, {
+      method: "POST",
+      body: JSON.stringify({
+        text: skills,
+        promptMessage: prompt,
+        skillsOnly: true,
+      }),
+    });
+    const careerKeywords: KeyPhrases = await data.json();
     if (careerKeywords) {
       const { skills } = careerKeywords;
       let formattedSkills: string[] = [];
@@ -46,22 +52,26 @@ export const findMissingSkills = async (
   careerPhrases: string[],
   resumePhrases: string[]
 ) => {
-  const result: SimilaritySearchResult = await runSimilaritySearch(
-    careerPhrases,
-    resumePhrases
-  );
-  const { vectorStoreMatched, dataToCompareMatched } = result;
+  const data = await fetch(process.env.LAMBDA_ENDPOINT_SIMILARITY_SEARCH!, {
+    method: "POST",
+    body: JSON.stringify({
+      inputData: resumePhrases,
+      dataToStoreInVectorStore: careerPhrases,
+      minSimilarityScore: 0.6,
+      kIncrement: 1,
+      maxK: 1,
+    }),
+  });
+  const result = await data.json();
+  const { vectorStoreMatched, inputDataMatched } = result;
 
   const missingCareerSkills = careerPhrases.filter(
     (skill) => !vectorStoreMatched.includes(skill)
   );
 
   const matchedResumeSkills = resumePhrases.filter((skill) =>
-    dataToCompareMatched.includes(skill)
+    inputDataMatched.includes(skill)
   );
-
-  // console.log(missingCareerSkills, "missingCareerSkills");
-  // console.log(matchedResumeSkills, "matchedResumeSkills");
 
   return {
     missingCareerSkills,

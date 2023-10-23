@@ -10,7 +10,7 @@ import { FormEvent } from "react";
 import {
   extractTextFromDocx,
   extractTextFromPdf,
-} from "@/utils/resume-parsers";
+} from "@/app/uploads/resume-parsers";
 import ProcessingStatus from "@/components/ProcessingStatus";
 import {
   extractCareerKeyPhrases,
@@ -167,9 +167,9 @@ function Uploads({ params }: { params: { careerCode: string } }) {
 
         <button
           onClick={handleFileUpload}
-          className="mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="mt-6 mb-16 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
-          Upload
+          Start
         </button>
         {processingStep && statusComponents[processingStep - 1]}
         {processing && (
@@ -195,9 +195,9 @@ function Uploads({ params }: { params: { careerCode: string } }) {
 
           <button
             type="submit"
-            className="mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="mt-6 mb-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            Submit
+            Start With Google Doc
           </button>
         </form>
       </div>
