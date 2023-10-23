@@ -131,7 +131,7 @@ function Uploads() {
         {processingStep && statusComponents[processingStep - 1]}
         {processing && (
           <>
-            <div className="mt-8 animate-spin rounded-full h-32 w-32 border-b-2 border-black dark:border-white"></div>
+            <div className="mt-80 animate-spin rounded-full h-32 w-32 border-b-2 border-black dark:border-white"></div>
           </>
         )}
         {/* Google Docs Link */}
