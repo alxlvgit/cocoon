@@ -150,10 +150,10 @@ function Uploads({ params }: { params: { careerCode: string } }) {
         <p className="w-full text-center text-white text-5xl">Cocoon</p>
       </div>
 
-      <div className="flex flex-row items-center bg-white rounded-xl mt-20 h-48 w-4/12">
+      <div className="flex flex-row items-center justify-center align-middle bg-white rounded-xl mt-20 h-48 w-4/12">
         <div className="flex flex-col justify-between h-full p-2 items-center align-middle">
           <p className="text-base font-semibold">Upload Resume</p>
-          <div className="flex flex-col justify-center items-center">
+          <div className="flex flex-col justify-center items-center align-middle w-1/2">
             <input
               className=" w-full text-sm cursor-pointer focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
         "
@@ -178,7 +178,7 @@ function Uploads({ params }: { params: { careerCode: string } }) {
 
         {/* Google Docs Link */}
         <form
-          className="flex flex-col justify-between h-full p-2 items-center align-middle"
+          className="flex flex-col justify-between h-full p-2 items-center align-middle w-1/2"
           onSubmit={handleGoogleDocLinkSubmit}
         >
           <p className="font-semibold">Google Doc Link</p>
