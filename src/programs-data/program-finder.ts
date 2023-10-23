@@ -1,5 +1,3 @@
-"use server";
-
 import programsData from "./programsData.json";
 
 // TODO: refactor to have two separate functions for programs and courses
@@ -24,7 +22,7 @@ export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {
   );
 
   const programSearch = await fetch(
-    process.env.LAMBDA_ENDPOINT_SIMILARITY_SEARCH!,
+    "https://4u4plgzyv6amk3jeqp5wmcksla0swhmm.lambda-url.us-west-2.on.aws/",
     {
       method: "POST",
       body: JSON.stringify({
@@ -48,7 +46,7 @@ export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {
   );
 
   const courseSearch = await fetch(
-    process.env.LAMBDA_ENDPOINT_SIMILARITY_SEARCH!,
+    "https://4u4plgzyv6amk3jeqp5wmcksla0swhmm.lambda-url.us-west-2.on.aws/",
     {
       method: "POST",
       body: JSON.stringify({
