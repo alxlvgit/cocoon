@@ -1,8 +1,6 @@
-"use server";
-
-import { runSimilaritySearch } from "@/utils/semantic-search";
 import programsData from "./programsData.json";
 
+// TODO: refactor to have two separate functions for programs and courses
 export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {
   if (!keyPhrases || keyPhrases.length === 0) {
     console.log("No key phrases provided for program finder.");
@@ -22,8 +20,22 @@ export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {
       }
     }
   );
-  const programsMatches = await runSimilaritySearch(programsNames, keyPhrases);
-  const coursesMatches = await runSimilaritySearch(coursesNames, keyPhrases);
+
+  const programSearch = await fetch(
+    "https://4u4plgzyv6amk3jeqp5wmcksla0swhmm.lambda-url.us-west-2.on.aws/",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        inputData: keyPhrases,
+        dataToStoreInVectorStore: programsNames,
+        minSimilarityScore: 0.6,
+        kIncrement: 1,
+        maxK: 1,
+      }),
+    }
+  );
+  const programsMatches = await programSearch.json();
+
   const retrievedPrograms = programsMatches.vectorStoreMatched.map(
     (programName: string) => {
       return programs.find(
@@ -32,6 +44,21 @@ export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {
       );
     }
   );
+
+  const courseSearch = await fetch(
+    "https://4u4plgzyv6amk3jeqp5wmcksla0swhmm.lambda-url.us-west-2.on.aws/",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        inputData: keyPhrases,
+        dataToStoreInVectorStore: coursesNames,
+        minSimilarityScore: 0.6,
+        kIncrement: 1,
+        maxK: 1,
+      }),
+    }
+  );
+  const coursesMatches = await courseSearch.json();
 
   const retrievedCourses = coursesMatches.vectorStoreMatched.map(
     (courseName: string) => {
