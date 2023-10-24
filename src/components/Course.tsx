@@ -23,13 +23,14 @@ interface CourseProps {
   Terms: string[];
   Campus: string[];
   Offerings: Offerings[];
-  code: string,
-  cost?: string,
-  duration?: string,
+  code: string;
+  cost?: string;
+  duration?: string;
 }
 
-
-function calculateAverageTuitionForPropsOne(offerings: Offerings[]): number | null {
+function calculateAverageTuitionForPropsOne(
+  offerings: Offerings[]
+): number | null {
   if (offerings.length === 0) {
     return null; // Return null for an empty array
   }
@@ -46,10 +47,12 @@ function calculateAverageTuitionForPropsOne(offerings: Offerings[]): number | nu
   return averageTuition;
 }
 
-function calculateAverageTuitionForPropsTwo(course: CourseProps): number | null {
+function calculateAverageTuitionForPropsTwo(
+  course: CourseProps
+): number | null {
   const cost = course.cost !== undefined ? course.cost : null;
   if (cost) return parseFloat(cost.replace("$", ""));
-  return null
+  return null;
 }
 
 function calculateAverageDuration(offerings: Offerings[]): string | null {
@@ -67,7 +70,9 @@ function calculateAverageDuration(offerings: Offerings[]): string | null {
   return `${averageWeeks} weeks`;
 }
 
-function calculateAverageDurationForPropsOne(course: CourseProps): string | null {
+function calculateAverageDurationForPropsOne(
+  course: CourseProps
+): string | null {
   if (course.Offerings.length === 0) {
     return null; // Return null for an empty array
   }
@@ -82,17 +87,17 @@ function calculateAverageDurationForPropsOne(course: CourseProps): string | null
   return `${averageWeeks} weeks`;
 }
 
-function calculateAverageDurationForPropsTwo(course: CourseProps): string | null {
+function calculateAverageDurationForPropsTwo(
+  course: CourseProps
+): string | null {
   const duration = course.duration !== undefined ? course.duration : null;
   if (duration) {
     const match = duration.match(/\((\d+) weeks\)/);
     const weeks = match ? parseInt(match[1], 10) : 0;
     return `${weeks} weeks`;
-
   } else {
-    return null
+    return null;
   }
-
 }
 
 export default function Course({ courseProps }: { courseProps: CourseProps }) {
@@ -106,21 +111,20 @@ export default function Course({ courseProps }: { courseProps: CourseProps }) {
       </h2>
       <div className="flex flex-row justify-between m-3">
         <p>
-          Average cost:{" $ "}
+          Average cost:
           {courseProps.Offerings
-            ? calculateAverageTuitionForPropsOne(courseProps.Offerings)
-            : "N/A"
-            ? calculateAverageTuitionForPropsTwo(courseProps)
-            : "N/A"}
+            ? ` $${calculateAverageTuitionForPropsOne(courseProps.Offerings)}`
+            : calculateAverageTuitionForPropsTwo(courseProps)
+            ? ` $${calculateAverageTuitionForPropsTwo(courseProps)}`
+            : " N/A"}
         </p>
         <p>
           Average time:
           {courseProps.Offerings
             ? calculateAverageDuration(courseProps.Offerings)
-            : "N/A"
+            : calculateAverageDurationForPropsTwo(courseProps)
             ? calculateAverageDurationForPropsTwo(courseProps)
-            : "N/A"
-            }
+            : " N/A"}
         </p>
       </div>
       <p className="m-3">Terms: {termString}</p>
