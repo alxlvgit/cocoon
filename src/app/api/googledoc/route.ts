@@ -32,7 +32,7 @@ export const POST = async function handler(req: Request, res: Response) {
   // Initialize the Google Docs API
   const SCOPES = ["https://www.googleapis.com/auth/documents"];
   const body = await req.json();
-  console.log(body);
+
 
   const docsBody = body as googleDoc;
 
