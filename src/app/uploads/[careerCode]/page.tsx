@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
-  import.meta.url.slice(0, -1)
+  import.meta.url
 ).toString();
 import { FormEvent } from "react";
 import {
@@ -102,7 +102,7 @@ function Uploads({ params }: { params: { careerCode: string } }) {
         const base64Bytes = Buffer.from(fileContent, "binary").toString(
           "base64"
         );
-        console.log(base64Bytes);
+        // console.log(base64Bytes);
         dispatch(setProcessing(true));
         dispatch(setProcessingStatus(1));
         const isPdf = uploadedFile.name.endsWith(".pdf");
@@ -115,6 +115,7 @@ function Uploads({ params }: { params: { careerCode: string } }) {
             return;
           }
         }
+
         const extractedText = isDocx
           ? await extractTextFromDocx(base64Bytes)
           : await extractTextFromPdf(base64Bytes); // Step 1: extract text from pdf or docx
@@ -154,13 +155,11 @@ function Uploads({ params }: { params: { careerCode: string } }) {
 
   return (
     <div className="flex flex-col md:mt-3 md:mb-8 md:mx-14 items-center bg-blue-100 md:rounded-xl shadow-2xl h-screen md:h-full">
-
       <div className="bg-neutral-600 flex flex-col flex-nowrap m-5 h-20 md:m-6 rounded-xl w-3/4 md:h-60 items-center overflow">
         <div className="grow">
           <p className="self-center w-full p-6 md:p-20 text-center text-white text-xl md:text-5xl grow">
             Cocoon
           </p>
-          
         </div>
       </div>
 
@@ -174,7 +173,7 @@ function Uploads({ params }: { params: { careerCode: string } }) {
         </label>
         <input
           id="pdfUpload"
-          className="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.60rem] text-xs font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.60rem] file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-5 file:py-[0.60rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.86rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary pb-2"
+          className="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.60rem] text-xs font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.60rem] file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-5 file:py-[0.60rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.86rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary pb-4 sm:pb-2"
           type="file"
           accept="application/pdf,.docx"
           onChange={(e) => setUploadedFile(e.target.files![0])}
@@ -217,7 +216,6 @@ function Uploads({ params }: { params: { careerCode: string } }) {
           </button>
         </form>
       </div>
-      
 
       {/* {processingStep && statusComponents[processingStep - 1] && processing} */}
       {processingStep && statusComponents[processingStep - 1]}
@@ -229,7 +227,6 @@ function Uploads({ params }: { params: { careerCode: string } }) {
           </>
         )}
       </div> */}
-
     </div>
   );
 }

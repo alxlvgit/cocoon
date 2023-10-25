@@ -10,7 +10,7 @@ const nextConfig = {
   },
   experimental: {
     serverActions: true,
-    // serverActionsBodySizeLimit: "3mb",
+    serverActionsBodySizeLimit: "3mb",
     // appDir: true,
   },
   reactStrictMode: false,
