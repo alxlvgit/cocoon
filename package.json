@@ -23,6 +23,7 @@
     "mammoth": "^1.6.0",
     "next": "latest",
     "openai": "^4.12.1",
+    "pdfjs-dist": "^3.11.174",
     "react": "latest",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "latest",

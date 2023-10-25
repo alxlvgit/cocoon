@@ -32,7 +32,7 @@ export const POST = async function handler(req: Request, res: Response) {
   // Initialize the Google Docs API
   const SCOPES = ["https://www.googleapis.com/auth/documents"];
   const body = await req.json();
-  console.log(body);
+
 
   const docsBody = body as googleDoc;
 
@@ -86,7 +86,7 @@ export const POST = async function handler(req: Request, res: Response) {
     // console.log(docsRes);
     if (!docsRes.data.body) return new Response("No data", { status: 500 });
     const text = readStructuralElements(docsRes.data.body.content);
-    console.log(text);
+    // console.log(text);
     return new Response(JSON.stringify(text), { status: 200 });
   } catch (e) {
     console.log(e);

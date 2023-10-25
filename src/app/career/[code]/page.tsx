@@ -36,18 +36,16 @@ export default async function Career({ params }: { params: { code: string } }) {
     : null;
 
   return (
-    <div className="grid grid-cols-4 gap-4 max-w-5xl mx-auto pb-8">
-      <h1 className="font-semibold text-lg mb-3 col-span-4 text-center">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl mx-auto pb-8 m-3 px-3">
+      <h1 className="font-semibold text-lg mb-3 md:col-span-2 text-center">
         {career.title}
       </h1>
-      <CareerInfo title={"Who they are"} whatTheyDo={career.what_they_do} />
 
+      <CareerInfo title={"Who they are"} whatTheyDo={career.what_they_do} />
       {outlook && (
         <CareerOutlook careerOutlook={outlook} brightOutlook={brightOutlook} />
       )}
-
       <CareerInfo title={"What they do"} whatTheyDo={career.on_the_job.task} />
-
       <SalaryDetails careerOutlook={careerOutlookData} />
 
       <StartAnalysisContainer
@@ -56,7 +54,9 @@ export default async function Career({ params }: { params: { code: string } }) {
           "This analysis will help define your skills better match you with the best job/career with current applicable skills! "
         }
         careerCode={params.code}
-      />
+      /> 
+       
+
     </div>
   );
 }
