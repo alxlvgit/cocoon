@@ -72,6 +72,11 @@ export const findMissingSkills = async (
   const result = await data.json();
   const { vectorStoreMatched, inputDataMatched } = result;
 
+  // TODO: handle the case when all required career skills are matched. Currently, it returns an empty array. Check the data
+  // from onet api to see if we can include more skills to compare.
+  console.log(vectorStoreMatched, "vectorStoreMatched values");
+  console.log(careerPhrases, "all career phrases");
+
   const missingCareerSkills = careerPhrases.filter(
     (skill) => !vectorStoreMatched.includes(skill)
   );
