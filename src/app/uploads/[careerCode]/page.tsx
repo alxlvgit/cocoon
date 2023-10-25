@@ -92,6 +92,7 @@ function Uploads({ params }: { params: { careerCode: string } }) {
 
     if (!uploadedFile) {
       setErrorMsg("Please upload your resume");
+      return;
     }
 
     if (uploadedFile) {
