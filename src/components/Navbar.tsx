@@ -7,7 +7,7 @@ export default function NavBar() {
         <Link href="/">Logo</Link>
       </div>
       <div className="flex items-center space-x-9 sm:space-x-20">
-        <Link href="/" className="hover:text-black">
+        <Link href="/home" className="hover:text-black">
           Home
         </Link>
         <Link href="/about" className="hover:text-black">

@@ -13,8 +13,8 @@ async function Careers() {
   return (
     <>
       <div>
-        <h1 className="m-5 text-center font-bold text-xl">
-          Suggestions for you based on your interest
+        <h1 className="m-5 text-center font-bold text-2xl">
+          Make Your Next Step With Us!
         </h1>
       </div>
       <div className="grid gap-4 sm:gap-6 justify-center grid-cols-1 xs:grid-cols-2 md:grid-cols-3 w-3/4 m-auto my-10 auto-rows-fr">

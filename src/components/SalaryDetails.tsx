@@ -134,7 +134,7 @@ export default function SalaryDetails({
   }, [careerOutlook]);
 
   return (
-    <div className="bg-blue-100 p-10 rounded-md shadow-md flex flex-col items-center overflow-hidden">
+    <div className="bg-blue-100 p-10 rounded-3xl shadow-md flex flex-col items-center overflow-hidden">
       <div>
         <h1 className="font-semibold text-base mb-3">Salary</h1>
       </div>
