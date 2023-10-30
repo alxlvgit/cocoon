@@ -19,11 +19,14 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark:bg-black dark:text-white">
       <ReduxProvider>
-        <body className={inter.className}>
+        <body className={`${inter.className} min-h-screen `}>
           <header className="px-5 py-10">
             <NavBar />
           </header>
           {children}
+          <footer className="flex justify-center text-sm text-zinc-400 py-12">
+            Cocoon
+          </footer>
         </body>
       </ReduxProvider>
     </html>
