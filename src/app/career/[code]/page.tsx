@@ -41,12 +41,12 @@ export default async function Career({ params }: { params: { code: string } }) {
         {career.title}
       </h1>
 
+      <SalaryDetails careerOutlook={careerOutlookData} />
       <CareerInfo title={"Who they are"} whatTheyDo={career.what_they_do} />
       {outlook && (
         <CareerOutlook careerOutlook={outlook} brightOutlook={brightOutlook} />
       )}
       <CareerInfo title={"What they do"} whatTheyDo={career.on_the_job.task} />
-      <SalaryDetails careerOutlook={careerOutlookData} />
 
       <StartAnalysisContainer
         title={"Start Analysis"}
