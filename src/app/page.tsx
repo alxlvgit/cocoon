@@ -10,8 +10,8 @@ function Home() {
         <div className="text-base leading-[150%] self-end animate-fade-left animate-duration-[2000ms] animate-delay-500 animate-normal animate-fill-forwards">
           When uncertain about career choices, remember that{" "}
           <span className="highlight bg-sky-500/30">COCOON</span> is here for
-          you. It's a dependable compass, guiding you towards new beginnings in
-          your professional journey.
+          you. It&apos;s a dependable compass, guiding you towards new
+          beginnings in your professional journey.
         </div>
       </div>
 
