@@ -6,7 +6,7 @@ export default function CareerOutlook({
   brightOutlook: string[] | null;
 }) {
   return (
-    <div className="bg-blue-100 p-10 rounded-md shadow-md flex flex-col items-center">
+    <div className="bg-blue-100 p-10 rounded-3xl	 shadow-md flex flex-col items-center">
       <div>
         <h1 className="font-semibold text-base mb-3">Career Outlook</h1>
       </div>

@@ -10,6 +10,7 @@ export default function About() {
       </div>
 
       <div className="pb-8 w-screen bg-356CBE flex flex-col items-center p-10 transition-transform transform hover:shadow-lg">
+        
         <div className="pt-5 max-w-lg p-6 pb-5 flex flex-col justify-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
           <p className="mb-3 font-normal pb-3 text-gray-700 dark:text-gray-400">
             For all the people who believe they deserve second chances or seek
