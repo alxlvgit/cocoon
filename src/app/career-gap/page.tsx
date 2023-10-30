@@ -1,223 +1,118 @@
-"use client"
-import Course from '@/components/Course';
-import Program from '@/components/Program';
-import React, { useState } from 'react';
-
-import { useAsyncFn } from "react-use"
-
-interface RequiredCourses {
-    CourseName: string;
-    Credits: number;
-}
-
-interface Contact {
-    Name: string;
-    Role: string;
-    Phone: string;
-    Email: string;
-}
-
-interface SearchResults {
-    results: {
-
-        ProgramName: string;
-        TuitionDomestic: string;
-        Intakes: string[];
-        Degree: string;
-        RequiredCourses: RequiredCourses[];
-        TotalCredits: number;
-        Delivery: string;
-        Contact: Contact;
-    }[]
-};
-
-
-
-// sample course & program data for testing props
-const course = {
-    "CourseCode": "GDES 1069",
-    "CourseName": "Layout: Adobe InDesign",
-    "Terms": [
-        "Fall",
-        "Winter",
-        "Spring"
-    ],
-    "Campus": [
-        "Downtown",
-        "Online"
-    ],
-    "Offerings": [
-        {
-            "CRN": "50134",
-            "Duration": "Sat Sep 16 - Sat Dec 16(11 weeks)",
-            "Tuition": "$575.20",
-            "Schedule": [
-                {
-                    "Date": "Sep 16 - Dec 16",
-                    "Day": "Sat",
-                    "Time": "09:30 - 12:45",
-                    "Location": "Online"
-                }
-            ],
-            "Instructor": "Negin Etemadi",
-            "Status": "IN PROGRESS"
-        },
-        {
-            "CRN": "50125",
-            "Duration": "Tue Sep 12 - Tue Nov 28(12 weeks)",
-            "Tuition": "$602.31",
-            "Schedule": [
-                {
-                    "Date": "Sep 12 - Nov 28",
-                    "Day": "Tue",
-                    "Time": "18:00 - 21:00",
-                    "Location": "DowntownDTC Rm. 890"
-                }
-            ],
-            "Instructor": "Paul Sawyer",
-            "Status": "IN PROGRESS"
-        }
-    ]
-};
-
-const program = {
-    "ProgramName": "Digital Photography",
-    "TuitionDomestic": "$2,100*",
-    "Intakes": [
-        "January",
-        "April",
-        "September"
-    ],
-    "Degree": "Statement of Completion",
-    "RequiredCourses": [
-        {
-            "CourseName": "Raster Graphics: Adobe Photoshop",
-            "Credits": 3.0
-        },
-        {
-            "CourseName": "Photography 1",
-            "Credits": 1.5
-        },
-        {
-            "CourseName": "Digital Darkroom",
-            "Credits": 1.5
-        },
-        {
-            "CourseName": "Photography 2",
-            "Credits": 1.5
-        }
-    ],
-    "TotalCredits": 7.5,
-    "Delivery": "Blended",
-    "Contact": {
-        "Name": "Gabriela Silva-Paula",
-        "Role": "Program Assistant, Digital Arts",
-        "Phone": "604-432-8248",
-        "Email": "Gabriela_SilvaPaula@bcit.ca"
-    }
-};
+"use client";
+import Course from "@/components/Course";
+import Program from "@/components/Program";
+import { matchProgramsWithKeyPhrases } from "@/programs-data/program-finder";
+import {
+  setCourses,
+  setPrograms,
+} from "@/redux/features/resumeProcessingSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import React, { useEffect, useState } from "react";
 
 export default function Career() {
-    const [selectedButton, setSelectedButton] = useState("Courses")
-    const [query, setQuery] = useState("")
+  const [selectedButton, setSelectedButton] = useState("Programs");
+  const [loading, setLoading] = useState(true);
+  const dispatch = useAppDispatch();
+  const { missingSkills, programs, courses, pickedCareer } = useAppSelector(
+    (state) => state.resumeProcessingSlice
+  );
 
-    const [{ value, loading }, search] = useAsyncFn<() => Promise<SearchResults>>(
-        async () => {
-            const response = await fetch("/api/search?q=" + query);
-            const data = await response.json();
-            return data;
-        },
-        [query]
-    )
+  const handleClick = (buttonText: string) => {
+    setSelectedButton(buttonText);
+  };
 
-    const handleClick = (buttonText: string) => {
-        setSelectedButton(buttonText);
+  useEffect(() => {
+    const findProgramsCourses = async () => {
+      const programsCourses = await matchProgramsWithKeyPhrases(missingSkills);
+      const { retrievedPrograms, retrievedCourses } = programsCourses;
+      console.log(retrievedPrograms, retrievedCourses);
+      dispatch(setPrograms(retrievedPrograms));
+      dispatch(setCourses(retrievedCourses));
+      setLoading(false);
+    };
+    if (programs.length > 0 && courses.length > 0) {
+      setLoading(false);
+      return;
     }
+    findProgramsCourses();
+  }, [missingSkills, dispatch, programs.length, courses.length]);
 
-    return (
-        <div className="flex flex-col justify-center my-5 mx-10">
+  return (
+    <div className="flex flex-col justify-center my-5 mx-10">
+      <h1 className="m-5 text-center font-bold text-xl">
+        Courses and Programs to help you fill your skill gaps
+      </h1>
+      <div>
+        {pickedCareer ? (
+          <p className="font-bold mb-6 text-sm  text-center">
+            {" "}
+            {pickedCareer} Path
+          </p>
+        ) : (
+          <p className="font-bold mb-6 text-xs text-red-500  text-center">
+            Please choose your preferred career on Careers page and run analysis
+            first
+          </p>
+        )}
+      </div>
 
-            <div className="bg-gray-400 p-3 rounded-lg flex items-center justify-center place-self-center max-w-md my-5">
-                <form
-                    onSubmit={(e) => {
-                        e.preventDefault()
-                        search()
-                    }}
-                    method="POST"
-                    className="flex-1"
-                >
-                    <input type="text" name="keyword" value={query} placeholder="Search" className="w-full p-2 rounded-lg focus:outline-none bg-gray-400" onChange={(e) => setQuery(e.target.value)}></input>
-                </form>
-                <div className="p-2 bg-gray-300 rounded-lg cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 15.75l-2.489-2.489m0 0a3.375 3.375 0 10-4.773-4.773 3.375 3.375 0 004.774 4.774zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-            </div>
+      {loading ? (
+        <>
+          <h1 className="place-self-center my-5">Loading your paths...</h1>
+          <div className="mx-auto mt-8 animate-spin rounded-full h-32 w-32 border-b-2 border-blue-700 dark:border-white"></div>
+        </>
+      ) : (
+        <>
+          <div className="flex flex-cols-2 m-5 justify-center">
+            <button
+              className={`mx-5 ${
+                selectedButton === "Programs" ? "font-bold" : ""
+              }`}
+              onClick={() => handleClick("Programs")}
+            >
+              Programs
+            </button>
+            <button
+              className={`mx-5 ${
+                selectedButton === "Courses" ? "font-bold" : ""
+              }`}
+              onClick={() => handleClick("Courses")}
+            >
+              Courses
+            </button>
+          </div>
 
-            <h1 className='place-self-center my-5'>Suggested paths based on your profile</h1>
+          <div className="flex flex-row justify-start">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
+              />
+            </svg>
+          </div>
 
-
-            <div className="flex flex-cols-2 m-5 justify-center">
-                <button
-                    className={`mx-5 ${selectedButton === 'Courses' ? 'font-bold' : ''}`}
-                    onClick={() => handleClick('Courses')}
-                >
-                    Courses
-                </button>
-                <button
-                    className={`mx-5 ${selectedButton === 'Programs' ? 'font-bold' : ''}`}
-                    onClick={() => handleClick('Programs')}
-                >
-                    Programs
-                </button>
-            </div>
-
-            <div className="flex flex-row justify-start">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                    <path stroke-linecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
-                </svg>
-            </div>
-
-            <div className="grid  sm:grid-cols-1 lg:grid-cols-2 ">
-                {/* course cards */}
-                {selectedButton === 'Courses' && <Course {...course} />}
-                {/* <Course {...course} /> */}
-
-                {/* program cards */}
-                {selectedButton === 'Programs' && <Program {...program} />}
-                {/* <Program {...program} /> */}
-                <div className="mt-10">
-                    {loading ? (
-                        <div>Loading...</div>
-                    ) : (
-                        <div className="flex flex-wrap gap-5">
-                            {value?.results.map((program) => (
-                                <div
-                                    key={program.ProgramName}
-                                    className="flex flex-col bg-black rounded-lg shadow-lg p-5 w-full max-w-sm text-gray-300"
-                                >
-                                    <h2 className="text-xl font-bold">{program.ProgramName}</h2>
-                                    <p className="text-sm">{program.TuitionDomestic}</p>
-                                    <p className="text-sm">{program.Degree}</p>
-                                    <p className="text-sm">{program.Intakes.join(", ")}</p>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-
-
-                {/* hardcoded data for testing */}
-                {/* <div className="flex flex-col bg-gray-400 rounded-lg m-3">
-                    <h2 className="m-3 font-bold">UX/UI Designer</h2>
-                    <div className="flex flex-row justify-between m-3">
-                        <p>Average cost: $5,000</p>
-                        <p>Average time: 236 hours</p>
-                    </div>
-                    <p className="m-3">Path Option: Coursera, SpringBoard, CareerFoundry</p>
-                </div> */}
-            </div>
-        </div>
-    )
+          <div className="grid  sm:grid-cols-1 lg:grid-cols-2 ">
+            {/* program cards */}
+            {selectedButton === "Programs" &&
+              programs.map((program, index) => (
+                <Program key={index} programProps={program} />
+              ))}
+            {/* course cards */}
+            {selectedButton === "Courses" &&
+              courses.map((course, index) => (
+                <Course key={index} courseProps={course} />
+              ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
 }

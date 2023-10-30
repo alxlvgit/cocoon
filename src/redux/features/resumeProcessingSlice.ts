@@ -6,6 +6,9 @@ type ResumeProcessingState = {
   googleDocUrl: string | null;
   transferableSkills: string[];
   missingSkills: string[];
+  pickedCareer: string | null;
+  programs: any[];
+  courses: any[];
 };
 
 const initialState: ResumeProcessingState = {
@@ -14,6 +17,9 @@ const initialState: ResumeProcessingState = {
   googleDocUrl: null,
   transferableSkills: [],
   missingSkills: [],
+  pickedCareer: null,
+  programs: [],
+  courses: [],
 };
 
 export const resumeProcessingSlice = createSlice({
@@ -35,8 +41,24 @@ export const resumeProcessingSlice = createSlice({
     setMissingSkills: (state, action: PayloadAction<string[]>) => {
       state.missingSkills = action.payload;
     },
+    setPickedCareer: (state, action: PayloadAction<string | null>) => {
+      state.pickedCareer = action.payload;
+    },
+    setPrograms: (state, action: PayloadAction<any[]>) => {
+      state.programs = action.payload;
+    },
+    setCourses: (state, action: PayloadAction<any[]>) => {
+      state.courses = action.payload;
+    },
     resetResumeProcessingState: (state) => {
-      state = initialState;
+      state.processing = false;
+      state.processingStep = null;
+      state.googleDocUrl = null;
+      state.transferableSkills = [];
+      state.missingSkills = [];
+      state.pickedCareer = null;
+      state.programs = [];
+      state.courses = [];
     },
   },
 });
@@ -48,6 +70,9 @@ export const {
   setTransferableSkills,
   setMissingSkills,
   resetResumeProcessingState,
+  setPickedCareer,
+  setPrograms,
+  setCourses,
 } = resumeProcessingSlice.actions;
 
 export default resumeProcessingSlice.reducer;

@@ -1,10 +1,12 @@
-"use server";
+import programsData from "./programsData.json";
 
-import { runSimilaritySearch } from "@/lib/semantic-search";
-import { readFile } from "fs/promises";
-
+// TODO: refactor to have two separate functions for programs and courses
 export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {
-  const data = await readFile("src/programs-data/programsData.json", "utf-8");
+  if (!keyPhrases || keyPhrases.length === 0) {
+    console.log("No key phrases provided for program finder.");
+    return { retrievedPrograms: [], retrievedCourses: [] };
+  }
+  const data = JSON.stringify(programsData);
   const { programs, courses } = JSON.parse(data);
   const programsNames = programs.map(
     (program: { ProgramName: string }) => program.ProgramName
@@ -18,9 +20,57 @@ export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {
       }
     }
   );
-  const programsMatches = await runSimilaritySearch(programsNames, keyPhrases);
-  const coursesMatches = await runSimilaritySearch(coursesNames, keyPhrases);
 
-  //TODO: Retrieve the courses and programs that have a match with the missing required skills
-  // return courses and programs to fetch them on client side;
+  const programSearch = await fetch(
+    "https://4u4plgzyv6amk3jeqp5wmcksla0swhmm.lambda-url.us-west-2.on.aws/",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        inputData: keyPhrases,
+        dataToStoreInVectorStore: programsNames,
+        minSimilarityScore: 0.6,
+        kIncrement: 1,
+        maxK: 1,
+      }),
+    }
+  );
+  const programsMatches = await programSearch.json();
+
+  const retrievedPrograms = programsMatches.vectorStoreMatched.map(
+    (programName: string) => {
+      return programs.find(
+        (program: { ProgramName: string }) =>
+          program.ProgramName.toLowerCase() === programName
+      );
+    }
+  );
+
+  const courseSearch = await fetch(
+    "https://4u4plgzyv6amk3jeqp5wmcksla0swhmm.lambda-url.us-west-2.on.aws/",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        inputData: keyPhrases,
+        dataToStoreInVectorStore: coursesNames,
+        minSimilarityScore: 0.6,
+        kIncrement: 1,
+        maxK: 1,
+      }),
+    }
+  );
+  const coursesMatches = await courseSearch.json();
+
+  const retrievedCourses = coursesMatches.vectorStoreMatched.map(
+    (courseName: string) => {
+      return courses.find((course: { CourseName?: string; title?: string }) => {
+        if (course.CourseName) {
+          return course.CourseName.toLowerCase() === courseName;
+        } else if (course.title) {
+          return course.title.toLowerCase() === courseName;
+        }
+      });
+    }
+  );
+
+  return { retrievedPrograms, retrievedCourses };
 };
