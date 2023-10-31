@@ -41,7 +41,7 @@ export async function generateProgramsEmbeddings() {
 
         // saves the embeddings in the ./movies directory in the root directory
         // await vectorStore.save("programs")
-        await vectorStore.save("./src/programs-data/programs")
+        await vectorStore.save("programs")
 
 
         const end = performance.now() / 1000
@@ -85,7 +85,7 @@ export async function generateCoursesEmbeddings() {
         )
 
         // saves the embeddings in the ./movies directory in the root directory
-        await vectorStore.save("./src/programs-data/courses")
+        await vectorStore.save("courses")
 
         const end = performance.now() / 1000
 

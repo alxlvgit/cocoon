@@ -21,10 +21,10 @@ export default function Search() {
     // Move the generation of embeddings into the useEffect hook
     // Placing code inside useEffect ensures that it runs after the initial render, preventing potential issues related to server functions being called during the initial rendering phase.
     
-    // useEffect(() => {
-    //     const programEmbeddings = generateProgramsEmbeddings();
-    //     const courseEmbeddings = generateCoursesEmbeddings();
-    // }, []);
+    useEffect(() => {
+        const programEmbeddings = generateProgramsEmbeddings();
+        const courseEmbeddings = generateCoursesEmbeddings();
+    }, []);
     
 
     const [{ value, loading }, search] = useAsyncFn<() => Promise<SearchResults>>(
