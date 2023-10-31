@@ -1,37 +1,4 @@
-interface RequiredCourses {
-  CourseName: string;
-  Credits: number;
-}
-
-interface Contact {
-  Name: string;
-  Role: string;
-  Phone: string;
-  Email: string;
-}
-
-interface Tuition {
-  Domestic: {
-    twoTerms: string;
-    threeTerms: string;
-  };
-  International: {
-    twoTerms: string;
-    threeTerms: string;
-  };
-}
-
-interface ProgramProps {
-  ProgramName?: string;
-  TuitionDomestic?: string;
-  Tuition?: string | Tuition;
-  Intakes?: string[];
-  Degree?: string;
-  RequiredCourses?: RequiredCourses[];
-  TotalCredits?: number;
-  Delivery?: string;
-  Contact?: Contact;
-}
+import { ProgramProps } from "../programs-data/interfaces";
 
 export default function Program({
   programProps,

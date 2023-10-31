@@ -1,32 +1,6 @@
 "use client";
 
-interface Schedule {
-  Date: string;
-  Day: string;
-  Time: string;
-  Location: string;
-}
-
-interface Offerings {
-  CRN: string;
-  Duration: string;
-  Tuition: string;
-  Schedule: Schedule[];
-  Instructor: string;
-  Status: string;
-}
-
-interface CourseProps {
-  CourseCode?: string;
-  CourseName?: string;
-  title?: string;
-  Terms?: string[];
-  Campus?: string[];
-  Offerings?: Offerings[];
-  code?: string;
-  cost?: string;
-  duration?: string;
-}
+import { CourseProps, Offerings } from "../programs-data/interfaces";
 
 function calculateAverageTuitionForPropsOne(
   offerings: Offerings[]
