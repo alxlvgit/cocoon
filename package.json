@@ -19,6 +19,8 @@
     "encoding": "^0.1.13",
     "google-auth-library": "^9.2.0",
     "googleapis": "^127.0.0",
+    "gpt-3-encoder": "^1.1.4",
+    "hnswlib-node": "^2.0.0",
     "langchain": "^0.0.167",
     "mammoth": "^1.6.0",
     "next": "latest",

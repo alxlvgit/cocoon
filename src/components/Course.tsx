@@ -1,32 +1,6 @@
 "use client";
 
-interface Schedule {
-  Date: string;
-  Day: string;
-  Time: string;
-  Location: string;
-}
-
-interface Offerings {
-  CRN: string;
-  Duration: string;
-  Tuition: string;
-  Schedule: Schedule[];
-  Instructor: string;
-  Status: string;
-}
-
-interface CourseProps {
-  CourseCode: string;
-  CourseName?: string;
-  title?: string;
-  Terms: string[];
-  Campus: string[];
-  Offerings: Offerings[];
-  code: string;
-  cost?: string;
-  duration?: string;
-}
+import { CourseProps, Offerings } from "../programs-data/interfaces";
 
 function calculateAverageTuitionForPropsOne(
   offerings: Offerings[]
@@ -73,7 +47,7 @@ function calculateAverageDuration(offerings: Offerings[]): string | null {
 function calculateAverageDurationForPropsOne(
   course: CourseProps
 ): string | null {
-  if (course.Offerings.length === 0) {
+  if (!course.Offerings || course.Offerings.length === 0) {
     return null; // Return null for an empty array
   }
 
