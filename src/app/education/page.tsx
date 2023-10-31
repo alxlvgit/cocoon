@@ -20,6 +20,7 @@ export default function Search() {
     // generate embeddings for courses and programs when the page loads
     // Move the generation of embeddings into the useEffect hook
     // Placing code inside useEffect ensures that it runs after the initial render, preventing potential issues related to server functions being called during the initial rendering phase.
+    
     useEffect(() => {
         const programEmbeddings = generateProgramsEmbeddings();
         const courseEmbeddings = generateCoursesEmbeddings();

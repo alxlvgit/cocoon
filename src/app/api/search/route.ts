@@ -22,8 +22,8 @@ export async function GET(req: Request) {
         });
     }
 
-    const programVectorStore = await HNSWLib.load("programs", new OpenAIEmbeddings())
-    const courseVectorStore = await HNSWLib.load("courses", new OpenAIEmbeddings())
+    const programVectorStore = await HNSWLib.load("./src/programs-data/programs", new OpenAIEmbeddings())
+    const courseVectorStore = await HNSWLib.load("./src/programs-data/courses", new OpenAIEmbeddings())
 
     const programSearchResult = await programVectorStore.similaritySearch(q, 4)
     const courseSearchResult = await courseVectorStore.similaritySearch(q, 4)
@@ -37,7 +37,7 @@ export async function GET(req: Request) {
 
     let programResults = programSearchResultIds.map((id) => programs[id])
     let courseResults = courseSearchResultIds.map((id) => courses[id])
-    
+
     // console.log(programResults)
     // console.log(courseResults)
     return NextResponse.json({ results: {programs: programResults, courses: courseResults }})
