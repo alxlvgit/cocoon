@@ -27,7 +27,7 @@ export async function generateProgramsEmbeddings() {
         )
 
         // It creates an array of these strings (textsToEmbed) and an associated array of metadata (metadata). Each element in the metadata array is an object with an id field corresponding to the id of the movie.
-        const metadata = programs.map((program) => ({ id: program.ProgramName }))
+        const metadata = programs.map((program, index) => ({ id: index }))
 
         // It creates a new instance of OpenAIEmbeddings which we'll use to convert our texts to embeddings.
         const embeddings = new OpenAIEmbeddings()
@@ -70,7 +70,7 @@ export async function generateCoursesEmbeddings() {
         )
 
         // It creates an array of these strings (textsToEmbed) and an associated array of metadata (metadata). Each element in the metadata array is an object with an id field corresponding to the id of the movie.
-        const metadata = courses.map((course) => ({ id: course.CourseCode }))
+        const metadata = courses.map((course, index) => ({ id: index }))
 
         // It creates a new instance of OpenAIEmbeddings which we'll use to convert our texts to embeddings.
         const embeddings = new OpenAIEmbeddings()

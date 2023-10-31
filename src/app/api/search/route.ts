@@ -7,8 +7,6 @@ import { redirect } from "next/dist/server/api-utils";
 const programs = programAndCourseData.programs;
 const courses = programAndCourseData.courses;
 
-
-
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url)
 
@@ -30,12 +28,17 @@ export async function GET(req: Request) {
     const programSearchResult = await programVectorStore.similaritySearch(q, 4)
     const courseSearchResult = await courseVectorStore.similaritySearch(q, 4)
 
+
     const programSearchResultIds = programSearchResult.map((r) => r.metadata.id)
     const courseSearchResultIds = courseSearchResult.map((r) => r.metadata.id)
 
-    let programResults = programs.filter((program) => programSearchResultIds.includes(program.ProgramName))
-    let courseResults = courses.filter((course) => courseSearchResultIds.includes(course.CourseCode))
+    // console.log(programSearchResultIds)
+    // console.log(courseSearchResultIds)
 
-
+    let programResults = programSearchResultIds.map((id) => programs[id])
+    let courseResults = courseSearchResultIds.map((id) => courses[id])
+    
+    // console.log(programResults)
+    // console.log(courseResults)
     return NextResponse.json({ results: {programs: programResults, courses: courseResults }})
 } 
