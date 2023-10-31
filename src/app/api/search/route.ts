@@ -2,6 +2,7 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai"
 import { HNSWLib } from "langchain/vectorstores/hnswlib"
 import { NextResponse } from "next/server"
 import programAndCourseData from "../../../programs-data/programsData.json"
+import { redirect } from "next/dist/server/api-utils";
 
 const programs = programAndCourseData.programs;
 const courses = programAndCourseData.courses;
@@ -14,9 +15,13 @@ export async function GET(req: Request) {
     const q = searchParams.get("q")
 
     if (!q) {
-        return new NextResponse(JSON.stringify({ message: "Missing query" }), {
-            status: 400,
-        })
+        
+        return new NextResponse(null, {
+            status: 302,
+            headers: {
+                Location: '/education',
+            },
+        });
     }
 
     const programVectorStore = await HNSWLib.load("programs", new OpenAIEmbeddings())
