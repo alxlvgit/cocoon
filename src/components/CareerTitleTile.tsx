@@ -1,15 +1,19 @@
 "use client";
-
 import Link from "next/link";
 import { useState } from "react";
 
 const CareerTile = ({ career }: { career: CareerData }) => {
   const [addedToBucket, setAddedToBucket] = useState(false);
   const [bucketString, setBucketString] = useState("Add to Bucket");
+  const [quantity, setQuantity] = useState(0);
 
   const clickHandler = () => {
-    setAddedToBucket(true);
-    setBucketString("Added to Bucket");
+    setAddedToBucket((prevValue) => !prevValue);
+    setBucketString((prevString) =>
+      prevString === "Add to Bucket" ? "Added to Bucket" : "Add to Bucket"
+    );
+
+    // setQuantity((prevQuantity) => (prevValue ? prevQuantity + 1 : prevQuantity - 1));
   };
 
   return (
@@ -24,7 +28,7 @@ const CareerTile = ({ career }: { career: CareerData }) => {
           <div
             id={career.code}
             onClick={clickHandler}
-            className={`flex items-center text-white ${
+            className={` text-white ${
               addedToBucket ? "bg-gray-900" : "bg-gray-500"
             } hover:bg-gray-900 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700`}
           >
@@ -32,10 +36,13 @@ const CareerTile = ({ career }: { career: CareerData }) => {
           </div>
           <Link
             href={`/career/${career.code}`}
-            className="flex justify-around items-center text-white bg-gray-500 hover:bg-gray-900 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+            className={` text-white bg-gray-500 hover:bg-gray-900 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700`}
           >
             Show Detail
           </Link>
+        </div>
+        <div>
+          <p>Quantity: {quantity}</p>
         </div>
       </div>
     </div>
