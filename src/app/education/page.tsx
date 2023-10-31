@@ -1,29 +1,29 @@
 "use client"
 import Course from '@/components/Course';
 import Program from '@/components/Program';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useAsyncFn } from "react-use"
 import { generateProgramsEmbeddings, generateCoursesEmbeddings } from './embeddings';
 import programAndCourseData from "@/programs-data/programsData.json"
 import { SearchResults } from '@/programs-data/interfaces';
 
-interface RequiredCourses {
-    CourseName: string;
-    Credits: number;
-}
-
 
 const programs = programAndCourseData.programs;
 const courses = programAndCourseData.courses; 
+
 
 export default function Search() {
     const [selectedButton, setSelectedButton] = useState("Courses")
     const [query, setQuery] = useState("")
 
     // generate embeddings for courses and programs when the page loads
-    const programEmbeddings = generateProgramsEmbeddings();
-    const courseEmbeddings = generateCoursesEmbeddings();
+    // Move the generation of embeddings into the useEffect hook
+    useEffect(() => {
+        const programEmbeddings = generateProgramsEmbeddings();
+        const courseEmbeddings = generateCoursesEmbeddings();
+    }, []);
+    
 
     const [{ value, loading }, search] = useAsyncFn<() => Promise<SearchResults>>(
         async () => {
