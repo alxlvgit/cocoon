@@ -3,6 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { ReduxProvider } from "@/redux/provider";
+import Bucket from "@/components/Bucket";
 
 const inter = Roboto({ weight: "400", subsets: ["latin-ext"] });
 
@@ -23,6 +24,9 @@ export default function RootLayout({
           <header className="px-5 py-10">
             <NavBar />
           </header>
+
+          <Bucket />
+
           {children}
           <footer className="flex justify-center text-sm text-zinc-400 py-12">
             Cocoon
