@@ -35,10 +35,6 @@ export default function Search() {
         [query]
     )
 
-    const handleClick = (buttonText: string) => {
-        setSelectedButton(buttonText);
-    }
-
     return (
         <div className="flex flex-col place-items-center justify-center my-5 mx-10">
 
