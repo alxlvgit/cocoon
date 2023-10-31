@@ -71,6 +71,16 @@ export default function Search () {
     const programEmbeddings = generateProgramsEmbeddings();
     const courseEmbeddings = generateCoursesEmbeddings();
 
+    // const [{ value, loading }, search] = useAsyncFn<() => Promise<SearchResults>>(
+    //     async () => {
+    //         const response = await fetch("/api/search?q=" + query);
+    //         const data = await response.json();
+    //         console.log(data);
+    //         return data;
+    //     },
+    //     [query]
+    // );
+
     const [{ value, loading }, search] = useAsyncFn<() => Promise<SearchResults>>(
         async () => {
             const response = await fetch("/api/search?q=" + query);
@@ -88,7 +98,7 @@ export default function Search () {
             return <div>Loading...</div>;
         }
 
-        if (!value) {
+        if (!value || query === "") {
             return (
                 
                 <div className="flex flex-wrap flex-cols-2 gap-5">
