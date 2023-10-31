@@ -7,6 +7,7 @@ const programs = programAndCourseData.programs;
 const courses = programAndCourseData.courses;
 
 
+
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url)
 
@@ -32,4 +33,4 @@ export async function GET(req: Request) {
 
 
     return NextResponse.json({ results: {programs: programResults, courses: courseResults }})
-}
+} 

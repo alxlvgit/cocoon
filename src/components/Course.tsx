@@ -17,13 +17,13 @@ interface Offerings {
 }
 
 interface CourseProps {
-  CourseCode: string;
+  CourseCode?: string;
   CourseName?: string;
   title?: string;
-  Terms: string[];
-  Campus: string[];
-  Offerings: Offerings[];
-  code: string;
+  Terms?: string[];
+  Campus?: string[];
+  Offerings?: Offerings[];
+  code?: string;
   cost?: string;
   duration?: string;
 }
@@ -73,7 +73,7 @@ function calculateAverageDuration(offerings: Offerings[]): string | null {
 function calculateAverageDurationForPropsOne(
   course: CourseProps
 ): string | null {
-  if (course.Offerings.length === 0) {
+  if (!course.Offerings || course.Offerings.length === 0) {
     return null; // Return null for an empty array
   }
 

@@ -10,16 +10,27 @@ interface Contact {
   Email: string;
 }
 
+interface Tuition {
+  Domestic: {
+    twoTerms: string;
+    threeTerms: string;
+  };
+  International: {
+    twoTerms: string;
+    threeTerms: string;
+  };
+}
+
 interface ProgramProps {
-  ProgramName: string;
+  ProgramName?: string;
   TuitionDomestic?: string;
-  Tuition?: string;
-  Intakes: string[];
-  Degree: string;
-  RequiredCourses: RequiredCourses[];
-  TotalCredits: number;
-  Delivery: string;
-  Contact: Contact;
+  Tuition?: string | Tuition;
+  Intakes?: string[];
+  Degree?: string;
+  RequiredCourses?: RequiredCourses[];
+  TotalCredits?: number;
+  Delivery?: string;
+  Contact?: Contact;
 }
 
 export default function Program({
