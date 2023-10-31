@@ -19,6 +19,7 @@ export default function Search() {
 
     // generate embeddings for courses and programs when the page loads
     // Move the generation of embeddings into the useEffect hook
+    // Placing code inside useEffect ensures that it runs after the initial render, preventing potential issues related to server functions being called during the initial rendering phase.
     useEffect(() => {
         const programEmbeddings = generateProgramsEmbeddings();
         const courseEmbeddings = generateCoursesEmbeddings();
@@ -110,10 +111,9 @@ export default function Search() {
                                             className="flex flex-col bg-gray-700 rounded-lg shadow-lg p-5 w-full max-w-sm text-gray-300"
                                         >
                                             <p>Course</p>
-                                            <h2 className="text-xl font-bold">{course.CourseName}</h2>
-                                            <p className="text-sm">{course.cost}</p>
-                                            <p className="text-sm">{course.duration}</p>
-                                            <p className="text-sm">{course.Terms.join(", ")}</p>
+                                            <h2 className="text-xl font-bold">{course.CourseName? course.CourseName : course.title}</h2>
+                                            <p className="text-sm">{course.cost? course.cost : 'N/A'}</p>
+                                            <p className="text-sm">{course.Terms? course.Terms.join(", ") : course.duration}</p>
                                         </div>
                                     ))}
                                 </div>
