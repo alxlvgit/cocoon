@@ -1,6 +1,7 @@
 import NavBar from "@/components/Navbar";
 import "./globals.css";
 import type { Metadata } from "next";
+import { twMerge } from "tailwind-merge";
 import { Roboto } from "next/font/google";
 import { ReduxProvider } from "@/redux/provider";
 import Bucket from "@/components/Bucket";
@@ -25,7 +26,7 @@ export default function RootLayout({
             <NavBar />
           </header>
 
-          <Bucket />
+          {/* <Bucket /> */}
 
           {children}
           <footer className="flex justify-center text-sm text-zinc-400 py-12">
