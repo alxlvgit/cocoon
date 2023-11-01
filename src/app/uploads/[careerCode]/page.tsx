@@ -27,6 +27,8 @@ import {
   setProcessing,
   setProcessingStep as setProcessingStatus,
   setTransferableSkills,
+  setMatchingSkills,
+  setRequiredSkills,
 } from "@/redux/features/resumeProcessingSlice";
 
 function Uploads({ params }: { params: { careerCode: string } }) {
@@ -74,14 +76,16 @@ function Uploads({ params }: { params: { careerCode: string } }) {
         requiredSkills,
         resumeKeyPhrases
       ); // Step 4: if key phrases are extracted from both resume and career skills, find missing skills by using semantic search
-      const { matchedResumeSkills, missingCareerSkills } =
+      const { matchedResumeSkills, missingCareerSkills, matchedCareerSkills } =
         matchingMissingSkills;
       dispatch(setPickedCareer(title));
       dispatch(setMissingSkills(missingCareerSkills));
       dispatch(setTransferableSkills(matchedResumeSkills));
+      dispatch(setMatchingSkills(Array.from(matchedCareerSkills)));
+      dispatch(setRequiredSkills(requiredSkills));
       dispatch(setProcessing(false));
       dispatch(setProcessingStatus(null));
-      router.push("/career-gap");
+      router.push("/path");
     }
   };
 

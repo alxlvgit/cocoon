@@ -5,8 +5,12 @@ import { Context, APIGatewayProxyResult, APIGatewayEvent } from "aws-lambda";
 // import { JSONLoader } from "langchain/document_loaders/fs/json";
 
 export type SimilaritySearchResult = {
-  inputDataMatched: string[];
-  vectorStoreMatched: string[];
+  pageContent: string;
+  metadata: { id: number };
+};
+
+export type SimilaritySearchMatches = {
+  [key: string]: SimilaritySearchResult[];
 };
 
 export const handler = async (
@@ -22,18 +26,6 @@ export const handler = async (
       kIncrement,
       maxK,
     } = requestBody;
-    // Use this if you want to load the json docs into the vector store from the file
-    // Create docs with a loader, and specify the paths to the text fields in the json like so: ["/ProgramName", "/CourseName"]
-    //   const loader = new JSONLoader("src/app/api/test/bcit-programs.json", [
-    //     "/ProgramName",
-    //     "/CourseName",
-    //   ]);
-    //   const docs = await loader.load();
-
-    // const vectorStore = await MemoryVectorStore.fromDocuments(
-    //   docs,
-    //   new OpenAIEmbeddings()
-    // );
 
     // Load the text array into the memory vector store
     const metadata = dataToStoreInVectorStore.map(
@@ -55,27 +47,28 @@ export const handler = async (
       kIncrement, // How much to increase K by each time. It'll fetch N results, then N + kIncrement, then N + kIncrement * 2, etc.
     });
 
-    const uniqueInputMatches: Set<string> = new Set();
-    const uniqueVectorStoreMatches: Set<string> = new Set();
+    // const uniqueInputMatches: Set<string> = new Set();
+    // const uniqueVectorStoreMatches: Set<string> = new Set();
+    const matches: SimilaritySearchMatches = {};
 
     for (const searchedPhrase of inputData) {
       const result = await retriever.getRelevantDocuments(searchedPhrase);
-      // console.log(result, "matching result");
       if (result.length > 0) {
-        const resultContent = result[0].pageContent;
-        if (!uniqueVectorStoreMatches.has(resultContent)) {
-          uniqueVectorStoreMatches.add(resultContent.toLowerCase());
+        const resultContent: SimilaritySearchResult = {
+          pageContent: result[0].pageContent,
+          metadata: result[0].metadata as { id: number },
+        };
+        if (matches[searchedPhrase]) {
+          matches[searchedPhrase].push(resultContent);
+        } else {
+          matches[searchedPhrase] = [resultContent];
         }
-        uniqueInputMatches.add(searchedPhrase.toLowerCase());
         console.log(searchedPhrase + " Matches " + resultContent);
       }
     }
     return {
       statusCode: 200,
-      body: JSON.stringify({
-        inputDataMatched: [...uniqueInputMatches],
-        vectorStoreMatched: [...uniqueVectorStoreMatches],
-      }),
+      body: JSON.stringify(matches),
     };
   } catch (error) {
     console.log(error, "error");
