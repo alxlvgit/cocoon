@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('/public/fonts/Ubuntu/Ubuntu-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('/public/fonts/Ubuntu/Ubuntu-Bold.ttf');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('/public/fonts/Roboto/Roboto-Bold.ttf');
+    font-weight: bold;
+    font-style: normal;
+}
