@@ -4,16 +4,18 @@ import { useState } from "react";
 
 const CareerTile = ({ career }: { career: CareerData }) => {
   const [addedToBucket, setAddedToBucket] = useState(false);
+  // const [bucketItems, setBucketItems] = useState([]);
   const [bucketString, setBucketString] = useState("Add to Bucket");
-  const [quantity, setQuantity] = useState(0);
+  // const [quantity, setQuantity] = useState(0);
 
-  const clickHandler = () => {
+  const clickHandler = (e: any) => {
     setAddedToBucket((prevValue) => !prevValue);
     setBucketString((prevString) =>
       prevString === "Add to Bucket" ? "Added to Bucket" : "Add to Bucket"
     );
+    console.log(e.target);
 
-    // setQuantity((prevQuantity) => (prevValue ? prevQuantity + 1 : prevQuantity - 1));
+    // setQuantity((prevQuantity) => (e.target ? prevQuantity + 1 : prevQuantity - 1));
   };
 
   return (
@@ -40,9 +42,6 @@ const CareerTile = ({ career }: { career: CareerData }) => {
           >
             Show Detail
           </Link>
-        </div>
-        <div>
-          <p>Quantity: {quantity}</p>
         </div>
       </div>
     </div>
