@@ -1,22 +1,43 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const MobileNavbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [shouldShowLogo, setShouldShowLogo] = useState(true);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setShouldShowLogo(false);
+      } else {
+        setShouldShowLogo(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <div
       className={`w-full ${
         isOpen ? "h-full bg-gray-400" : ""
-      } z-50 fixed top-0 left-0 p-4`}
+      } z-50 fixed top-0 left-0 p-4 ${shouldShowLogo ? "" : "hidden"}`}
     >
       <div className="flex justify-between items-center">
-        {!isOpen && <div className="text-white font-bold text-xl">Logo</div>}
+        {!isOpen && shouldShowLogo && (
+          <div className="text-white font-bold text-xl">Logo</div>
+        )}
         <button
           className="text-white focus:outline-none lg:hidden"
           onClick={toggleMenu}
@@ -49,36 +70,36 @@ const MobileNavbar: React.FC = () => {
         </button>
       </div>
       {isOpen && (
-        <div className="mt-40">
+        <div className="mt-20">
           <a
             href="/home"
-            className="block text-white py-10 text-center text-2xl"
+            className="block text-white py-8 text-center text-2xl"
           >
             Home
           </a>
           <a
             href="/about"
-            className="block text-white py-12 text-center text-2xl"
+            className="block text-white py-10 text-center text-2xl"
           >
             About
           </a>
           <a
             href="/careers"
-            className="block text-white py-16 text-center text-2xl"
+            className="block text-white py-12 text-center text-2xl"
           >
             Careers
           </a>
-
           <a
             href="/path"
-            className="block text-white py-16 text-center text-2xl"
+            className="block text-white py-12 text-center text-2xl mb-12"
           >
             Path
           </a>
           <a
             href="/profile"
-            className="block text-white py-16 text-center text-2xl"
+            className="flex items-center justify-center text-white py-8 text-2xl"
           >
+            <FontAwesomeIcon icon={faUser} className="mr-2" />
             Profile
           </a>
         </div>
