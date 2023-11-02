@@ -97,9 +97,9 @@ const MobileNavbar: React.FC = () => {
           </a>
           <a
             href="/profile"
-            className="flex items-center justify-center text-white py-8 text-2xl"
+            className="flex items-center justify-center text-white text-2xl"
           >
-            <FontAwesomeIcon icon={faUser} className="mr-2" />
+            <FontAwesomeIcon icon={faUser} className="mr-2 " />
             Profile
           </a>
         </div>
