@@ -19,7 +19,7 @@ export default async function Career({ params }: { params: { code: string } }) {
     params.code,
     enums.CareerSection.JobOutlook
   );
-  console.log(careerOutlookData);
+  // console.log(careerOutlookData);
 
   const outlook = careerOutlookData.outlook
     ? [

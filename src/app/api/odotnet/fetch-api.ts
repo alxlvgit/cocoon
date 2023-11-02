@@ -38,7 +38,7 @@ export async function odotnetKeyword(keyword: JobKeyword): Promise<any> {
     credentials
   );
   const data = await res.json();
-  console.log(data);
+  // console.log(data);
   return data;
 }
 
