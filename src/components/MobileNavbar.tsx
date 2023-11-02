@@ -90,7 +90,7 @@ const MobileNavbar: React.FC = () => {
             Careers
           </a>
           <a
-            href="/path"
+            href="/career-gap"
             className="block text-white py-12 text-center text-2xl mb-12"
           >
             Path
