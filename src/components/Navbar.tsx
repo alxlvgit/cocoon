@@ -16,8 +16,8 @@ export default function NavBar() {
         <Link href="/careers" className="hover:text-black">
           Careers
         </Link>
-        <Link href="/career-gap" className="hover:text-black">
-          Paths
+        <Link href="/path" className="hover:text-black">
+          Path
         </Link>
       </div>
       <div className="flex mt-4 sm:mt-0">
