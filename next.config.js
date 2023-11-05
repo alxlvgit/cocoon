@@ -9,7 +9,6 @@ const nextConfig = {
     return config;
   },
   experimental: {
-    serverActions: true,
     serverActionsBodySizeLimit: "3mb",
     // appDir: true,
   },
