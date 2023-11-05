@@ -17,7 +17,7 @@ async function Careers() {
           Make Your Next Step With Us!
         </h1>
       </div>
-      <div className="grid gap-4 sm:gap-6 justify-center grid-cols-1 xs:grid-cols-2 md:grid-cols-3 w-3/4 m-auto my-10 auto-rows-fr">
+      <div className="grid gap-4 sm:gap-6 justify-center grid-cols-1 md:grid-cols-2 w-3/4 m-auto my-10 auto-rows-fr">
         {careersData.map((career: any) => (
           <CareerTile key={career.code} career={career} />
         ))}

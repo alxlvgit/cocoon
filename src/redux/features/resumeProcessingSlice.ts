@@ -4,8 +4,10 @@ type ResumeProcessingState = {
   processing: boolean;
   processingStep: number | null;
   googleDocUrl: string | null;
-  transferableSkills: string[];
-  missingSkills: string[];
+  transferableResumeSkills: string[];
+  missingCareerSkills: string[];
+  requiredCareerSkills: string[];
+  matchingCareerSkills: string[];
   pickedCareer: string | null;
   programs: any[];
   courses: any[];
@@ -15,8 +17,10 @@ const initialState: ResumeProcessingState = {
   processing: false,
   processingStep: null,
   googleDocUrl: null,
-  transferableSkills: [],
-  missingSkills: [],
+  transferableResumeSkills: [],
+  missingCareerSkills: [],
+  requiredCareerSkills: [],
+  matchingCareerSkills: [],
   pickedCareer: null,
   programs: [],
   courses: [],
@@ -36,11 +40,18 @@ export const resumeProcessingSlice = createSlice({
       state.googleDocUrl = action.payload;
     },
     setTransferableSkills: (state, action: PayloadAction<string[]>) => {
-      state.transferableSkills = action.payload;
+      state.transferableResumeSkills = action.payload;
     },
     setMissingSkills: (state, action: PayloadAction<string[]>) => {
-      state.missingSkills = action.payload;
+      state.missingCareerSkills = action.payload;
     },
+    setRequiredSkills: (state, action: PayloadAction<string[]>) => {
+      state.requiredCareerSkills = action.payload;
+    },
+    setMatchingSkills: (state, action: PayloadAction<string[]>) => {
+      state.matchingCareerSkills = action.payload;
+    },
+
     setPickedCareer: (state, action: PayloadAction<string | null>) => {
       state.pickedCareer = action.payload;
     },
@@ -54,8 +65,10 @@ export const resumeProcessingSlice = createSlice({
       state.processing = false;
       state.processingStep = null;
       state.googleDocUrl = null;
-      state.transferableSkills = [];
-      state.missingSkills = [];
+      state.transferableResumeSkills = [];
+      state.missingCareerSkills = [];
+      state.requiredCareerSkills = [];
+      state.matchingCareerSkills = [];
       state.pickedCareer = null;
       state.programs = [];
       state.courses = [];
@@ -70,6 +83,8 @@ export const {
   setTransferableSkills,
   setMissingSkills,
   resetResumeProcessingState,
+  setRequiredSkills,
+  setMatchingSkills,
   setPickedCareer,
   setPrograms,
   setCourses,
