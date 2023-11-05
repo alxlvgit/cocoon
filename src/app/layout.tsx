@@ -1,4 +1,6 @@
+import React from "react";
 import NavBar from "@/components/Navbar";
+import MobileNavbar from "@/components/MobileNavbar";
 import "./globals.css";
 import type { Metadata } from "next";
 import { twMerge } from "tailwind-merge";
@@ -23,7 +25,12 @@ export default function RootLayout({
       <ReduxProvider>
         <body className={`${inter.className} min-h-screen `}>
           <header className="px-5 py-10">
-            <NavBar />
+            <div className="sm:hidden">
+              <MobileNavbar />
+            </div>
+            <div className="hidden sm:flex ">
+              <NavBar />
+            </div>
           </header>
 
           {/* <Bucket /> */}
@@ -37,3 +44,4 @@ export default function RootLayout({
     </html>
   );
 }
+
