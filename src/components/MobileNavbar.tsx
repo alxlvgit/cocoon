@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 
@@ -10,21 +10,21 @@ const MobileNavbar: React.FC = () => {
     setIsOpen(!isOpen);
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setShouldShowLogo(false);
-      } else {
-        setShouldShowLogo(true);
-      }
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (window.scrollY > 0) {
+  //       setShouldShowLogo(false);
+  //     } else {
+  //       setShouldShowLogo(true);
+  //     }
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
+  //   window.addEventListener("scroll", handleScroll);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
 
   return (
     <div
@@ -68,7 +68,7 @@ const MobileNavbar: React.FC = () => {
         </button>
       </div>
       {isOpen && (
-        <div className="mt-20">
+        <div className="mt-28">
           <a
             href="/home"
             className="block text-white py-8 text-center text-2xl"
@@ -88,7 +88,7 @@ const MobileNavbar: React.FC = () => {
             Careers
           </a>
           <a
-            href="/career-gap"
+            href="/path"
             className="block text-white py-12 text-center text-2xl mb-12"
           >
             Path
