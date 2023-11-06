@@ -6,7 +6,6 @@
 .pnp.js
 node_modules
 dist
-/pnpm-lock.yaml
 
 # testing
 /coverage

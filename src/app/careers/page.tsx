@@ -8,7 +8,7 @@ async function Careers() {
     enums.JobKeyword.UXUIDesigner
   );
   const careersData = fetchResult.career;
-  console.log(careersData, "careersData");
+  // console.log(careersData, "careersData");
 
   return (
     <>
