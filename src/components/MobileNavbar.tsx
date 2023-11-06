@@ -28,9 +28,9 @@ const MobileNavbar: React.FC = () => {
 
   return (
     <div
-      className={`w-full ${
-        isOpen ? "h-full bg-gray-400" : ""
-      } z-50 fixed top-0 left-0 p-4 ${shouldShowLogo ? "" : "hidden"}`}
+      className={`w-full fixed ${
+        isOpen ? "h-full bg-356CBE" : ""
+      } z-50 top-0 left-0 p-4 ${shouldShowLogo ? "" : "hidden"}`}
     >
       <div className="flex justify-between items-center">
         {!isOpen && shouldShowLogo && (
@@ -68,7 +68,7 @@ const MobileNavbar: React.FC = () => {
         </button>
       </div>
       {isOpen && (
-        <div className="mt-28">
+        <div className="mt-14">
           <a
             href="/home"
             className="block text-white py-8 text-center text-2xl"
