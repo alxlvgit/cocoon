@@ -1,17 +1,48 @@
 import { semanticSearchLambda } from "@/app/uploads/document-processing";
 import programsData from "./programsData.json";
 
-// TODO: refactor to have two separate functions for programs and courses
+// Find matching programs
 export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {
-  if (!keyPhrases || keyPhrases.length === 0) {
-    console.log("No key phrases provided for program finder.");
-    return { retrievedPrograms: [], retrievedCourses: [] };
-  }
+  // if (!keyPhrases || keyPhrases.length === 0) {
+  //   console.log("No key phrases provided for program finder.");
+  //   return null;
+  // }
   const data = JSON.stringify(programsData);
-  const { programs, courses } = JSON.parse(data);
+  const { programs } = JSON.parse(data);
   const programsNames = programs.map(
     (program: { ProgramName: string }) => program.ProgramName
   );
+
+  const programSearch = await semanticSearchLambda(
+    keyPhrases,
+    programsNames,
+    0.6,
+    1,
+    1
+  );
+
+  let matchedPrograms = new Set();
+  for (const key in programSearch) {
+    matchedPrograms.add(
+      programs.find(
+        (program: { ProgramName: string }) =>
+          program.ProgramName.toLowerCase() ===
+          programSearch[key][0].pageContent.toLowerCase()
+      )
+    );
+  }
+
+  return { matchedPrograms };
+};
+
+// Find matching courses
+export const matchCoursesWithKeyPhrases = async (keyPhrases: string[]) => {
+  // if (!keyPhrases || keyPhrases.length === 0) {
+  //   console.log("No key phrases provided for program finder.");
+  //   return null;
+  // }
+  const data = JSON.stringify(programsData);
+  const { courses } = JSON.parse(data);
   const coursesNames = courses.map(
     (course: { CourseName?: string; title?: string }) => {
       if (course.CourseName) {
@@ -22,24 +53,6 @@ export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {
     }
   );
 
-  const programSearch = await semanticSearchLambda(
-    keyPhrases,
-    programsNames,
-    0.6,
-    1,
-    1
-  );
-  const programsMatches = programSearch;
-
-  const retrievedPrograms = programsMatches.vectorStoreMatched.map(
-    (programName: string) => {
-      return programs.find(
-        (program: { ProgramName: string }) =>
-          program.ProgramName.toLowerCase() === programName
-      );
-    }
-  );
-
   const courseSearch = await semanticSearchLambda(
     keyPhrases,
     coursesNames,
@@ -47,19 +60,26 @@ export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {
     1,
     1
   );
-  const coursesMatches = courseSearch;
 
-  const retrievedCourses = coursesMatches.vectorStoreMatched.map(
-    (courseName: string) => {
-      return courses.find((course: { CourseName?: string; title?: string }) => {
+  let matchedCourses = new Set();
+
+  for (const key in courseSearch) {
+    matchedCourses.add(
+      courses.find((course: { CourseName?: string; title?: string }) => {
         if (course.CourseName) {
-          return course.CourseName.toLowerCase() === courseName;
+          return (
+            course.CourseName.toLowerCase() ===
+            courseSearch[key][0].pageContent.toLowerCase()
+          );
         } else if (course.title) {
-          return course.title.toLowerCase() === courseName;
+          return (
+            course.title.toLowerCase() ===
+            courseSearch[key][0].pageContent.toLowerCase()
+          );
         }
-      });
-    }
-  );
+      })
+    );
+  }
 
-  return { retrievedPrograms, retrievedCourses };
+  return { matchedCourses };
 };
