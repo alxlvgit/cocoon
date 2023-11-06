@@ -26,7 +26,7 @@ const CareerTile = ({ career }: { career: CareerData }) => {
             {career.title}
           </h1>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 pt-5 md:gap-1 lg:gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 pt-5 lg:gap-4 gap-1">
           <Link
             href={`/uploads/${career.code}`}
             id={career.code}
