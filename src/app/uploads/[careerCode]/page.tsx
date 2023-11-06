@@ -75,12 +75,12 @@ function Uploads({ params }: { params: { careerCode: string } }) {
     dispatch(setProcessingStatus(2));
     const resumeKeyPhrases = await extractResumeKeyPhrases(extractedText); // Step 2: if text is extracted, extract key phrases by using ChatOpenAI API
     const careerSkillsKeyPhrases = await extractCareerKeyPhrases(careerCode); // Step 3: extract key phrases from career skills
-    const { title, requiredSkills } = careerSkillsKeyPhrases
+    const { title, requiredTasks } = careerSkillsKeyPhrases
       ? careerSkillsKeyPhrases
-      : { title: null, requiredSkills: null };
-    if (requiredSkills && resumeKeyPhrases && title) {
+      : { title: null, requiredTasks: null };
+    if (requiredTasks && resumeKeyPhrases && title) {
       const matchingMissingSkills = await findMissingSkills(
-        requiredSkills,
+        requiredTasks,
         resumeKeyPhrases
       ); // Step 4: if key phrases are extracted from both resume and career skills, find missing skills by using semantic search
       const { matchedResumeSkills, missingCareerSkills, matchedCareerSkills } =
@@ -89,7 +89,7 @@ function Uploads({ params }: { params: { careerCode: string } }) {
       dispatch(setMissingSkills(missingCareerSkills));
       dispatch(setTransferableSkills(matchedResumeSkills));
       dispatch(setMatchingSkills(Array.from(matchedCareerSkills)));
-      dispatch(setRequiredSkills(requiredSkills));
+      dispatch(setRequiredSkills(requiredTasks));
       dispatch(setProcessing(false));
       dispatch(setProcessingStatus(null));
       router.push("/path");

@@ -5,7 +5,7 @@ import { KeyPhrases } from "@/aws-lambda/text-to-structured";
 export const extractKeyPhrasesLambda = async (
   text: string,
   promptMessage: string,
-  skillsOnly: boolean
+  includeQualifications: boolean
 ) => {
   const data = await fetch(
     "https://aq26w2ucx5iiz4zyonmmhsey3a0vhdbl.lambda-url.us-west-2.on.aws/",
@@ -14,7 +14,7 @@ export const extractKeyPhrasesLambda = async (
       body: JSON.stringify({
         text: text,
         promptMessage: promptMessage,
-        skillsOnly: skillsOnly,
+        includeQualifications,
       }),
     }
   );
@@ -50,15 +50,15 @@ export const semanticSearchLambda = async (
 // Extract key phrases from resume
 export const extractResumeKeyPhrases = async (extractedText: string) => {
   const prompt =
-    "List all skills, duties and qualifications mentioned in the following text.";
+    "List all skills, duties, performed tasks, and qualifications mentioned in the following text.";
   const resumeKeyPhrases = await extractKeyPhrasesLambda(
     extractedText,
     prompt,
-    false
+    true
   );
   if (resumeKeyPhrases) {
-    const { skills, qualifications } = resumeKeyPhrases;
-    const keyPhrases = [...skills, ...qualifications!];
+    const { skills, qualifications, tasks } = resumeKeyPhrases;
+    const keyPhrases = [...skills, ...qualifications!, ...tasks];
     if (keyPhrases.length > 0) {
       return keyPhrases.map((phrase) => phrase.toLowerCase());
     }
@@ -66,35 +66,39 @@ export const extractResumeKeyPhrases = async (extractedText: string) => {
   return null;
 };
 
-// Extract key phrases from career
+// Extract key phrases from career. Get career title and required tasks that are performed on the job
 export const extractCareerKeyPhrases = async (careerCode: string) => {
   const careerData = await odotnet.odotnetCareerOverview(careerCode);
-  const skills = careerData?.career?.what_they_do ?? null;
-  const tasks = careerData?.career?.on_the_job?.task ?? null;
-  const dataToProcess =
-    skills && tasks
-      ? [...skills, ...tasks]
-      : skills
-      ? skills
-      : tasks
-      ? tasks
-      : null;
   const title = careerData?.career?.title ?? null;
-  if (dataToProcess && title) {
-    const prompt = "List all skills or duties mentioned in the following text.";
+  let onTheJobTasks = careerData?.career?.on_the_job?.task ?? null;
+  let whatTheyDo = careerData?.career?.what_they_do ?? null;
+  let requiredTasks: string[] = [];
+  if (whatTheyDo) {
+    const prompt = "List all performed tasks mentioned in the following text.";
     const careerKeywords = await extractKeyPhrasesLambda(
-      dataToProcess,
+      whatTheyDo,
       prompt,
-      true
+      false
     );
     if (careerKeywords) {
-      const { skills: requiredSkills } = careerKeywords;
-      let formattedSkills: string[] = [];
-      if (requiredSkills.length > 0) {
-        formattedSkills = requiredSkills.map((skill) => skill.toLowerCase());
-      }
-      return { title, requiredSkills: formattedSkills };
+      whatTheyDo = careerKeywords.tasks.map((task) => task.toLowerCase());
     }
+  }
+
+  if (onTheJobTasks) {
+    onTheJobTasks = onTheJobTasks.map((task: string) => task.toLowerCase());
+  }
+  requiredTasks =
+    whatTheyDo && onTheJobTasks
+      ? [...whatTheyDo, ...onTheJobTasks]
+      : whatTheyDo
+      ? whatTheyDo
+      : onTheJobTasks
+      ? onTheJobTasks
+      : null;
+
+  if (requiredTasks && title) {
+    return { requiredTasks, title };
   }
   return null;
 };
@@ -107,7 +111,7 @@ export const findMissingSkills = async (
   const result = await semanticSearchLambda(
     resumePhrases,
     careerPhrases,
-    0.6,
+    0.7,
     1,
     1
   );

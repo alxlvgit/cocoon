@@ -8,7 +8,7 @@ import {
 } from "@/redux/features/resumeProcessingSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import React, { useEffect, useState } from "react";
-import { calculateSkillsMismatchPercentage } from "./path-calculations";
+import { calculateSkillsMatchPercentage } from "./path-calculations";
 
 export default function Career() {
   const [loading, setLoading] = useState(true);
@@ -37,8 +37,8 @@ export default function Career() {
       // const programsCourses = await matchProgramsWithKeyPhrases(
       //   missingCareerSkills
       // );
-      const skillsMismatchCalculated = calculateSkillsMismatchPercentage(
-        missingCareerSkills,
+      const skillsMismatchCalculated = calculateSkillsMatchPercentage(
+        matchingCareerSkills,
         requiredCareerSkills
       );
       setSkillsMismatch(skillsMismatchCalculated);

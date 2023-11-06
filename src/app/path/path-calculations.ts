@@ -1,11 +1,11 @@
-export const calculateSkillsMismatchPercentage = (
-  missingSkills: string[],
+export const calculateSkillsMatchPercentage = (
+  matchingSkills: string[],
   requiredSkills: string[]
 ) => {
-  const missingSkillsCount = missingSkills.length;
+  const matchingSkillsCount = matchingSkills.length;
   const requiredSkillsCount = requiredSkills.length;
   const percentage = Math.round(
-    (missingSkillsCount / requiredSkillsCount) * 100
+    (matchingSkillsCount / requiredSkillsCount) * 100
   );
   return percentage;
 };

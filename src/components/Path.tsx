@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const Path = ({
-  skillsMismatch,
+  skillsMismatch: skillsMatched,
   positionTitle,
   recommendedPath,
   cheapestPath,
@@ -26,7 +26,8 @@ const Path = ({
           {positionTitle}
         </h1>
         <h1 className="text-xs md:text-base lg:text-lg text-left w-full">
-          Skills Mismatch: {skillsMismatch}%
+          Your resume skills have {skillsMatched}% match with {positionTitle}{" "}
+          job
         </h1>
         {showDetails && (
           <div className="flex w-full flex-col justify-center items-left align-middle">
