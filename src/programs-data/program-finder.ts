@@ -1,76 +1,133 @@
+import { semanticSearchLambda } from "@/app/uploads/document-processing";
 import programsData from "./programsData.json";
 
-// TODO: refactor to have two separate functions for programs and courses
+interface Contact {
+  name: string;
+  role: string;
+  phone: string;
+  email: string;
+}
+
+export interface Course {
+  courseCode: string;
+  courseName: string;
+  format?: string;
+  prerequisites?: string;
+  credits?: number;
+  cost?: string;
+  duration?: string;
+  crn?: string;
+  classTimes?: string;
+  instructor: string;
+  importantInfo?: string;
+  status?: string;
+  terms?: string[];
+  campus?: string[];
+  offerings?: CourseOffering[];
+  tuition?: string;
+  schedule?: {
+    date: string;
+    day: string;
+    time: string;
+    location: string;
+  }[];
+}
+
+interface CourseOffering {
+  crn: string;
+  duration: string;
+  tuition: string;
+  schedule: {
+    date: string;
+    day: string;
+    time: string;
+    location: string;
+  }[];
+  instructor: string;
+  status: string;
+}
+
+export interface Program {
+  programName: string;
+  tuitionDomestic?: string;
+  tuition?: {
+    domestic?: {
+      twoTerms: string;
+      threeTerms: string;
+    };
+    international?: {
+      twoTerms: string;
+      threeTerms: string;
+    };
+  };
+  intakes: string[];
+  degree: string;
+  requiredCourses?: {
+    courseName: string;
+    credits: number;
+  }[];
+  totalCredits?: number;
+  delivery: string;
+  contact: Contact;
+}
+
+// Find matching BCIT programs
 export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {
-  if (!keyPhrases || keyPhrases.length === 0) {
-    console.log("No key phrases provided for program finder.");
-    return { retrievedPrograms: [], retrievedCourses: [] };
-  }
   const data = JSON.stringify(programsData);
-  const { programs, courses } = JSON.parse(data);
+  const { programs } = JSON.parse(data);
   const programsNames = programs.map(
-    (program: { ProgramName: string }) => program.ProgramName
+    (program: { programName: string }) => program.programName
   );
+
+  const programSearch = await semanticSearchLambda(
+    keyPhrases,
+    programsNames,
+    0.6,
+    1,
+    1
+  );
+
+  let matchedPrograms = new Set<Program>();
+  for (const key in programSearch) {
+    matchedPrograms.add(
+      programs.find(
+        (program: { programName: string }) =>
+          program.programName.toLowerCase() ===
+          programSearch[key][0].pageContent.toLowerCase()
+      )
+    );
+  }
+
+  return { matchedPrograms };
+};
+
+// Find matching BCIT courses
+export const matchCoursesWithKeyPhrases = async (keyPhrases: string[]) => {
+  const data = JSON.stringify(programsData);
+  const { courses } = JSON.parse(data);
   const coursesNames = courses.map(
-    (course: { CourseName?: string; title?: string }) => {
-      if (course.CourseName) {
-        return course.CourseName;
-      } else if (course.title) {
-        return course.title;
-      }
-    }
+    (course: { courseName: string }) => course.courseName
   );
 
-  const programSearch = await fetch(
-    "https://4u4plgzyv6amk3jeqp5wmcksla0swhmm.lambda-url.us-west-2.on.aws/",
-    {
-      method: "POST",
-      body: JSON.stringify({
-        inputData: keyPhrases,
-        dataToStoreInVectorStore: programsNames,
-        minSimilarityScore: 0.6,
-        kIncrement: 1,
-        maxK: 1,
-      }),
-    }
-  );
-  const programsMatches = await programSearch.json();
-
-  const retrievedPrograms = programsMatches.vectorStoreMatched.map(
-    (programName: string) => {
-      return programs.find(
-        (program: { ProgramName: string }) =>
-          program.ProgramName.toLowerCase() === programName
-      );
-    }
+  const courseSearch = await semanticSearchLambda(
+    keyPhrases,
+    coursesNames,
+    0.6,
+    1,
+    1
   );
 
-  const courseSearch = await fetch(
-    "https://4u4plgzyv6amk3jeqp5wmcksla0swhmm.lambda-url.us-west-2.on.aws/",
-    {
-      method: "POST",
-      body: JSON.stringify({
-        inputData: keyPhrases,
-        dataToStoreInVectorStore: coursesNames,
-        minSimilarityScore: 0.6,
-        kIncrement: 1,
-        maxK: 1,
-      }),
-    }
-  );
-  const coursesMatches = await courseSearch.json();
+  let matchedCourses = new Set<Course>();
 
-  const retrievedCourses = coursesMatches.vectorStoreMatched.map(
-    (courseName: string) => {
-      return courses.find((course: { CourseName?: string; title?: string }) => {
-        if (course.CourseName) {
-          return course.CourseName.toLowerCase() === courseName;
-        } else if (course.title) {
-          return course.title.toLowerCase() === courseName;
-        }
-      });
-    }
-  );
+  for (const key in courseSearch) {
+    matchedCourses.add(
+      courses.find(
+        (course: { courseName: string }) =>
+          course.courseName.toLowerCase() ===
+          courseSearch[key][0].pageContent.toLowerCase()
+      )
+    );
+  }
 
-  return { retrievedPrograms, retrievedCourses };
+  return { matchedCourses };
 };
