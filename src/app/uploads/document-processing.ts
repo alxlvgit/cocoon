@@ -12,8 +12,10 @@ export const extractResumeKeyPhrases = async (extractedText: string) => {
     }
   );
   const resumeKeyPhrases: KeyPhrases = await data.json();
+  console.log(resumeKeyPhrases)
   if (resumeKeyPhrases) {
     const { skills, qualifications } = resumeKeyPhrases;
+    console.log(skills)
     const keyPhrases = [...skills, ...qualifications!];
     if (keyPhrases.length > 0) {
       return keyPhrases.map((phrase) => phrase.toLowerCase());
@@ -84,6 +86,8 @@ export const findMissingSkills = async (
   const missingCareerSkills = careerPhrases.filter(
     (skill) => !matchedCareerSkills.has(skill.toLowerCase())
   );
+
+  // console.log("Missing: ", missingCareerSkills)
 
   return {
     missingCareerSkills,
