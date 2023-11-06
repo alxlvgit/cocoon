@@ -60,18 +60,20 @@ export default function Career() {
         requiredCareerSkills
       );
       setSkillsMismatch(skillsMismatchCalculated);
-      setBestMatch(bestMatch.ProgramName);
+      if (bestMatch) {
+        setBestMatch(bestMatch.programName);
+      } else {
+        setBestMatch("N/A");
+      }
       setLoading(false);
     };
     calculatePathData();
   }, [
-    dispatch,
-    pickedCareer,
     missingCareerSkills,
+    pickedCareer,
     requiredCareerSkills,
-    transferableResumeSkills,
     matchingCareerSkills,
-    skillsMismatch,
+    dispatch,
   ]);
 
   return (

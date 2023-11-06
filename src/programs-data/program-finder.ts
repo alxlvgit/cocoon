@@ -1,16 +1,82 @@
 import { semanticSearchLambda } from "@/app/uploads/document-processing";
 import programsData from "./programsData.json";
 
-// Find matching programs
+interface Contact {
+  name: string;
+  role: string;
+  phone: string;
+  email: string;
+}
+
+export interface Course {
+  courseCode: string;
+  courseName: string;
+  format?: string;
+  prerequisites?: string;
+  credits?: number;
+  cost?: string;
+  duration?: string;
+  crn?: string;
+  classTimes?: string;
+  instructor: string;
+  importantInfo?: string;
+  status?: string;
+  terms?: string[];
+  campus?: string[];
+  offerings?: CourseOffering[];
+  tuition?: string;
+  schedule?: {
+    date: string;
+    day: string;
+    time: string;
+    location: string;
+  }[];
+}
+
+interface CourseOffering {
+  crn: string;
+  duration: string;
+  tuition: string;
+  schedule: {
+    date: string;
+    day: string;
+    time: string;
+    location: string;
+  }[];
+  instructor: string;
+  status: string;
+}
+
+export interface Program {
+  programName: string;
+  tuitionDomestic?: string;
+  tuition?: {
+    domestic?: {
+      twoTerms: string;
+      threeTerms: string;
+    };
+    international?: {
+      twoTerms: string;
+      threeTerms: string;
+    };
+  };
+  intakes: string[];
+  degree: string;
+  requiredCourses?: {
+    courseName: string;
+    credits: number;
+  }[];
+  totalCredits?: number;
+  delivery: string;
+  contact: Contact;
+}
+
+// Find matching BCIT programs
 export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {
-  // if (!keyPhrases || keyPhrases.length === 0) {
-  //   console.log("No key phrases provided for program finder.");
-  //   return null;
-  // }
   const data = JSON.stringify(programsData);
   const { programs } = JSON.parse(data);
   const programsNames = programs.map(
-    (program: { ProgramName: string }) => program.ProgramName
+    (program: { programName: string }) => program.programName
   );
 
   const programSearch = await semanticSearchLambda(
@@ -21,12 +87,12 @@ export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {
     1
   );
 
-  let matchedPrograms = new Set();
+  let matchedPrograms = new Set<Program>();
   for (const key in programSearch) {
     matchedPrograms.add(
       programs.find(
-        (program: { ProgramName: string }) =>
-          program.ProgramName.toLowerCase() ===
+        (program: { programName: string }) =>
+          program.programName.toLowerCase() ===
           programSearch[key][0].pageContent.toLowerCase()
       )
     );
@@ -35,22 +101,12 @@ export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {
   return { matchedPrograms };
 };
 
-// Find matching courses
+// Find matching BCIT courses
 export const matchCoursesWithKeyPhrases = async (keyPhrases: string[]) => {
-  // if (!keyPhrases || keyPhrases.length === 0) {
-  //   console.log("No key phrases provided for program finder.");
-  //   return null;
-  // }
   const data = JSON.stringify(programsData);
   const { courses } = JSON.parse(data);
   const coursesNames = courses.map(
-    (course: { CourseName?: string; title?: string }) => {
-      if (course.CourseName) {
-        return course.CourseName;
-      } else if (course.title) {
-        return course.title;
-      }
-    }
+    (course: { courseName: string }) => course.courseName
   );
 
   const courseSearch = await semanticSearchLambda(
@@ -61,23 +117,15 @@ export const matchCoursesWithKeyPhrases = async (keyPhrases: string[]) => {
     1
   );
 
-  let matchedCourses = new Set();
+  let matchedCourses = new Set<Course>();
 
   for (const key in courseSearch) {
     matchedCourses.add(
-      courses.find((course: { CourseName?: string; title?: string }) => {
-        if (course.CourseName) {
-          return (
-            course.CourseName.toLowerCase() ===
-            courseSearch[key][0].pageContent.toLowerCase()
-          );
-        } else if (course.title) {
-          return (
-            course.title.toLowerCase() ===
-            courseSearch[key][0].pageContent.toLowerCase()
-          );
-        }
-      })
+      courses.find(
+        (course: { courseName: string }) =>
+          course.courseName.toLowerCase() ===
+          courseSearch[key][0].pageContent.toLowerCase()
+      )
     );
   }
 
