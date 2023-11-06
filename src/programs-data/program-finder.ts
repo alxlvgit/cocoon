@@ -1,3 +1,4 @@
+import { semanticSearchLambda } from "@/app/uploads/document-processing";
 import programsData from "./programsData.json";
 
 // TODO: refactor to have two separate functions for programs and courses
@@ -21,20 +22,14 @@ export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {
     }
   );
 
-  const programSearch = await fetch(
-    "https://4u4plgzyv6amk3jeqp5wmcksla0swhmm.lambda-url.us-west-2.on.aws/",
-    {
-      method: "POST",
-      body: JSON.stringify({
-        inputData: keyPhrases,
-        dataToStoreInVectorStore: programsNames,
-        minSimilarityScore: 0.6,
-        kIncrement: 1,
-        maxK: 1,
-      }),
-    }
+  const programSearch = await semanticSearchLambda(
+    keyPhrases,
+    programsNames,
+    0.6,
+    1,
+    1
   );
-  const programsMatches = await programSearch.json();
+  const programsMatches = programSearch;
 
   const retrievedPrograms = programsMatches.vectorStoreMatched.map(
     (programName: string) => {
@@ -45,20 +40,14 @@ export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {
     }
   );
 
-  const courseSearch = await fetch(
-    "https://4u4plgzyv6amk3jeqp5wmcksla0swhmm.lambda-url.us-west-2.on.aws/",
-    {
-      method: "POST",
-      body: JSON.stringify({
-        inputData: keyPhrases,
-        dataToStoreInVectorStore: coursesNames,
-        minSimilarityScore: 0.6,
-        kIncrement: 1,
-        maxK: 1,
-      }),
-    }
+  const courseSearch = await semanticSearchLambda(
+    keyPhrases,
+    coursesNames,
+    0.6,
+    1,
+    1
   );
-  const coursesMatches = await courseSearch.json();
+  const coursesMatches = courseSearch;
 
   const retrievedCourses = coursesMatches.vectorStoreMatched.map(
     (courseName: string) => {

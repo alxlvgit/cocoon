@@ -58,6 +58,11 @@ function Uploads({ params }: { params: { careerCode: string } }) {
       done={false}
       text="Only single page PDFs are supported at this time."
     />,
+    <ProcessingStatus
+      key={"fail"}
+      done={false}
+      text="Processing failed. Please try again."
+    />,
   ];
 
   const getNumberOfPDFPages = async (pdfData: string) => {
@@ -70,8 +75,10 @@ function Uploads({ params }: { params: { careerCode: string } }) {
     dispatch(setProcessingStatus(2));
     const resumeKeyPhrases = await extractResumeKeyPhrases(extractedText); // Step 2: if text is extracted, extract key phrases by using ChatOpenAI API
     const careerSkillsKeyPhrases = await extractCareerKeyPhrases(careerCode); // Step 3: extract key phrases from career skills
-    const { title, requiredSkills } = careerSkillsKeyPhrases;
-    if (requiredSkills && resumeKeyPhrases) {
+    const { title, requiredSkills } = careerSkillsKeyPhrases
+      ? careerSkillsKeyPhrases
+      : { title: null, requiredSkills: null };
+    if (requiredSkills && resumeKeyPhrases && title) {
       const matchingMissingSkills = await findMissingSkills(
         requiredSkills,
         resumeKeyPhrases
@@ -86,6 +93,9 @@ function Uploads({ params }: { params: { careerCode: string } }) {
       dispatch(setProcessing(false));
       dispatch(setProcessingStatus(null));
       router.push("/path");
+    } else {
+      dispatch(setProcessing(false));
+      dispatch(setProcessingStatus(5));
     }
   };
 
