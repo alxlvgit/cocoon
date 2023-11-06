@@ -71,25 +71,25 @@ const MobileNavbar: React.FC = () => {
         <div className="mt-14">
           <a
             href="/home"
-            className="block text-white py-8 text-center text-2xl"
+            className="p-10 block text-white text-center text-2xl"
           >
             Home
           </a>
           <a
             href="/about"
-            className="block text-white py-10 text-center text-2xl"
+            className="p-10 block text-white text-center text-2xl"
           >
             About
           </a>
           <a
             href="/careers"
-            className="block text-white py-12 text-center text-2xl"
+            className="p-10 block text-white text-center text-2xl"
           >
             Careers
           </a>
           <a
             href="/path"
-            className="block text-white py-12 text-center text-2xl mb-12"
+            className="p-10 block text-white text-center text-2xl mb-12"
           >
             Path
           </a>
