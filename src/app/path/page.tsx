@@ -4,6 +4,7 @@ import Path from "@/components/Path";
 import {
   matchCoursesWithKeyPhrases,
   matchProgramsWithKeyPhrases,
+  Program,
 } from "@/programs-data/program-finder";
 import {
   setCourses,
@@ -29,7 +30,7 @@ export default function Career() {
     matchingCareerSkills,
   } = useAppSelector((state) => state.resumeProcessingSlice);
 
-  const [skillsMismatch, setSkillsMismatch] = useState(0);
+  const [skillsMismatch, setSkillsMatch] = useState(0);
   const [bestMatch, setBestMatch] = useState("");
 
   useEffect(() => {
@@ -47,21 +48,25 @@ export default function Career() {
       const { matchedCourses } = coursesSearch;
       const { matchedPrograms } = programsSearch;
 
+      dispatch(setPrograms(Array.from(matchedPrograms)));
+      dispatch(setCourses(Array.from(matchedCourses)));
+      const skillsMatchedPercentage = calculateSkillsMatchPercentage(
+        matchingCareerSkills,
+        requiredCareerSkills
+      );
+      setSkillsMatch(skillsMatchedPercentage);
       const bestMatch = await findRecommendedPath(
-        50,
+        skillsMatchedPercentage,
         pickedCareer!,
         Array.from(matchedPrograms),
         Array.from(matchedCourses)
       );
-      dispatch(setPrograms(Array.from(matchedPrograms)));
-      dispatch(setCourses(Array.from(matchedCourses)));
-      const skillsMismatchCalculated = calculateSkillsMatchPercentage(
-        matchingCareerSkills,
-        requiredCareerSkills
-      );
-      setSkillsMismatch(skillsMismatchCalculated);
       if (bestMatch) {
-        setBestMatch(bestMatch.programName);
+        setBestMatch(
+          bestMatch.bestMatchProgram
+            ? bestMatch.bestMatchProgram.programName
+            : bestMatch.bestMatchCourse.courseName
+        );
       } else {
         setBestMatch("N/A");
       }

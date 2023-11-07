@@ -29,6 +29,13 @@ export type KeyPhrases = {
   qualifications?: string[];
 };
 
+const llm = new ChatOpenAI({
+  modelName: "gpt-4-0613",
+  temperature: 0,
+});
+
+const outputParser = new JsonOutputFunctionsParser();
+
 export const handler = async (
   event: APIGatewayEvent,
   context: Context
@@ -44,15 +51,6 @@ export const handler = async (
       inputVariables: ["inputText"],
     });
 
-    const llm = new ChatOpenAI({
-      modelName: "gpt-3.5-turbo-0613",
-      temperature: 0,
-    });
-
-    const zodSchema = includeQualifications
-      ? resumeKeyWordsSchema
-      : careerKeyWordsSchema;
-
     // Binding "function_call" below makes the model always call the specified function.
     // If you want to allow the model to call functions selectively, omit it.
     const functionCallingModel = llm.bind({
@@ -60,13 +58,13 @@ export const handler = async (
         {
           name: "output_formatter",
           description: "Should always be used to properly format output",
-          parameters: zodToJsonSchema(zodSchema),
+          parameters: zodToJsonSchema(
+            includeQualifications ? resumeKeyWordsSchema : careerKeyWordsSchema
+          ),
         },
       ],
       function_call: { name: "output_formatter" },
     });
-
-    const outputParser = new JsonOutputFunctionsParser();
 
     const chain = prompt.pipe(functionCallingModel).pipe(outputParser);
 

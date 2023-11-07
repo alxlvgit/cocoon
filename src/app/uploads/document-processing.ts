@@ -50,7 +50,7 @@ export const semanticSearchLambda = async (
 // Extract key phrases from resume
 export const extractResumeKeyPhrases = async (extractedText: string) => {
   const prompt =
-    "List all skills, duties, performed tasks, and qualifications mentioned in the following text.";
+    "List all skills, performed tasks, and qualifications mentioned in the following text.";
   const resumeKeyPhrases = await extractKeyPhrasesLambda(
     extractedText,
     prompt,
@@ -111,7 +111,7 @@ export const findMissingSkills = async (
   const result = await semanticSearchLambda(
     resumePhrases,
     careerPhrases,
-    0.7,
+    0.75,
     1,
     1
   );
