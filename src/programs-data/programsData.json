@@ -2,7 +2,7 @@
     "programs": [
         {
             "programName": "Digital Photography",
-            "tuitionDomestic": "$2,100*",
+            "tuitionDomestic": "$2100",
             "intakes": [
                 "January",
                 "April",
@@ -38,7 +38,7 @@
         },
         {
             "programName": "User Interface (UI) and User Experience (UX) Design",
-            "tuitionDomestic": "$3,000",
+            "tuitionDomestic": "$3000",
             "intakes": [
                 "September",
                 "January",
@@ -55,7 +55,7 @@
         },
         {
             "programName": "Graphic Design Foundations",
-            "tuitionDomestic": "$2,700",
+            "tuitionDomestic": "$2700",
             "intakes": [
                 "September",
                 "January",
@@ -72,7 +72,7 @@
         },
         {
             "programName": "Media Techniques for Business",
-            "tuitionDomestic": "$9,000",
+            "tuitionDomestic": "$9000",
             "intakes": [
                 "September",
                 "January",
@@ -88,7 +88,7 @@
         },
         {
             "programName": "Media Techniques and Marketing Communications",
-            "tuitionDomestic": "$9,500",
+            "tuitionDomestic": "$9500",
             "intakes": [
                 "September",
                 "January",
@@ -103,6 +103,7 @@
                 "September"
             ],
             "degree": "Certificate",
+            "tuitionDomestic": "$8615",
             "tuition": {
                 "domestic": {
                     "twoTerms": "$8,615",
@@ -135,6 +136,7 @@
                 "Downtown",
                 "Online"
             ],
+            "cost": "$602.31",
             "offerings": [
                 {
                     "crn": "50134",
@@ -180,6 +182,7 @@
                 "Downtown",
                 "Online"
             ],
+            "cost": "$602.31",
             "offerings": [
                 {
                     "crn": "50130",
@@ -225,6 +228,7 @@
                 "Downtown",
                 "Online"
             ],
+            "cost": "$602.31",
             "offerings": [
                 {
                     "crn": "50126",
@@ -268,6 +272,7 @@
                 "Downtown",
                 "Online"
             ],
+            "cost": "$575.20",
             "offerings": [
                 {
                     "crn": "50136",
@@ -296,6 +301,7 @@
                 "Downtown",
                 "Online"
             ],
+            "cost": "$575.20",
             "offerings": [
                 {
                     "crn": "50165",
@@ -330,7 +336,7 @@
                 {
                     "crn": "50127",
                     "duration": "Thu Sep 14 - Thu Nov 30(12 weeks)",
-                    "tuition": "$602.31",
+                    "cost": "$602.31",
                     "schedule": [
                         {
                             "date": "Sep 14 - Nov 30",
@@ -354,6 +360,7 @@
                 "Downtown",
                 "Online"
             ],
+            "cost": "$575.20",
             "offerings": [
                 {
                     "crn": "50137",
@@ -382,6 +389,7 @@
                 "Downtown",
                 "Online"
             ],
+            "cost": "$575.20",
             "offerings": [
                 {
                     "crn": "50162",
@@ -416,7 +424,7 @@
                 {
                     "crn": "50128",
                     "duration": "Sat Sep 16 - Sat Dec 16(11 weeks)",
-                    "tuition": "$602.31",
+                    "cost": "$602.31",
                     "schedule": [
                         {
                             "date": "Sep 16 - Dec 16",
@@ -441,7 +449,7 @@
                 "Online"
             ],
             "credits": 3.0,
-            "tuition": "$575.20 - $602.31",
+            "cost": "$602.31",
             "offerings": [
                 {
                     "crn": "50124",
@@ -501,7 +509,7 @@
             ],
             "prerequisites": "50% in GDES 1275 and 50% in GDES 1140",
             "credits": 3.0,
-            "tuition": "$575.20",
+            "cost": "$575.20",
             "offerings": [
                 {
                     "crn": "50147",
@@ -532,7 +540,7 @@
             ],
             "prerequisites": "50% in GDES 1069 and 50% in GDES 1270 and 50% in GDES 1275",
             "credits": "3.0",
-            "tuition": "$575.20",
+            "cost": "$575.20",
             "offerings": [
                 {
                     "crn": "50140",
@@ -562,7 +570,7 @@
             ],
             "prerequisites": "50% in GDES 1235 and 50% in GDES 1105 and 50% in GDES 1069 and 50% in GDES 1270 and 50% in GDES 1275",
             "credits": "3.0",
-            "tuition": "$575.20",
+            "cost": "$575.20",
             "offerings": [
                 {
                     "crn": "50149",
@@ -592,7 +600,7 @@
             ],
             "prerequisites": "50% in GDES 1235 and 50% in GDES 1105 and 50% in GDES 1069 and 50% in GDES 1270 and 50% in GDES 1275",
             "credits": "3.0",
-            "tuition": "$575.20",
+            "cost": "$575.20",
             "offerings": [
                 {
                     "crn": "50145",
