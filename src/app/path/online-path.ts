@@ -40,7 +40,6 @@ export const findTheCheapestUdemyCourses = async (
     }
   );
   const data = await results.json();
-  console.log(data.results);
   if (data.results && data.results.length > 0) {
     return data.results;
   }

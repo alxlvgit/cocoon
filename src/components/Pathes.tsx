@@ -1,6 +1,7 @@
 import { useState } from "react";
+import PathContainer from "./PathContainer";
 
-const Path = ({
+const Pathes = ({
   skillsMismatch: skillsMatched,
   positionTitle,
   recommendedPath,
@@ -14,13 +15,14 @@ const Path = ({
   onlineOnlyPath: string;
 }) => {
   const [showDetails, setShowDetails] = useState(false);
+  const [hoveredPath, setHoveredPath] = useState<string | null>(null);
 
   const handleClick = () => {
     setShowDetails(!showDetails);
   };
 
   return (
-    <div className="mx-auto p-4 w-4/5 justify-center items-center align-middle rounded-2xl shadow-xl bg-gradient-to-t from-indigo-300 cursor-pointer hover:bg-indigo-400 z-30 border-0 text-black">
+    <div className="mx-auto p-4 w-full lg:w-4/5 justify-center items-center align-middle rounded-2xl shadow-xl bg-gradient-to-t from-indigo-300 cursor-pointer  z-30 border-0 text-black">
       <div className="bg-indigo-100 h-full w-full rounded-lg mx-auto p-4 text-center shadow-2xl flex flex-col align-middle items-center justify-center">
         <h1 className="text-base md:text-lg lg:text-3lg font-extrabold text-center hover:font-semibold w-full mb-4">
           {positionTitle}
@@ -30,28 +32,28 @@ const Path = ({
           job
         </h1>
         {showDetails && (
-          <div className="flex w-full flex-col justify-center items-left align-middle">
-            <h1 className="text-xs md:text-base lg:text-lg text-left font-bold mt-3 w-full">
-              Recommended Path:
-            </h1>
-            <p className="text-xs md:text-base lg:text-lg text-left w-full">
-              {recommendedPath}
-            </p>
-            <h1 className="text-xs md:text-base lg:text-lg text-left font-bold mt-3 w-full">
-              Cheapest Path:
-            </h1>
-            <p className="text-xs md:text-base lg:text-lg text-left w-full">
-              {cheapestPath}
-            </p>
-            <h1 className="text-xs md:text-base lg:text-lg text-left font-bold mt-3 w-full">
-              Online Only Path:
-            </h1>
-            <p className="text-xs md:text-base lg:text-lg text-left w-full">
-              {onlineOnlyPath}
-            </p>
-          </div>
+          <>
+            <PathContainer
+              pathData={recommendedPath}
+              onMouseEnter={() => setHoveredPath(recommendedPath)}
+              onMouseLeave={() => setHoveredPath(null)}
+              hoveredPath={hoveredPath}
+            />
+            <PathContainer
+              pathData={cheapestPath}
+              onMouseEnter={() => setHoveredPath(cheapestPath)}
+              onMouseLeave={() => setHoveredPath(null)}
+              hoveredPath={hoveredPath}
+            />
+            <PathContainer
+              pathData={onlineOnlyPath}
+              onMouseEnter={() => setHoveredPath(onlineOnlyPath)}
+              onMouseLeave={() => setHoveredPath(null)}
+              hoveredPath={hoveredPath}
+            />
+          </>
         )}
-        <div className="grid grid-cols-1 md:grid-cols-3 pt-5 lg:gap-4 gap-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 pt-14 lg:gap-4 gap-1 ">
           <button
             onClick={() => {
               handleClick();
@@ -59,9 +61,6 @@ const Path = ({
             className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-4 mr-2 border border-gray-400 rounded-lg shadow text-sm"
           >
             {showDetails ? "Hide Details" : "Show Details"}
-          </button>
-          <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-4 mr-2 border border-gray-400 rounded-lg shadow text-sm">
-            Mark As My Current Path
           </button>
           <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-4 mr-2 border border-gray-400 rounded-lg shadow text-sm">
             Remove
@@ -72,4 +71,4 @@ const Path = ({
   );
 };
 
-export default Path;
+export default Pathes;

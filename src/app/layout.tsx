@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark:bg-black dark:text-white">
       <ReduxProvider>
-        <body className={`${inter.className} min-h-screen `}>
+        <body className={`${inter.className} min-h-screen flex flex-col `}>
           <header className="px-5 py-10">
             <div className="sm:hidden">
               <MobileNavbar />
@@ -33,10 +33,8 @@ export default function RootLayout({
             </div>
           </header>
 
-          {/* <Bucket /> */}
-
-          {children}
-          <footer className="flex justify-center text-sm text-zinc-400 py-12">
+          <main className="flex-grow">{children}</main>
+          <footer className="w-full flex justify-center text-sm text-zinc-400 py-12">
             Cocoon
           </footer>
         </body>
@@ -44,4 +42,3 @@ export default function RootLayout({
     </html>
   );
 }
-
