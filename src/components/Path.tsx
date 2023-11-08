@@ -20,7 +20,7 @@ const Path = ({
   };
 
   return (
-    <div className="mx-auto p-4 w-full lg:w-4/5 justify-center items-center align-middle rounded-2xl shadow-xl bg-gradient-to-t from-indigo-300 cursor-pointer hover:bg-indigo-400 z-30 border-0 text-black">
+    <div className="mx-auto p-4 w-4/5 justify-center items-center align-middle rounded-2xl shadow-xl bg-gradient-to-t from-indigo-300 cursor-pointer hover:bg-indigo-400 z-30 border-0 text-black">
       <div className="bg-indigo-100 h-full w-full rounded-lg mx-auto p-4 text-center shadow-2xl flex flex-col align-middle items-center justify-center">
         <h1 className="text-base md:text-lg lg:text-3lg font-extrabold text-center hover:font-semibold w-full mb-4">
           {positionTitle}

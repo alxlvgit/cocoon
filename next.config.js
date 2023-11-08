@@ -8,6 +8,9 @@ const nextConfig = {
     serverActionsBodySizeLimit: "3mb",
   },
   reactStrictMode: false,
+  images: {
+    domains: ["velog.velcdn.com"],
+  },
 };
 
 module.exports = nextConfig;
