@@ -1,709 +1,717 @@
 {
-  "programs": [
-    {
-      "ProgramName": "Digital Photography",
-      "TuitionDomestic": "$2,100*",
-      "Intakes": [
-        "January",
-        "April",
-        "September"
-      ],
-      "Degree": "Statement of Completion",
-      "RequiredCourses": [
+    "programs": [
         {
-          "CourseName": "Raster Graphics: Adobe Photoshop",
-          "Credits": 3.0
+            "programName": "Digital Photography",
+            "tuitionDomestic": "$2100",
+            "intakes": [
+                "January",
+                "April",
+                "September"
+            ],
+            "degree": "Statement of Completion",
+            "requiredCourses": [
+                {
+                    "courseName": "Raster Graphics: Adobe Photoshop",
+                    "credits": 3.0
+                },
+                {
+                    "courseName": "Photography 1",
+                    "credits": 1.5
+                },
+                {
+                    "courseName": "Digital Darkroom",
+                    "credits": 1.5
+                },
+                {
+                    "courseName": "Photography 2",
+                    "credits": 1.5
+                }
+            ],
+            "totalCredits": 7.5,
+            "delivery": "Blended",
+            "contact": {
+                "name": "Gabriela Silva-Paula",
+                "role": "Program Assistant, Digital Arts",
+                "phone": "604-432-8248",
+                "email": "Gabriela_SilvaPaula@bcit.ca"
+            }
         },
         {
-          "CourseName": "Photography 1",
-          "Credits": 1.5
+            "programName": "User Interface (UI) and User Experience (UX) Design",
+            "tuitionDomestic": "$3000",
+            "intakes": [
+                "September",
+                "January",
+                "April"
+            ],
+            "degree": "Associate Certificate",
+            "delivery": "Online",
+            "contact": {
+                "name": "Gabriela Silva-Paula",
+                "role": "Program Assistant, Digital Arts, Media and Design",
+                "phone": "604-432-8248",
+                "email": "gabriela_silvapaula@bcit.ca"
+            }
         },
         {
-          "CourseName": "Digital Darkroom",
-          "Credits": 1.5
+            "programName": "Graphic Design Foundations",
+            "tuitionDomestic": "$2700",
+            "intakes": [
+                "September",
+                "January",
+                "April"
+            ],
+            "degree": "Associate Certificate",
+            "delivery": "Burnaby, Vancouver, Online",
+            "contact": {
+                "name": "Gabriela Silva-Paula",
+                "role": "Program Assistant, Digital Arts, Media and Design",
+                "phone": "604-432-8248",
+                "email": "gabriela_silvapaula@bcit.ca"
+            }
         },
         {
-          "CourseName": "Photography 2",
-          "Credits": 1.5
-        }
-      ],
-      "TotalCredits": 7.5,
-      "Delivery": "Blended",
-      "Contact": {
-        "Name": "Gabriela Silva-Paula",
-        "Role": "Program Assistant, Digital Arts",
-        "Phone": "604-432-8248",
-        "Email": "Gabriela_SilvaPaula@bcit.ca"
-      }
-    },
-    {
-      "ProgramName": "User Interface (UI) and User Experience (UX) Design",
-      "TuitionDomestic": "$3,000",
-      "Intakes": [
-        "September",
-        "January",
-        "April"
-      ],
-      "Degree": "Associate Certificate",
-      "Delivery": "Online",
-      "Contact": {
-        "Name": "Gabriela Silva-Paula",
-        "Role": "Program Assistant, Digital Arts, Media and Design",
-        "Phone": "604-432-8248",
-        "Email": "gabriela_silvapaula@bcit.ca"
-      }
-    },
-    {
-      "ProgramName": "Graphic Design Foundations",
-      "TuitionDomestic": "$2,700",
-      "Intakes": [
-        "September",
-        "January",
-        "April"
-      ],
-      "Degree": "Associate Certificate",
-      "Delivery": "Burnaby, Vancouver, Online",
-      "Contact": {
-        "Name": "Gabriela Silva-Paula",
-        "Role": "Program Assistant, Digital Arts, Media and Design",
-        "Phone": "604-432-8248",
-        "Email": "gabriela_silvapaula@bcit.ca"
-      }
-    },
-    {
-      "ProgramName": "Media Techniques for Business",
-      "TuitionDomestic": "$9,000",
-      "Intakes": [
-        "September",
-        "January",
-        "April"
-      ],
-      "Degree": "Certificate",
-      "Contact": {
-        "Name": "Gabriela Silva-Paula",
-        "Role": "Program Assistant, Digital Arts, Media and Design",
-        "Phone": "604-432-8248",
-        "Email": "gabriela_silvapaula@bcit.ca"
-      }
-    },
-    {
-      "ProgramName": "Media Techniques and Marketing Communications",
-      "TuitionDomestic": "$9,500",
-      "Intakes": [
-        "September",
-        "January",
-        "April"
-      ],
-      "Degree": "Certificate"
-    },
-    {
-      "ProgramName": "Graphic Design",
-      "Intakes": [
-        "May",
-        "September"
-      ],
-      "Degree": "Certificate",
-      "Tuition": {
-        "Domestic": {
-          "twoTerms": "$8,615",
-          "threeTerms": "$8,876"
-        },
-        "International": {
-          "twoTerms": "Tuition for two terms for international students",
-          "threeTerms": "Tuition for three terms for international students"
-        }
-      },
-      "Delivery": "Online, Downtown Campus, Burnaby Campus",
-      "Contact": {
-        "Name": "Gabriela Silva-Paula",
-        "Role": "Program Assistant, Digital Arts, Media and Design",
-        "Phone": "604-432-8248",
-        "Email": "gabriela_silvapaula@bcit.ca"
-      }
-    }
-  ],
-  "courses": [
-    {
-      "CourseCode": "GDES 1069",
-      "CourseName": "Layout: Adobe InDesign",
-      "Terms": [
-        "Fall",
-        "Winter",
-        "Spring"
-      ],
-      "Campus": [
-        "Downtown",
-        "Online"
-      ],
-      "Offerings": [
-        {
-          "CRN": "50134",
-          "Duration": "Sat Sep 16 - Sat Dec 16(11 weeks)",
-          "Tuition": "$575.20",
-          "Schedule": [
-            {
-              "Date": "Sep 16 - Dec 16",
-              "Day": "Sat",
-              "Time": "09:30 - 12:45",
-              "Location": "Online"
+            "programName": "Media Techniques for Business",
+            "tuitionDomestic": "$9000",
+            "intakes": [
+                "September",
+                "January",
+                "April"
+            ],
+            "degree": "Certificate",
+            "contact": {
+                "name": "Gabriela Silva-Paula",
+                "role": "Program Assistant, Digital Arts, Media and Design",
+                "phone": "604-432-8248",
+                "email": "gabriela_silvapaula@bcit.ca"
             }
-          ],
-          "Instructor": "Negin Etemadi",
-          "Status": "IN PROGRESS"
         },
         {
-          "CRN": "50125",
-          "Duration": "Tue Sep 12 - Tue Nov 28(12 weeks)",
-          "Tuition": "$602.31",
-          "Schedule": [
-            {
-              "Date": "Sep 12 - Nov 28",
-              "Day": "Tue",
-              "Time": "18:00 - 21:00",
-              "Location": "DowntownDTC Rm. 890"
-            }
-          ],
-          "Instructor": "Paul Sawyer",
-          "Status": "IN PROGRESS"
-        }
-      ]
-    },
-    {
-      "CourseCode": "GDES 1105",
-      "CourseName": "Visual Composition + Layout",
-      "Terms": [
-        "Fall",
-        "Winter",
-        "Spring"
-      ],
-      "Campus": [
-        "Downtown",
-        "Online"
-      ],
-      "Offerings": [
-        {
-          "CRN": "50130",
-          "Duration": "Mon Sep 11 - Mon Dec 11(11 weeks)",
-          "Tuition": "$575.20",
-          "Schedule": [
-            {
-              "Date": "Sep 11 - Dec 11",
-              "Day": "Mon",
-              "Time": "18:00 - 21:15",
-              "Location": "Online"
-            }
-          ],
-          "Instructor": "Negin Etemadi",
-          "Status": "IN PROGRESS"
+            "programName": "Media Techniques and Marketing Communications",
+            "tuitionDomestic": "$9500",
+            "intakes": [
+                "September",
+                "January",
+                "April"
+            ],
+            "degree": "Certificate"
         },
         {
-          "CRN": "50129",
-          "Duration": "Sat Sep 16 - Sat Dec 16(11 weeks)",
-          "Tuition": "$602.31",
-          "Schedule": [
-            {
-              "Date": "Sep 16 - Dec 16",
-              "Day": "Sat",
-              "Time": "09:30 - 12:45",
-              "Location": "DowntownDTC Rm. 850"
+            "programName": "Graphic Design",
+            "intakes": [
+                "May",
+                "September"
+            ],
+            "degree": "Certificate",
+            "tuitionDomestic": "$8615",
+            "tuition": {
+                "domestic": {
+                    "twoTerms": "$8,615",
+                    "threeTerms": "$8,876"
+                },
+                "international": {
+                    "twoTerms": "Tuition for two terms for international students",
+                    "threeTerms": "Tuition for three terms for international students"
+                }
+            },
+            "delivery": "Online, Downtown Campus, Burnaby Campus",
+            "contact": {
+                "name": "Gabriela Silva-Paula",
+                "role": "Program Assistant, Digital Arts, Media and Design",
+                "phone": "604-432-8248",
+                "email": "gabriela_silvapaula@bcit.ca"
             }
-          ],
-          "Instructor": "Corina Pop",
-          "Status": "IN PROGRESS"
         }
-      ]
-    },
-    {
-      "CourseCode": "GDES 1140",
-      "CourseName": "Colour Theory",
-      "Terms": [
-        "Fall",
-        "Winter",
-        "Spring"
-      ],
-      "Campus": [
-        "Downtown",
-        "Online"
-      ],
-      "Offerings": [
+    ],
+    "courses": [
         {
-          "CRN": "50126",
-          "Duration": "Wed Sep 13 - Wed Nov 29(12 weeks)",
-          "Tuition": "$602.31",
-          "Schedule": [
-            {
-              "Date": "Sep 13 - Nov 29",
-              "Day": "Wed",
-              "Time": "18:00 - 21:00",
-              "Location": "DowntownDTC Rm. 850"
-            }
-          ],
-          "Instructor": "Omar Amini",
-          "Status": "IN PROGRESS"
+            "courseCode": "GDES 1069",
+            "courseName": "Layout: Adobe InDesign",
+            "terms": [
+                "Fall",
+                "Winter",
+                "Spring"
+            ],
+            "campus": [
+                "Downtown",
+                "Online"
+            ],
+            "cost": "$602.31",
+            "offerings": [
+                {
+                    "crn": "50134",
+                    "duration": "Sat Sep 16 - Sat Dec 16(11 weeks)",
+                    "tuition": "$575.20",
+                    "schedule": [
+                        {
+                            "date": "Sep 16 - Dec 16",
+                            "day": "Sat",
+                            "time": "09:30 - 12:45",
+                            "location": "Online"
+                        }
+                    ],
+                    "instructor": "Negin Etemadi",
+                    "status": "IN PROGRESS"
+                },
+                {
+                    "crn": "50125",
+                    "duration": "Tue Sep 12 - Tue Nov 28(12 weeks)",
+                    "tuition": "$602.31",
+                    "schedule": [
+                        {
+                            "date": "Sep 12 - Nov 28",
+                            "day": "Tue",
+                            "time": "18:00 - 21:00",
+                            "location": "DowntownDTC Rm. 890"
+                        }
+                    ],
+                    "instructor": "Paul Sawyer",
+                    "status": "IN PROGRESS"
+                }
+            ]
         },
         {
-          "CRN": "50135",
-          "Duration": "Sat Sep 16 - Sat Dec 16(11 weeks)",
-          "Tuition": "$575.20",
-          "Schedule": [
-            {
-              "Date": "Sep 16 - Dec 16",
-              "Day": "Sat",
-              "Time": "13:45 - 17:00",
-              "Location": "Online"
-            }
-          ],
-          "Instructor": "Negin Etemadi",
-          "Status": "IN PROGRESS"
-        }
-      ]
-    },
-    {
-      "CourseCode": "GDES 1190",
-      "CourseName": "Web Design",
-      "Terms": [
-        "Fall"
-      ],
-      "Campus": [
-        "Downtown",
-        "Online"
-      ],
-      "Offerings": [
-        {
-          "CRN": "50136",
-          "Duration": "Mon Sep 11 - Mon Dec 11(11 weeks)",
-          "Tuition": "$575.20",
-          "Schedule": [
-            {
-              "Date": "Sep 11 - Dec 11",
-              "Day": "Mon",
-              "Time": "18:00 - 21:15",
-              "Location": "Online"
-            }
-          ],
-          "Instructor": "Brent Leung",
-          "Status": "IN PROGRESS"
-        }
-      ]
-    },
-    {
-      "CourseCode": "GDES 1235",
-      "CourseName": "Graphic Design Process",
-      "Terms": [
-        "Fall"
-      ],
-      "Campus": [
-        "Downtown",
-        "Online"
-      ],
-      "Offerings": [
-        {
-          "CRN": "50165",
-          "Duration": "Mon Sep 11 - Mon Dec 11(11 weeks)",
-          "Tuition": "$575.20",
-          "Schedule": [
-            {
-              "Date": "Sep 11 - Dec 11",
-              "Day": "Mon",
-              "Time": "18:00 - 21:15",
-              "Location": "Online"
-            }
-          ],
-          "Instructor": "Omar Amini",
-          "Status": "IN PROGRESS"
+            "courseCode": "GDES 1105",
+            "courseName": "Visual Composition + Layout",
+            "terms": [
+                "Fall",
+                "Winter",
+                "Spring"
+            ],
+            "campus": [
+                "Downtown",
+                "Online"
+            ],
+            "cost": "$602.31",
+            "offerings": [
+                {
+                    "crn": "50130",
+                    "duration": "Mon Sep 11 - Mon Dec 11(11 weeks)",
+                    "tuition": "$575.20",
+                    "schedule": [
+                        {
+                            "date": "Sep 11 - Dec 11",
+                            "day": "Mon",
+                            "time": "18:00 - 21:15",
+                            "location": "Online"
+                        }
+                    ],
+                    "instructor": "Negin Etemadi",
+                    "status": "IN PROGRESS"
+                },
+                {
+                    "crn": "50129",
+                    "duration": "Sat Sep 16 - Sat Dec 16(11 weeks)",
+                    "tuition": "$602.31",
+                    "schedule": [
+                        {
+                            "date": "Sep 16 - Dec 16",
+                            "day": "Sat",
+                            "time": "09:30 - 12:45",
+                            "location": "DowntownDTC Rm. 850"
+                        }
+                    ],
+                    "instructor": "Corina Pop",
+                    "status": "IN PROGRESS"
+                }
+            ]
         },
         {
-          "CRN": "50131",
-          "Duration": "Tue Sep 12 - Tue Nov 28(12 weeks)",
-          "Tuition": "$575.20",
-          "Schedule": [
-            {
-              "Date": "Sep 12 - Nov 28",
-              "Day": "Tue",
-              "Time": "18:00 - 21:00",
-              "Location": "Online"
-            }
-          ],
-          "Instructor": "Omar Amini",
-          "Status": "IN PROGRESS"
+            "courseCode": "GDES 1140",
+            "courseName": "Colour Theory",
+            "terms": [
+                "Fall",
+                "Winter",
+                "Spring"
+            ],
+            "campus": [
+                "Downtown",
+                "Online"
+            ],
+            "cost": "$602.31",
+            "offerings": [
+                {
+                    "crn": "50126",
+                    "duration": "Wed Sep 13 - Wed Nov 29(12 weeks)",
+                    "tuition": "$602.31",
+                    "schedule": [
+                        {
+                            "date": "Sep 13 - Nov 29",
+                            "day": "Wed",
+                            "time": "18:00 - 21:00",
+                            "location": "DowntownDTC Rm. 850"
+                        }
+                    ],
+                    "instructor": "Omar Amini",
+                    "status": "IN PROGRESS"
+                },
+                {
+                    "crn": "50135",
+                    "duration": "Sat Sep 16 - Sat Dec 16(11 weeks)",
+                    "tuition": "$575.20",
+                    "schedule": [
+                        {
+                            "date": "Sep 16 - Dec 16",
+                            "day": "Sat",
+                            "time": "13:45 - 17:00",
+                            "location": "Online"
+                        }
+                    ],
+                    "instructor": "Negin Etemadi",
+                    "status": "IN PROGRESS"
+                }
+            ]
         },
         {
-          "CRN": "50127",
-          "Duration": "Thu Sep 14 - Thu Nov 30(12 weeks)",
-          "Tuition": "$602.31",
-          "Schedule": [
-            {
-              "Date": "Sep 14 - Nov 30",
-              "Day": "Thu",
-              "Time": "18:00 - 21:00",
-              "Location": "DowntownDTC Rm. 860"
-            }
-          ],
-          "Instructor": "Wafe Gara Ali",
-          "Status": "IN PROGRESS"
-        }
-      ]
-    },
-    {
-      "CourseCode": "GDES 1255",
-      "CourseName": "Visual Language",
-      "Terms": [
-        "Fall"
-      ],
-      "Campus": [
-        "Downtown",
-        "Online"
-      ],
-      "Offerings": [
-        {
-          "CRN": "50137",
-          "Duration": "Wed Sep 13 - Wed Nov 29(12 weeks)",
-          "Tuition": "$575.20",
-          "Schedule": [
-            {
-              "Date": "Sep 13 - Nov 29",
-              "Day": "Wed",
-              "Time": "18:00 - 21:00",
-              "Location": "Online"
-            }
-          ],
-          "Instructor": "Pauline Lai",
-          "Status": "IN PROGRESS"
-        }
-      ]
-    },
-    {
-      "CourseCode": "GDES 1270",
-      "CourseName": "Vector Graphics: Adobe Illustrator",
-      "Terms": [
-        "Fall"
-      ],
-      "Campus": [
-        "Downtown",
-        "Online"
-      ],
-      "Offerings": [
-        {
-          "CRN": "50162",
-          "Duration": "Tue Sep 05 - Tue Nov 21(12 weeks)",
-          "Tuition": "$575.20",
-          "Schedule": [
-            {
-              "Date": "Sep 05 - Nov 21",
-              "Day": "Tue",
-              "Time": "18:00 - 21:00",
-              "Location": "Online"
-            }
-          ],
-          "Instructor": "Andrew Sugianto",
-          "Status": "IN PROGRESS"
+            "courseCode": "GDES 1190",
+            "courseName": "Web Design",
+            "terms": [
+                "Fall"
+            ],
+            "campus": [
+                "Downtown",
+                "Online"
+            ],
+            "cost": "$575.20",
+            "offerings": [
+                {
+                    "crn": "50136",
+                    "duration": "Mon Sep 11 - Mon Dec 11(11 weeks)",
+                    "tuition": "$575.20",
+                    "schedule": [
+                        {
+                            "date": "Sep 11 - Dec 11",
+                            "day": "Mon",
+                            "time": "18:00 - 21:15",
+                            "location": "Online"
+                        }
+                    ],
+                    "instructor": "Brent Leung",
+                    "status": "IN PROGRESS"
+                }
+            ]
         },
         {
-          "CRN": "50133",
-          "Duration": "Thu Sep 14 - Thu Nov 30(12 weeks)",
-          "Tuition": "$575.20",
-          "Schedule": [
-            {
-              "Date": "Sep 14 - Nov 30",
-              "Day": "Thu",
-              "Time": "N/A",
-              "Location": "Online"
-            }
-          ],
-          "Instructor": "Mahmoud Abdel-Hai",
-          "Status": "IN PROGRESS AND FULL"
+            "courseCode": "GDES 1235",
+            "courseName": "Graphic Design Process",
+            "terms": [
+                "Fall"
+            ],
+            "campus": [
+                "Downtown",
+                "Online"
+            ],
+            "cost": "$575.20",
+            "offerings": [
+                {
+                    "crn": "50165",
+                    "duration": "Mon Sep 11 - Mon Dec 11(11 weeks)",
+                    "tuition": "$575.20",
+                    "schedule": [
+                        {
+                            "date": "Sep 11 - Dec 11",
+                            "day": "Mon",
+                            "time": "18:00 - 21:15",
+                            "location": "Online"
+                        }
+                    ],
+                    "instructor": "Omar Amini",
+                    "status": "IN PROGRESS"
+                },
+                {
+                    "crn": "50131",
+                    "duration": "Tue Sep 12 - Tue Nov 28(12 weeks)",
+                    "tuition": "$575.20",
+                    "schedule": [
+                        {
+                            "date": "Sep 12 - Nov 28",
+                            "day": "Tue",
+                            "time": "18:00 - 21:00",
+                            "location": "Online"
+                        }
+                    ],
+                    "instructor": "Omar Amini",
+                    "status": "IN PROGRESS"
+                },
+                {
+                    "crn": "50127",
+                    "duration": "Thu Sep 14 - Thu Nov 30(12 weeks)",
+                    "cost": "$602.31",
+                    "schedule": [
+                        {
+                            "date": "Sep 14 - Nov 30",
+                            "day": "Thu",
+                            "time": "18:00 - 21:00",
+                            "location": "DowntownDTC Rm. 860"
+                        }
+                    ],
+                    "instructor": "Wafe Gara Ali",
+                    "status": "IN PROGRESS"
+                }
+            ]
         },
         {
-          "CRN": "50128",
-          "Duration": "Sat Sep 16 - Sat Dec 16(11 weeks)",
-          "Tuition": "$602.31",
-          "Schedule": [
-            {
-              "Date": "Sep 16 - Dec 16",
-              "Day": "Sat",
-              "Time": "13:30 - 16:45",
-              "Location": "DowntownDTC Rm. 870"
-            }
-          ],
-          "Instructor": "Daemon Baldwin",
-          "Status": "IN PROGRESS AND FULL"
-        }
-      ]
-    },
-    {
-      "CourseCode": "GDES 1275",
-      "CourseName": "Raster Graphics: Adobe Photoshop",
-      "Terms": [
-        "Fall"
-      ],
-      "Campus": [
-        "Downtown",
-        "Online"
-      ],
-      "Credits": "3.0",
-      "Cost": "$575.20 - $602.31",
-      "Offerings": [
-        {
-          "CRN": "50124",
-          "Duration": "Mon Sep 11 - Mon Dec 11(11 weeks)",
-          "Tuition": "$602.31",
-          "Schedule": [
-            {
-              "Date": "Sep 11 - Dec 11",
-              "Day": "Mon",
-              "Time": "18:00 - 21:15",
-              "Location": "DowntownDTC Rm. 860"
-            }
-          ],
-          "Instructor": "Tyler Higgs",
-          "Status": "IN PROGRESS"
+            "courseCode": "GDES 1255",
+            "courseName": "Visual Language",
+            "terms": [
+                "Fall"
+            ],
+            "campus": [
+                "Downtown",
+                "Online"
+            ],
+            "cost": "$575.20",
+            "offerings": [
+                {
+                    "crn": "50137",
+                    "duration": "Wed Sep 13 - Wed Nov 29(12 weeks)",
+                    "tuition": "$575.20",
+                    "schedule": [
+                        {
+                            "date": "Sep 13 - Nov 29",
+                            "day": "Wed",
+                            "time": "18:00 - 21:00",
+                            "location": "Online"
+                        }
+                    ],
+                    "instructor": "Pauline Lai",
+                    "status": "IN PROGRESS"
+                }
+            ]
         },
         {
-          "CRN": "50164",
-          "Duration": "Tue Sep 12 - Tue Nov 28(12 weeks)",
-          "Tuition": "$575.20",
-          "Schedule": [
-            {
-              "Date": "Sep 12 - Nov 28",
-              "Day": "Tue",
-              "Time": "18:00 - 21:00",
-              "Location": "Online"
-            }
-          ],
-          "Instructor": "Stephen Scheibel",
-          "Status": "IN PROGRESS AND FULL"
+            "courseCode": "GDES 1270",
+            "courseName": "Vector Graphics: Adobe Illustrator",
+            "terms": [
+                "Fall"
+            ],
+            "campus": [
+                "Downtown",
+                "Online"
+            ],
+            "cost": "$575.20",
+            "offerings": [
+                {
+                    "crn": "50162",
+                    "duration": "Tue Sep 05 - Tue Nov 21(12 weeks)",
+                    "tuition": "$575.20",
+                    "schedule": [
+                        {
+                            "date": "Sep 05 - Nov 21",
+                            "day": "Tue",
+                            "time": "18:00 - 21:00",
+                            "location": "Online"
+                        }
+                    ],
+                    "instructor": "Andrew Sugianto",
+                    "status": "IN PROGRESS"
+                },
+                {
+                    "crn": "50133",
+                    "duration": "Thu Sep 14 - Thu Nov 30(12 weeks)",
+                    "tuition": "$575.20",
+                    "schedule": [
+                        {
+                            "date": "Sep 14 - Nov 30",
+                            "day": "Thu",
+                            "time": "N/A",
+                            "location": "Online"
+                        }
+                    ],
+                    "instructor": "Mahmoud Abdel-Hai",
+                    "status": "IN PROGRESS AND FULL"
+                },
+                {
+                    "crn": "50128",
+                    "duration": "Sat Sep 16 - Sat Dec 16(11 weeks)",
+                    "cost": "$602.31",
+                    "schedule": [
+                        {
+                            "date": "Sep 16 - Dec 16",
+                            "day": "Sat",
+                            "time": "13:30 - 16:45",
+                            "location": "DowntownDTC Rm. 870"
+                        }
+                    ],
+                    "instructor": "Daemon Baldwin",
+                    "status": "IN PROGRESS AND FULL"
+                }
+            ]
         },
         {
-          "CRN": "50132",
-          "Duration": "Wed Sep 13 - Wed Nov 29(12 weeks)",
-          "Tuition": "$575.20",
-          "Schedule": [
-            {
-              "Date": "Sep 13 - Nov 29",
-              "Day": "Wed",
-              "Time": "N/A",
-              "Location": "Online"
-            }
-          ],
-          "Instructor": "Mahmoud Abdel-Hai",
-          "Status": "IN PROGRESS"
-        }
-      ]
-    },
-    {
-      "CourseCode": "GDES 2012",
-      "CourseName": "Image Post Production",
-      "Terms": [
-        "Fall"
-      ],
-      "Campus": [
-        "Online"
-      ],
-      "Prerequisites": "50% in GDES 1275 and 50% in GDES 1140",
-      "Credits": "3.0",
-      "Cost": "$575.20",
-      "Offerings": [
+            "courseCode": "GDES 1275",
+            "courseName": "Raster Graphics: Adobe Photoshop",
+            "terms": [
+                "Fall"
+            ],
+            "campus": [
+                "Downtown",
+                "Online"
+            ],
+            "credits": 3.0,
+            "cost": "$602.31",
+            "offerings": [
+                {
+                    "crn": "50124",
+                    "duration": "Mon Sep 11 - Mon Dec 11(11 weeks)",
+                    "tuition": "$602.31",
+                    "schedule": [
+                        {
+                            "date": "Sep 11 - Dec 11",
+                            "day": "Mon",
+                            "time": "18:00 - 21:15",
+                            "location": "DowntownDTC Rm. 860"
+                        }
+                    ],
+                    "instructor": "Tyler Higgs",
+                    "status": "IN PROGRESS"
+                },
+                {
+                    "crn": "50164",
+                    "duration": "Tue Sep 12 - Tue Nov 28(12 weeks)",
+                    "tuition": "$575.20",
+                    "schedule": [
+                        {
+                            "date": "Sep 12 - Nov 28",
+                            "day": "Tue",
+                            "time": "18:00 - 21:00",
+                            "location": "Online"
+                        }
+                    ],
+                    "instructor": "Stephen Scheibel",
+                    "status": "IN PROGRESS AND FULL"
+                },
+                {
+                    "crn": "50132",
+                    "duration": "Wed Sep 13 - Wed Nov 29(12 weeks)",
+                    "tuition": "$575.20",
+                    "schedule": [
+                        {
+                            "date": "Sep 13 - Nov 29",
+                            "day": "Wed",
+                            "time": "N/A",
+                            "location": "Online"
+                        }
+                    ],
+                    "instructor": "Mahmoud Abdel-Hai",
+                    "status": "IN PROGRESS"
+                }
+            ]
+        },
         {
-          "CRN": "50147",
-          "Duration": "Thu Sep 14 - Thu Nov 30(12 weeks)",
-          "Tuition": "$575.20",
-          "Schedule": [
-            {
-              "Date": "Sep 14 - Nov 30",
-              "Day": "Thu",
-              "Time": "18:00 - 21:00",
-              "Location": "Online"
-            }
-          ],
-          "Instructor": "Mark Whitehead",
-          "Status": "IN PROGRESS"
-        }
-      ]
-    },
-    {
-      "CourseCode": "GDES 2087",
-      "CourseName": "Prepress",
-      "Terms": [
-        "Fall"
-      ],
-      "Campus": [
-        "Downtown",
-        "Online"
-      ],
-      "Prerequisites": "50% in GDES 1069 and 50% in GDES 1270 and 50% in GDES 1275",
-      "Credits": "3.0",
-      "Cost": "$575.20",
-      "Offerings": [
+            "courseCode": "GDES 2012",
+            "courseName": "Image Post Production",
+            "terms": [
+                "Fall"
+            ],
+            "campus": [
+                "Online"
+            ],
+            "prerequisites": "50% in GDES 1275 and 50% in GDES 1140",
+            "credits": 3.0,
+            "cost": "$575.20",
+            "offerings": [
+                {
+                    "crn": "50147",
+                    "duration": "Thu Sep 14 - Thu Nov 30(12 weeks)",
+                    "tuition": "$575.20",
+                    "schedule": [
+                        {
+                            "date": "Sep 14 - Nov 30",
+                            "day": "Thu",
+                            "time": "18:00 - 21:00",
+                            "location": "Online"
+                        }
+                    ],
+                    "instructor": "Mark Whitehead",
+                    "status": "IN PROGRESS"
+                }
+            ]
+        },
         {
-          "CRN": "50140",
-          "Duration": "Sat Sep 16 - Sat Dec 16(11 weeks)",
-          "Tuition": "$575.20",
-          "Schedule": [
-            {
-              "Date": "Sep 16 - Dec 16",
-              "Day": "Sat",
-              "Time": "09:30 - 12:45",
-              "Location": "Online"
-            }
-          ],
-          "Instructor": "Cam Rouse",
-          "Status": "IN PROGRESS"
-        }
-      ]
-    },
-    {
-      "CourseCode": "GDES 2088",
-      "CourseName": "Strategic Design for Business",
-      "Terms": [
-        "Fall"
-      ],
-      "Campus": [
-        "Online"
-      ],
-      "Prerequisites": "50% in GDES 1235 and 50% in GDES 1105 and 50% in GDES 1069 and 50% in GDES 1270 and 50% in GDES 1275",
-      "Credits": "3.0",
-      "Cost": "$575.20",
-      "Offerings": [
+            "courseCode": "GDES 2087",
+            "courseName": "Prepress",
+            "terms": [
+                "Fall"
+            ],
+            "campus": [
+                "Downtown",
+                "Online"
+            ],
+            "prerequisites": "50% in GDES 1069 and 50% in GDES 1270 and 50% in GDES 1275",
+            "credits": "3.0",
+            "cost": "$575.20",
+            "offerings": [
+                {
+                    "crn": "50140",
+                    "duration": "Sat Sep 16 - Sat Dec 16(11 weeks)",
+                    "tuition": "$575.20",
+                    "schedule": [
+                        {
+                            "date": "Sep 16 - Dec 16",
+                            "day": "Sat",
+                            "time": "09:30 - 12:45",
+                            "location": "Online"
+                        }
+                    ],
+                    "instructor": "Cam Rouse",
+                    "status": "IN PROGRESS"
+                }
+            ]
+        },
         {
-          "CRN": "50149",
-          "Duration": "Mon Sep 11 - Mon Dec 11(11 weeks)",
-          "Tuition": "$575.20",
-          "Schedule": [
-            {
-              "Date": "Sep 11 - Dec 11",
-              "Day": "Mon",
-              "Time": "18:00 - 21:15",
-              "Location": "Online"
-            }
-          ],
-          "Instructor": "Shahab Pourtalebi",
-          "Status": "IN PROGRESS"
-        }
-      ]
-    },
-    {
-      "CourseCode": "GDES 2125",
-      "CourseName": "Brand Identity",
-      "Terms": [
-        "Fall"
-      ],
-      "Campus": [
-        "Online"
-      ],
-      "Prerequisites": "50% in GDES 1235 and 50% in GDES 1105 and 50% in GDES 1069 and 50% in GDES 1270 and 50% in GDES 1275",
-      "Credits": "3.0",
-      "Cost": "$575.20",
-      "Offerings": [
+            "courseCode": "GDES 2088",
+            "courseName": "Strategic Design for Business",
+            "terms": [
+                "Fall"
+            ],
+            "campus": [
+                "Online"
+            ],
+            "prerequisites": "50% in GDES 1235 and 50% in GDES 1105 and 50% in GDES 1069 and 50% in GDES 1270 and 50% in GDES 1275",
+            "credits": "3.0",
+            "cost": "$575.20",
+            "offerings": [
+                {
+                    "crn": "50149",
+                    "duration": "Mon Sep 11 - Mon Dec 11(11 weeks)",
+                    "tuition": "$575.20",
+                    "schedule": [
+                        {
+                            "date": "Sep 11 - Dec 11",
+                            "day": "Mon",
+                            "time": "18:00 - 21:15",
+                            "location": "Online"
+                        }
+                    ],
+                    "instructor": "Shahab Pourtalebi",
+                    "status": "IN PROGRESS"
+                }
+            ]
+        },
         {
-          "CRN": "50145",
-          "Duration": "Tue Sep 12 - Tue Nov 28(12 weeks)",
-          "Tuition": "$575.20",
-          "Schedule": [
-            {
-              "Date": "Sep 12 - Nov 28",
-              "Day": "Tue",
-              "Time": "18:00 - 21:00",
-              "Location": "Online"
-            }
-          ],
-          "Instructor": "Vanessa Mayoraz",
-          "Status": "IN PROGRESS"
-        }
-      ]
-    },
-    {
-      "code": "MDIA 2099",
-      "title": "Photography 2",
-      "format": "F, W, S, Online",
-      "prerequisites": "MDIA 1099",
-      "credits": 1.5,
-      "cost": "$341.59",
-      "duration": "Tue Oct 24 - Tue Nov 28 (6 weeks)",
-      "crn": "47159",
-      "class_times": "Tue, 18:00 - 21:00, Online",
-      "instructor": "Mark Whitehead",
-      "important_info": "Internet delivery format."
-    },
-    {
-      "code": "MDIA 2205",
-      "title": "Web Design Technologies 2",
-      "format": "F, W, S, Online",
-      "prerequisites": "50% in MDIA 1205† († may be taken concurrently)",
-      "credits": 3.0,
-      "cost": "$611.13",
-      "duration": "Tue Sep 12 - Tue Nov 28 (12 weeks)",
-      "crn": "32069",
-      "class_times": "N/A (Online)",
-      "instructor": "Janice Wood",
-      "important_info": "Internet delivery format."
-    },
-    {
-      "code": "MDIA 2310",
-      "title": "Portfolio Design",
-      "format": "F, W, S, Online",
-      "prerequisites": "50% in MDIA 1040 and 50% in MDIA 1105 and 50% in MDIA 1140 and 50% in MDIA 2012 and 50% in MDIA 2049 and 50% in MDIA 2180",
-      "credits": 3.0,
-      "status": "Not offered this term. Please check back next term or subscribe to receive notifications of future course offerings and other opportunities to learn more about this course and related programs."
-    },
-    {
-      "code": "MDIA 2330",
-      "title": "UI/UX Prototyping Tools Adobe XD",
-      "format": "F, W, S, Online",
-      "prerequisites": "No prerequisites are required for this course.",
-      "credits": 3.0,
-      "offerings": [
+            "courseCode": "GDES 2125",
+            "courseName": "Brand Identity",
+            "terms": [
+                "Fall"
+            ],
+            "campus": [
+                "Online"
+            ],
+            "prerequisites": "50% in GDES 1235 and 50% in GDES 1105 and 50% in GDES 1069 and 50% in GDES 1270 and 50% in GDES 1275",
+            "credits": "3.0",
+            "cost": "$575.20",
+            "offerings": [
+                {
+                    "crn": "50145",
+                    "duration": "Tue Sep 12 - Tue Nov 28(12 weeks)",
+                    "tuition": "$575.20",
+                    "schedule": [
+                        {
+                            "date": "Sep 12 - Nov 28",
+                            "day": "Tue",
+                            "time": "18:00 - 21:00",
+                            "location": "Online"
+                        }
+                    ],
+                    "instructor": "Vanessa Mayoraz",
+                    "status": "IN PROGRESS"
+                }
+            ]
+        },
         {
-          "crn": "48100",
-          "duration": "Wed Sep 13 - Wed Nov 29 (12 weeks)",
-          "class_times": "Wed, 18:00 - 21:00, Online",
-          "instructor": "Edward Fajardo",
-          "status": "This course offering is in progress. Please check back next term or subscribe to receive email updates."
+            "courseCode": "MDIA 2099",
+            "courseName": "Photography 2",
+            "format": "F, W, S, Online",
+            "prerequisites": "MDIA 1099",
+            "credits": 1.5,
+            "cost": "$341.59",
+            "duration": "Tue Oct 24 - Tue Nov 28 (6 weeks)",
+            "crn": "47159",
+            "classTimes": "Tue, 18:00 - 21:00, Online",
+            "instructor": "Mark Whitehead",
+            "importantInfo": "Internet delivery format."
+        },
+        {
+            "courseCode": "MDIA 2205",
+            "courseName": "Web Design Technologies 2",
+            "format": "F, W, S, Online",
+            "prerequisites": "50% in MDIA 1205† († may be taken concurrently)",
+            "credits": 3.0,
+            "cost": "$611.13",
+            "duration": "Tue Sep 12 - Tue Nov 28 (12 weeks)",
+            "crn": "32069",
+            "classTimes": "N/A (Online)",
+            "instructor": "Janice Wood",
+            "importantInfo": "Internet delivery format."
+        },
+        {
+            "courseCode": "MDIA 2310",
+            "courseName": "Portfolio Design",
+            "format": "F, W, S, Online",
+            "prerequisites": "50% in MDIA 1040 and 50% in MDIA 1105 and 50% in MDIA 1140 and 50% in MDIA 2012 and 50% in MDIA 2049 and 50% in MDIA 2180",
+            "credits": 3.0,
+            "status": "Not offered this term. Please check back next term or subscribe to receive notifications of future course offerings and other opportunities to learn more about this course and related programs."
+        },
+        {
+            "courseCode": "MDIA 2330",
+            "courseName": "UI/UX Prototyping Tools Adobe XD",
+            "format": "F, W, S, Online",
+            "prerequisites": "No prerequisites are required for this course.",
+            "credits": 3.0,
+            "offerings": [
+                {
+                    "crn": "48100",
+                    "duration": "Wed Sep 13 - Wed Nov 29 (12 weeks)",
+                    "classTimes": "Wed, 18:00 - 21:00, Online",
+                    "instructor": "Edward Fajardo",
+                    "status": "This course offering is in progress. Please check back next term or subscribe to receive email updates."
+                }
+            ]
+        },
+        {
+            "courseCode": "MDIA 3203",
+            "courseName": "Photoshop for Web Publishing",
+            "format": "F, W, S, Online",
+            "prerequisites": "50% in MDIA 1205† († may be taken concurrently)",
+            "credits": 3.0,
+            "status": "In Progress"
+        },
+        {
+            "courseCode": "MDIA 3207",
+            "courseName": "JavaScript",
+            "format": "F, W, S, Online",
+            "prerequisites": "50% in MDIA 1205† († may be taken concurrently)",
+            "credits": 3.0,
+            "duration": "Tue Sep 12 - Tue Nov 28 (12 weeks)",
+            "crn": "32383",
+            "classTimes": "N/A (Online)",
+            "instructor": "Mary Anne Conforti",
+            "importantInfo": "Internet delivery format. IN PROGRESS"
+        },
+        {
+            "courseCode": "MDIA 3209",
+            "courseName": "WordPress + Content Management Systems",
+            "format": "F, W, S, Online",
+            "prerequisites": "50% in MDIA 1205† († may be taken concurrently)",
+            "credits": 3.0,
+            "duration": "Tue Sep 12 - Tue Nov 28 (12 weeks)",
+            "crn": "41461",
+            "classTimes": "N/A (Online)",
+            "instructor": "Mike Walton",
+            "importantInfo": "Internet delivery format."
+        },
+        {
+            "courseCode": "MDIA 3210",
+            "courseName": "Adobe Premiere Pro for Video",
+            "format": "F, W, S, Online",
+            "prerequisites": "No prerequisites are required for this course.",
+            "credits": 3.0,
+            "duration": "Tue Sep 12 - Tue Nov 28 (12 weeks)",
+            "crn": "43475",
+            "classTimes": "N/A (Online)",
+            "instructor": "Mike Walton",
+            "importantInfo": "Internet delivery format. IN PROGRESS"
         }
-      ]
-    },
-    {
-      "code": "MDIA 3203",
-      "title": "Photoshop for Web Publishing",
-      "format": "F, W, S, Online",
-      "prerequisites": "50% in MDIA 1205† († may be taken concurrently)",
-      "credits": 3.0,
-      "status": "In Progress"
-    },
-    {
-      "code": "MDIA 3207",
-      "title": "JavaScript",
-      "format": "F, W, S, Online",
-      "prerequisites": "50% in MDIA 1205† († may be taken concurrently)",
-      "credits": 3.0,
-      "duration": "Tue Sep 12 - Tue Nov 28 (12 weeks)",
-      "crn": "32383",
-      "class_times": "N/A (Online)",
-      "instructor": "Mary Anne Conforti",
-      "important_info": "Internet delivery format. IN PROGRESS"
-    },
-    {
-      "code": "MDIA 3209",
-      "title": "WordPress + Content Management Systems",
-      "format": "F, W, S, Online",
-      "prerequisites": "50% in MDIA 1205† († may be taken concurrently)",
-      "credits": 3.0,
-      "duration": "Tue Sep 12 - Tue Nov 28 (12 weeks)",
-      "crn": "41461",
-      "class_times": "N/A (Online)",
-      "instructor": "Mike Walton",
-      "important_info": "Internet delivery format."
-    },
-    {
-      "code": "MDIA 3210",
-      "title": "Adobe Premiere Pro for Video",
-      "format": "F, W, S, Online",
-      "prerequisites": "No prerequisites are required for this course.",
-      "credits": 3.0,
-      "duration": "Tue Sep 12 - Tue Nov 28 (12 weeks)",
-      "crn": "43475",
-      "class_times": "N/A (Online)",
-      "instructor": "Mike Walton",
-      "important_info": "Internet delivery format. IN Progress"
-    }
-  ]
+    ]
 }
