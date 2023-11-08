@@ -4,7 +4,7 @@ import Path from "@/components/Path";
 import {
   matchCoursesWithKeyPhrases,
   matchProgramsWithKeyPhrases,
-} from "@/programs-data/program-finder";
+} from "@/programs-data/programs-courses-finder";
 import {
   setCourses,
   setPrograms,
@@ -14,30 +14,31 @@ import React, { useEffect, useState } from "react";
 import {
   calculateSkillsMatchPercentage,
   findRecommendedPath,
-} from "./path-calculations";
+  findTheCheapestPath,
+} from "./college-path";
+import { findUdemyCourses } from "./online-path";
 
 export default function Career() {
   const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
   const {
     missingCareerSkills,
-    programs,
-    courses,
     pickedCareer,
     requiredCareerSkills,
-    transferableResumeSkills,
     matchingCareerSkills,
   } = useAppSelector((state) => state.resumeProcessingSlice);
 
-  const [skillsMismatch, setSkillsMismatch] = useState(0);
-  const [bestMatch, setBestMatch] = useState("");
+  const [skillsMatch, setSkillsMatch] = useState<number | null>(null);
+  const [recommendedPath, setRecommendedPath] = useState("");
+  const [cheapestPath, setCheapestPath] = useState("");
+  const [onlineOnlyPath, setOnlineOnlyPath] = useState("");
 
   useEffect(() => {
+    // TODO: refactor this function and search the udemy courses based on the missing skills (semantic search with missing skills in one string matching the udemy courses)
     const calculatePathData = async () => {
-      // TODO:
-      // calculate the cheapest path from the programs and courses
-      // find the  best match from udemy courses
-      // refactor the code below
+      if (!missingCareerSkills || !pickedCareer || !requiredCareerSkills) {
+        return;
+      }
       const programsSearch = await matchProgramsWithKeyPhrases(
         missingCareerSkills
       );
@@ -46,24 +47,52 @@ export default function Career() {
       );
       const { matchedCourses } = coursesSearch;
       const { matchedPrograms } = programsSearch;
-
-      const bestMatch = await findRecommendedPath(
-        50,
-        pickedCareer!,
-        Array.from(matchedPrograms),
-        Array.from(matchedCourses)
-      );
-      dispatch(setPrograms(Array.from(matchedPrograms)));
-      dispatch(setCourses(Array.from(matchedCourses)));
-      const skillsMismatchCalculated = calculateSkillsMatchPercentage(
+      dispatch(setPrograms(matchedPrograms));
+      dispatch(setCourses(matchedCourses));
+      const skillsMatchedPercentage = calculateSkillsMatchPercentage(
         matchingCareerSkills,
         requiredCareerSkills
       );
-      setSkillsMismatch(skillsMismatchCalculated);
-      if (bestMatch) {
-        setBestMatch(bestMatch.programName);
+      setSkillsMatch(skillsMatchedPercentage);
+      const recommendedPath = await findRecommendedPath(
+        skillsMatchedPercentage,
+        pickedCareer!,
+        matchedPrograms,
+        matchedCourses
+      );
+      if (recommendedPath) {
+        setRecommendedPath(
+          recommendedPath.bestMatchProgram
+            ? `${recommendedPath.bestMatchProgram.programName} - BCIT Program`
+            : recommendedPath.bestMatchCourse
+            ? `${recommendedPath.bestMatchCourse.courseName} - BCIT Course`
+            : `${recommendedPath.mostRelevantUdemyCourse.title} - Udemy Course`
+        );
       } else {
-        setBestMatch("N/A");
+        setRecommendedPath("N/A");
+      }
+      const cheapestPath = await findTheCheapestPath(
+        skillsMatchedPercentage,
+        matchedPrograms,
+        matchedCourses,
+        pickedCareer!
+      );
+      if (cheapestPath) {
+        setCheapestPath(
+          cheapestPath.cheapestProgram
+            ? `${cheapestPath.cheapestProgram.programName} - BCIT Program`
+            : cheapestPath.cheapestCourse
+            ? `${cheapestPath.cheapestCourse.courseName} - BCIT Course`
+            : `${cheapestPath.cheapestUdemyCourse.title} - Udemy Course`
+        );
+      } else {
+        setCheapestPath("N/A");
+      }
+      const udemyCoursesResult = await findUdemyCourses(pickedCareer!, 10);
+      if (udemyCoursesResult) {
+        setOnlineOnlyPath(`${udemyCoursesResult[0].title} - Udemy Course`);
+      } else {
+        setOnlineOnlyPath("N/A");
       }
       setLoading(false);
     };
@@ -87,17 +116,20 @@ export default function Career() {
           <div className="mx-auto mt-8 animate-spin rounded-full h-32 w-32 border-b-2 border-blue-700 dark:border-white"></div>
         </>
       ) : (
-        <>
-          <Path
-            skillsMismatch={skillsMismatch || 60}
-            positionTitle={pickedCareer || "UX Designer"}
-            recommendedPath={bestMatch || "N/A"}
-            cheapestPath="Graphic Design Process / BCIT Course"
-            onlineOnlyPath="Graphic Design Process / Udemy Course"
-          />
+        pickedCareer &&
+        recommendedPath &&
+        skillsMatch && (
+          <>
+            <Path
+              skillsMismatch={skillsMatch}
+              positionTitle={pickedCareer || "N/A"}
+              recommendedPath={recommendedPath || "N/A"}
+              cheapestPath={cheapestPath || "N/A"}
+              onlineOnlyPath={onlineOnlyPath || "N/A"}
+            />
 
-          {/* The items below are temporary components. The data is hardcoded. Use for presentation only" /> */}
-          {/* <Path
+            {/* The items below are temporary components. The data is hardcoded. Use for presentation only" /> */}
+            {/* <Path
             skillsMismatch={30}
             positionTitle="Web Developers"
             recommendedPath="User Interface (UI) and User Experience (UX) Design/ BCIT Program"
@@ -111,7 +143,8 @@ export default function Career() {
             cheapestPath="Graphic Design Process / BCIT Course"
             onlineOnlyPath="Graphic Design Process / Udemy Course"
           /> */}
-        </>
+          </>
+        )
       )}
     </div>
   );

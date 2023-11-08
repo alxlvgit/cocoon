@@ -98,7 +98,7 @@ export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {
     );
   }
 
-  return { matchedPrograms };
+  return { matchedPrograms: Array.from(matchedPrograms) };
 };
 
 // Find matching BCIT courses
@@ -129,5 +129,5 @@ export const matchCoursesWithKeyPhrases = async (keyPhrases: string[]) => {
     );
   }
 
-  return { matchedCourses };
+  return { matchedCourses: Array.from(matchedCourses) };
 };
