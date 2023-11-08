@@ -85,6 +85,9 @@ function Uploads({ params }: { params: { careerCode: string } }) {
       ); // Step 4: if key phrases are extracted from both resume and career skills, find missing skills by using semantic search
       const { matchedResumeSkills, missingCareerSkills, matchedCareerSkills } =
         matchingMissingSkills;
+      
+      // console.log(matchingMissingSkills)
+      
       dispatch(setPickedCareer(title));
       dispatch(setMissingSkills(missingCareerSkills));
       dispatch(setTransferableSkills(matchedResumeSkills));

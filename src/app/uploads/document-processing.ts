@@ -1,3 +1,5 @@
+// "use server"
+
 import * as odotnet from "../api/odotnet/fetch-api";
 import { KeyPhrases } from "@/aws-lambda/text-to-structured";
 
