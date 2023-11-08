@@ -1,4 +1,4 @@
-import { Course, Program } from "@/programs-data/program-finder";
+import { Course, Program } from "@/programs-data/programs-courses-finder";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type ResumeProcessingState = {
