@@ -184,7 +184,7 @@ export default function Profile() {
               </>
             ) : (
               <p className="text-base items-center justify-center text-black pb-3">
-                You don't have current progress yet.
+                You don&apos;t have current progress yet.
               </p>
             )}
           </div>
