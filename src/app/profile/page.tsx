@@ -61,6 +61,9 @@ export default function Profile() {
 
   // const completedSkillsForTest: string[] = [];
 
+  // Use this to get the current path
+  const currentPath = useAppSelector((state) => state.pathSlice.currentPath);
+
   const [loading, setLoading] = useState(true);
   const [completedPercentage, setCompletedPercentage] = useState(0);
   const dispatch = useAppDispatch();

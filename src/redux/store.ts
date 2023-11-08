@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import resumeProcessingSlice from "./features/resumeProcessingSlice";
+import pathSlice from "./features/pathSlice";
 
 export const store = configureStore({
   reducer: {
     resumeProcessingSlice,
+    pathSlice,
   },
 });
 

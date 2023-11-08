@@ -1,6 +1,6 @@
 "use client";
 
-import Path from "@/components/Path";
+import Pathes from "@/components/Pathes";
 import {
   matchCoursesWithKeyPhrases,
   matchProgramsWithKeyPhrases,
@@ -35,8 +35,9 @@ export default function Career() {
 
   useEffect(() => {
     // TODO: refactor this function and search the udemy courses based on the missing skills (semantic search with missing skills in one string matching the udemy courses)
-    const calculatePathData = async () => {
+    const generatePaths = async () => {
       if (!missingCareerSkills || !pickedCareer || !requiredCareerSkills) {
+        setLoading(false);
         return;
       }
       const programsSearch = await matchProgramsWithKeyPhrases(
@@ -68,8 +69,6 @@ export default function Career() {
             ? `${recommendedPath.bestMatchCourse.courseName} - BCIT Course`
             : `${recommendedPath.mostRelevantUdemyCourse.title} - Udemy Course`
         );
-      } else {
-        setRecommendedPath("N/A");
       }
       const cheapestPath = await findTheCheapestPath(
         skillsMatchedPercentage,
@@ -85,18 +84,14 @@ export default function Career() {
             ? `${cheapestPath.cheapestCourse.courseName} - BCIT Course`
             : `${cheapestPath.cheapestUdemyCourse.title} - Udemy Course`
         );
-      } else {
-        setCheapestPath("N/A");
       }
       const udemyCoursesResult = await findUdemyCourses(pickedCareer!, 10);
       if (udemyCoursesResult) {
         setOnlineOnlyPath(`${udemyCoursesResult[0].title} - Udemy Course`);
-      } else {
-        setOnlineOnlyPath("N/A");
       }
       setLoading(false);
     };
-    calculatePathData();
+    generatePaths();
   }, [
     missingCareerSkills,
     pickedCareer,
@@ -118,31 +113,17 @@ export default function Career() {
       ) : (
         pickedCareer &&
         recommendedPath &&
+        cheapestPath &&
+        onlineOnlyPath &&
         skillsMatch && (
           <>
-            <Path
+            <Pathes
               skillsMismatch={skillsMatch}
               positionTitle={pickedCareer || "N/A"}
               recommendedPath={recommendedPath || "N/A"}
               cheapestPath={cheapestPath || "N/A"}
               onlineOnlyPath={onlineOnlyPath || "N/A"}
             />
-
-            {/* The items below are temporary components. The data is hardcoded. Use for presentation only" /> */}
-            {/* <Path
-            skillsMismatch={30}
-            positionTitle="Web Developers"
-            recommendedPath="User Interface (UI) and User Experience (UX) Design/ BCIT Program"
-            cheapestPath="Graphic Design Process / BCIT Course"
-            onlineOnlyPath="Graphic Design Process / Udemy Course"
-          />
-          <Path
-            skillsMismatch={50}
-            positionTitle="Graphic Designers"
-            recommendedPath="User Interface (UI) and User Experience (UX) Design/ BCIT Program"
-            cheapestPath="Graphic Design Process / BCIT Course"
-            onlineOnlyPath="Graphic Design Process / Udemy Course"
-          /> */}
           </>
         )
       )}
