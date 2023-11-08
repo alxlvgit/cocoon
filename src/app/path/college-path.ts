@@ -1,5 +1,6 @@
 import { Course, Program } from "@/programs-data/programs-courses-finder";
 import { semanticSearchLambda } from "../uploads/document-processing";
+import { findTheCheapestUdemyCourses, findUdemyCourses } from "./online-path";
 
 // Calculate the matching skills percentage
 export const calculateSkillsMatchPercentage = (
@@ -115,25 +116,28 @@ export const findRecommendedPath = async (
   programs: Program[],
   courses: Course[]
 ) => {
-  if (matchingSkillsPercentage >= 0 && matchingSkillsPercentage <= 70) {
-    const bestMatchProgram = await findBestMatchProgram(pickedCareer, programs);
+  const bestMatchProgram = await findBestMatchProgram(pickedCareer, programs);
+  const bestMatchCourse = await findBestMatchCourse(pickedCareer, courses);
+  const bestUdemyMatches = await findUdemyCourses(pickedCareer, 10);
+
+  if (matchingSkillsPercentage >= 0 && matchingSkillsPercentage <= 40) {
     if (bestMatchProgram) {
       return { bestMatchProgram };
-    } else {
-      const bestMatchCourse = await findBestMatchCourse(pickedCareer, courses);
-      if (bestMatchCourse) {
-        return { bestMatchCourse };
-      }
+    } else if (bestMatchCourse) {
+      return { bestMatchCourse };
+    } else if (bestUdemyMatches) {
+      return { mostRelevantUdemyCourse: bestUdemyMatches[0] };
     }
-  } else if (matchingSkillsPercentage > 70 && matchingSkillsPercentage < 100) {
-    const bestMatchCourse = await findBestMatchCourse(pickedCareer, courses);
+  } else if (matchingSkillsPercentage > 40 && matchingSkillsPercentage < 70) {
     if (bestMatchCourse) {
       return { bestMatchCourse };
-    } else {
-      // TODO: find the most relevant Udemy course
+    } else if (bestUdemyMatches) {
+      return { mostRelevantUdemyCourse: bestUdemyMatches[0] };
     }
-  } else {
-    // TODO: find the most relevant Udemy course
+  } else if (matchingSkillsPercentage >= 70 && matchingSkillsPercentage < 100) {
+    if (bestUdemyMatches) {
+      return { mostRelevantUdemyCourse: bestUdemyMatches[0] };
+    }
   }
   return null;
 };
@@ -142,22 +146,34 @@ export const findRecommendedPath = async (
 export const findTheCheapestPath = async (
   matchingSkillsPercentage: number,
   programs: Program[],
-  courses: Course[]
+  courses: Course[],
+  pickedCarrer: string
 ) => {
-  if (matchingSkillsPercentage >= 0 && matchingSkillsPercentage <= 70) {
-    const cheapestProgram = await findTheCheapestProgram(programs);
-    console.log(cheapestProgram, "cheapestProgram");
+  const cheapestProgram = await findTheCheapestProgram(programs);
+  const cheapestCourse = await findTheCheapestCourse(courses);
+  const cheapestUdemyCourse = await findTheCheapestUdemyCourses(
+    pickedCarrer,
+    10
+  );
+
+  if (matchingSkillsPercentage >= 0 && matchingSkillsPercentage <= 40) {
     if (cheapestProgram) {
       return { cheapestProgram };
+    } else if (cheapestCourse) {
+      return { cheapestCourse };
+    } else if (cheapestUdemyCourse) {
+      return { cheapestUdemyCourse: cheapestUdemyCourse[0] };
     }
-  } else if (matchingSkillsPercentage > 70 && matchingSkillsPercentage < 100) {
-    const cheapestCourse = await findTheCheapestCourse(courses);
-    console.log(cheapestCourse, "courseBestMatch");
+  } else if (matchingSkillsPercentage > 40 && matchingSkillsPercentage < 70) {
     if (cheapestCourse) {
       return { cheapestCourse };
+    } else if (cheapestUdemyCourse) {
+      return { cheapestUdemyCourse: cheapestUdemyCourse[0] };
+    }
+  } else if (matchingSkillsPercentage >= 70 && matchingSkillsPercentage < 100) {
+    if (cheapestUdemyCourse) {
+      return { cheapestUdemyCourse: cheapestUdemyCourse[0] };
     }
   }
-  // For the default case or when no match is found
-  // TODO: find the most relevant Udemy course or return null
   return null;
 };

@@ -1,9 +1,12 @@
 "use server";
 
-// test function. Not used in the app yet
-const fetchUdemy = async () => {
+// Find the courses based on the search term
+export const findUdemyCourses = async (
+  searchTerm: string,
+  pageSize: number
+) => {
   const results = await fetch(
-    "https://www.udemy.com/api-2.0/courses/?page=2&page_size=40",
+    `https://www.udemy.com/api-2.0/courses/?page=1&page_size=${pageSize}&search=${searchTerm}`,
     {
       method: "GET",
       headers: new Headers({
@@ -14,8 +17,32 @@ const fetchUdemy = async () => {
     }
   );
   const data = await results.json();
-  console.log(data);
-  return data;
+  if (data.results && data.results.length > 0) {
+    return data.results;
+  }
+  return null;
 };
 
-export default fetchUdemy;
+// Find the cheapest courses based on the search term
+export const findTheCheapestUdemyCourses = async (
+  searchTerm: string,
+  pageSize: number
+) => {
+  const results = await fetch(
+    `https://www.udemy.com/api-2.0/courses/?page=1&page_size=${pageSize}&search=${searchTerm}&price=price-free`,
+    {
+      method: "GET",
+      headers: new Headers({
+        Authorization: `Basic ${Buffer.from(
+          process.env.UDEMY_CLIENT_ID + ":" + process.env.UDEMY_CLIENT_SECRET
+        ).toString("base64")}`,
+      }),
+    }
+  );
+  const data = await results.json();
+  console.log(data.results);
+  if (data.results && data.results.length > 0) {
+    return data.results;
+  }
+  return null;
+};
