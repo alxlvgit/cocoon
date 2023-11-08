@@ -34,18 +34,21 @@ const Pathes = ({
         {showDetails && (
           <>
             <PathContainer
+              pathType="Recommended"
               pathData={recommendedPath}
               onMouseEnter={() => setHoveredPath(recommendedPath)}
               onMouseLeave={() => setHoveredPath(null)}
               hoveredPath={hoveredPath}
             />
             <PathContainer
+              pathType="Cheapest"
               pathData={cheapestPath}
               onMouseEnter={() => setHoveredPath(cheapestPath)}
               onMouseLeave={() => setHoveredPath(null)}
               hoveredPath={hoveredPath}
             />
             <PathContainer
+              pathType="Online-Only"
               pathData={onlineOnlyPath}
               onMouseEnter={() => setHoveredPath(onlineOnlyPath)}
               onMouseLeave={() => setHoveredPath(null)}

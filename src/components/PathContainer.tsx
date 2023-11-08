@@ -7,11 +7,13 @@ const PathContainer = ({
   onMouseEnter,
   onMouseLeave,
   hoveredPath,
+  pathType,
 }: {
   pathData: string;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
   hoveredPath: string | null;
+  pathType: string;
 }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -27,7 +29,7 @@ const PathContainer = ({
       onMouseLeave={() => onMouseLeave()}
     >
       <h1 className="text-xs md:text-base lg:text-lg text-left font-bold mt-3 w-full">
-        Recommended Path:
+        {pathType} Path:
       </h1>
       <p className="text-xs md:text-base lg:text-lg text-left w-full">
         {pathName}
