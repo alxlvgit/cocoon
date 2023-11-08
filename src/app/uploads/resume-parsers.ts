@@ -1,6 +1,6 @@
 "use server";
 
-// send request to lambda function to extract text from pdf
+// Invoke lambda function to extract text from pdf
 export const extractTextFromPdf = async (
   requestBody: string
 ): Promise<string | undefined> => {
@@ -24,7 +24,7 @@ export const extractTextFromPdf = async (
   }
 };
 
-// send request to lambda function to extract text from docx
+// Invoke lambda function to extract text from docx
 export const extractTextFromDocx = async (
   requestBody: string
 ): Promise<string | undefined> => {

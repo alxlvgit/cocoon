@@ -13,17 +13,19 @@ const resumeKeyWordsSchema = z
   .object({
     skills: z.array(z.string()).describe("An array of skills"),
     qualifications: z.array(z.string()).describe("An array of qualifications"),
+    tasks: z.array(z.string()).describe("An array of performed tasks"),
   })
   .describe("The object with the skills and qualifications");
 
 const careerKeyWordsSchema = z
   .object({
-    skills: z.array(z.string()).describe("An array of skills"),
+    tasks: z.array(z.string()).describe("An array of performed tasks"),
   })
   .describe("The object with the skills");
 
 export type KeyPhrases = {
   skills: string[];
+  tasks: string[];
   qualifications?: string[];
 };
 
@@ -32,7 +34,7 @@ export const handler = async (
   context: Context
 ): Promise<APIGatewayProxyResult> => {
   const requestBody = JSON.parse(event.body!);
-  const { text, skillsOnly, promptMessage } = requestBody;
+  const { text, includeQualifications, promptMessage } = requestBody;
   try {
     const prompt = new ChatPromptTemplate({
       promptMessages: [
@@ -47,7 +49,9 @@ export const handler = async (
       temperature: 0,
     });
 
-    const zodSchema = skillsOnly ? careerKeyWordsSchema : resumeKeyWordsSchema;
+    const zodSchema = includeQualifications
+      ? resumeKeyWordsSchema
+      : careerKeyWordsSchema;
 
     // Binding "function_call" below makes the model always call the specified function.
     // If you want to allow the model to call functions selectively, omit it.

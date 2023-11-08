@@ -1,14 +1,20 @@
 "use client";
 
 import Path from "@/components/Path";
-import { matchProgramsWithKeyPhrases } from "@/programs-data/program-finder";
+import {
+  matchCoursesWithKeyPhrases,
+  matchProgramsWithKeyPhrases,
+} from "@/programs-data/program-finder";
 import {
   setCourses,
   setPrograms,
 } from "@/redux/features/resumeProcessingSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import React, { useEffect, useState } from "react";
-import { calculateSkillsMismatchPercentage } from "./path-calculations";
+import {
+  calculateSkillsMatchPercentage,
+  findRecommendedPath,
+} from "./path-calculations";
 
 export default function Career() {
   const [loading, setLoading] = useState(true);
@@ -24,39 +30,50 @@ export default function Career() {
   } = useAppSelector((state) => state.resumeProcessingSlice);
 
   const [skillsMismatch, setSkillsMismatch] = useState(0);
+  const [bestMatch, setBestMatch] = useState("");
 
   useEffect(() => {
     const calculatePathData = async () => {
       // TODO:
-      // get programs and courses that match the missing skills
       // calculate the cheapest path from the programs and courses
-      // calculate the  recommended path from the programs and courses
       // find the  best match from udemy courses
-      // improve the sampled data for required skills extraction
+      // refactor the code below
+      const programsSearch = await matchProgramsWithKeyPhrases(
+        missingCareerSkills
+      );
+      const coursesSearch = await matchCoursesWithKeyPhrases(
+        missingCareerSkills
+      );
+      const { matchedCourses } = coursesSearch;
+      const { matchedPrograms } = programsSearch;
 
-      // const programsCourses = await matchProgramsWithKeyPhrases(
-      //   missingCareerSkills
-      // );
-      const skillsMismatchCalculated = calculateSkillsMismatchPercentage(
-        missingCareerSkills,
+      const bestMatch = await findRecommendedPath(
+        50,
+        pickedCareer!,
+        Array.from(matchedPrograms),
+        Array.from(matchedCourses)
+      );
+      dispatch(setPrograms(Array.from(matchedPrograms)));
+      dispatch(setCourses(Array.from(matchedCourses)));
+      const skillsMismatchCalculated = calculateSkillsMatchPercentage(
+        matchingCareerSkills,
         requiredCareerSkills
       );
       setSkillsMismatch(skillsMismatchCalculated);
+      if (bestMatch) {
+        setBestMatch(bestMatch.programName);
+      } else {
+        setBestMatch("N/A");
+      }
       setLoading(false);
-      console.log("skillsMismatch", skillsMismatch);
-      console.log("missingCareerSkills", missingCareerSkills);
-      console.log("requiredCareerSkills", requiredCareerSkills);
-      console.log("transferableResumeSkills", transferableResumeSkills);
-      console.log("matchingCareerSkills", matchingCareerSkills);
     };
     calculatePathData();
   }, [
-    dispatch,
     missingCareerSkills,
+    pickedCareer,
     requiredCareerSkills,
-    transferableResumeSkills,
     matchingCareerSkills,
-    skillsMismatch,
+    dispatch,
   ]);
 
   return (
@@ -71,15 +88,16 @@ export default function Career() {
         </>
       ) : (
         <>
-          {/* The items below are temporary components. Some data is hardcoded for presentation only" /> */}
           <Path
             skillsMismatch={skillsMismatch || 60}
             positionTitle={pickedCareer || "UX Designer"}
-            recommendedPath="User Interface (UI) and User Experience (UX) Design/ BCIT Program"
+            recommendedPath={bestMatch || "N/A"}
             cheapestPath="Graphic Design Process / BCIT Course"
             onlineOnlyPath="Graphic Design Process / Udemy Course"
           />
-          <Path
+
+          {/* The items below are temporary components. The data is hardcoded. Use for presentation only" /> */}
+          {/* <Path
             skillsMismatch={30}
             positionTitle="Web Developers"
             recommendedPath="User Interface (UI) and User Experience (UX) Design/ BCIT Program"
@@ -92,7 +110,7 @@ export default function Career() {
             recommendedPath="User Interface (UI) and User Experience (UX) Design/ BCIT Program"
             cheapestPath="Graphic Design Process / BCIT Course"
             onlineOnlyPath="Graphic Design Process / Udemy Course"
-          />
+          /> */}
         </>
       )}
     </div>
