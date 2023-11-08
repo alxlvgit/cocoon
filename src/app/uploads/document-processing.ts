@@ -52,7 +52,7 @@ export const semanticSearchLambda = async (
 // Extract key phrases from resume
 export const extractResumeKeyPhrases = async (extractedText: string) => {
   const prompt =
-    "List all skills, duties, performed tasks, and qualifications mentioned in the following text.";
+    "List all skills, performed tasks, and qualifications mentioned in the following text.";
   const resumeKeyPhrases = await extractKeyPhrasesLambda(
     extractedText,
     prompt,
@@ -129,9 +129,6 @@ export const findMissingSkills = async (
   const missingCareerSkills = careerPhrases.filter(
     (skill) => !matchedCareerSkills.has(skill.toLowerCase())
   ); // missing required career skills
-
-  console.log("Missing: ", missingCareerSkills)
-  console.log("Matched: ", matchedResumeSkills)
 
   return {
     missingCareerSkills,
