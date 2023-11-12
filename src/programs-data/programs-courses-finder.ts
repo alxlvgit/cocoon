@@ -73,61 +73,71 @@ export interface Program {
 
 // Find matching BCIT programs
 export const matchProgramsWithKeyPhrases = async (keyPhrases: string[]) => {
-  const data = JSON.stringify(programsData);
-  const { programs } = JSON.parse(data);
-  const programsNames = programs.map(
-    (program: { programName: string }) => program.programName
-  );
-
-  const programSearch = await semanticSearchLambda(
-    keyPhrases,
-    programsNames,
-    0.6,
-    1,
-    1
-  );
-
-  let matchedPrograms = new Set<Program>();
-  for (const key in programSearch) {
-    matchedPrograms.add(
-      programs.find(
-        (program: { programName: string }) =>
-          program.programName.toLowerCase() ===
-          programSearch[key][0].pageContent.toLowerCase()
-      )
+  try {
+    const data = JSON.stringify(programsData);
+    const { programs } = JSON.parse(data);
+    const programsNames = programs.map(
+      (program: { programName: string }) => program.programName
     );
-  }
 
-  return { matchedPrograms: Array.from(matchedPrograms) };
+    const programSearch = await semanticSearchLambda(
+      keyPhrases,
+      programsNames,
+      0.6,
+      1,
+      1
+    );
+
+    let matchedPrograms = new Set<Program>();
+    for (const key in programSearch) {
+      matchedPrograms.add(
+        programs.find(
+          (program: { programName: string }) =>
+            program.programName.toLowerCase() ===
+            programSearch[key][0].pageContent.toLowerCase()
+        )
+      );
+    }
+
+    return { matchedPrograms: Array.from(matchedPrograms) };
+  } catch (err) {
+    console.error(err);
+    return { matchedPrograms: [] };
+  }
 };
 
 // Find matching BCIT courses
 export const matchCoursesWithKeyPhrases = async (keyPhrases: string[]) => {
-  const data = JSON.stringify(programsData);
-  const { courses } = JSON.parse(data);
-  const coursesNames = courses.map(
-    (course: { courseName: string }) => course.courseName
-  );
-
-  const courseSearch = await semanticSearchLambda(
-    keyPhrases,
-    coursesNames,
-    0.6,
-    1,
-    1
-  );
-
-  let matchedCourses = new Set<Course>();
-
-  for (const key in courseSearch) {
-    matchedCourses.add(
-      courses.find(
-        (course: { courseName: string }) =>
-          course.courseName.toLowerCase() ===
-          courseSearch[key][0].pageContent.toLowerCase()
-      )
+  try {
+    const data = JSON.stringify(programsData);
+    const { courses } = JSON.parse(data);
+    const coursesNames = courses.map(
+      (course: { courseName: string }) => course.courseName
     );
-  }
 
-  return { matchedCourses: Array.from(matchedCourses) };
+    const courseSearch = await semanticSearchLambda(
+      keyPhrases,
+      coursesNames,
+      0.6,
+      1,
+      1
+    );
+
+    let matchedCourses = new Set<Course>();
+
+    for (const key in courseSearch) {
+      matchedCourses.add(
+        courses.find(
+          (course: { courseName: string }) =>
+            course.courseName.toLowerCase() ===
+            courseSearch[key][0].pageContent.toLowerCase()
+        )
+      );
+    }
+
+    return { matchedCourses: Array.from(matchedCourses) };
+  } catch (err) {
+    console.error(err);
+    return { matchedCourses: [] };
+  }
 };

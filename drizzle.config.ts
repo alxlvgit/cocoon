@@ -10,6 +10,6 @@ export default {
   driver: "pg",
   out: "./drizzle",
   dbCredentials: {
-    connectionString: process.env.MIGRATION_DATABASE_URL,
+    connectionString: process.env.MIGRATION_DATABASE_URL!,
   },
 } satisfies Config;
