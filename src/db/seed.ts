@@ -1,19 +1,9 @@
 import { db } from "@/db";
-import { user } from "@/db/schema";
 
+// Use this function to seed the database with data. Run pnpm seed to execute.
 const seedDb = async () => {
-  await db.insert(user).values([
-    {
-      username: "john",
-      firstName: "John",
-      lastName: "Doe",
-    },
-    {
-      username: "jane",
-      firstName: "Jane",
-      lastName: "Doe",
-    },
-  ]);
+  // await db.insert(user).values([
+  // ]);
 };
 
 seedDb();
