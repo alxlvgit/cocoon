@@ -24,6 +24,7 @@ If don't have these data, I think alex and you (BE devs) should talk to the desi
 at minimum, let's discuss what we have, and what we are going to show on this page....! 
 
 
+
 */
 
 const completedSkillsForTest: string[] = [];
@@ -148,7 +149,7 @@ export default function Profile() {
         <h1 className="font-bold text-xl">Welcome,</h1>
         <p className="text-lg text-gray-500">{userData.user.username}</p>
       </div>
-      {premissingskills.length > 0 ? (
+      {missingCareerSkills.length > 0 ? (
         <div className=" bg-blue-100 p-5 rounded-3xl md:col-span-2 shadow-md grid items-center justify-center">
           <div className="p-5 grid items-center">
             <p className="font-extrabold text-xl text-center pb-10">
@@ -174,7 +175,7 @@ export default function Profile() {
 
             <div className="w-full">
               <ul className="my-6">
-                {premissingskills.map((skill) => (
+                {missingCareerSkills.map((skill) => (
                   <li key={skill}>
                     {skill} -{" "}
                     <SkillDropdown
@@ -270,71 +271,5 @@ export default function Profile() {
         </div>
       </div>
     </div>
-
-    // <div className="pt-2 pb-10 grid grid-cols-3 gap-4 place-items-start ">
-    //   <p className="pt-2 text-md justify-center items-center font-bold text-black">
-    //     Make your next step with us!
-    //   </p>
-    //   <p className="text-xl items-center justify-center font-bold text-black">
-    //     {userData.user.username}
-    //   </p>
-    // </div>
-    // <div className="w-4/5 mx-auto space-y-4">
-    //   <div className=" p-4 justify-center items-center align-middle rounded-2xl shadow-xl  from-indigo-300 cursor-pointer bg-indigo-400/50 border-0 text-black">
-    //     <div className="bg-indigo-100 h-full w-full rounded-lg mx-auto p-4 text-center shadow-2xl flex flex-col align-middle items-center space-y-3 justify-center ">
-    //       <p className="text-xl items-center justify-center font-bold text-black">
-    //         Your Current Path in{" "}
-    //         <span className="underline text-2xl">
-    //           {userData.savedPathDetail.field}
-    //         </span>
-    //       </p>
-    //       <p>
-    //         {userData.savedPathDetail.specificPath}:{" "}
-    //         {userData.savedPathDetail.title}
-    //       </p>
-    //       <Link
-    //         href={`/career/${userData.savedPathDetail.fieldId}`}
-    //         className={` text-white bg-gray-500 hover:bg-gray-900 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700`}
-    //       >
-    //         Check the Market
-    //       </Link>
-    //     </div>
-    //   </div>
-    //   <div className=" p-4 justify-center items-center align-middle rounded-2xl shadow-xl  from-indigo-300 cursor-pointer bg-indigo-400/50 border-0 text-black">
-    //     <div className="bg-indigo-100 h-full w-full rounded-lg mx-auto p-4 text-center shadow-2xl flex flex-col align-middle items-center space-y-3 justify-center">
-    //       <p className="text-2xl items-center justify-center font-bold text-black pb-3">
-    //         Your current progress
-    //       </p>
-    //       {missingCareerSkills.length > 0 ? (
-    //         <>
-    //           <ProgressBar
-    //             completed={completedPercentage}
-    //             maxCompleted={100}
-    //             bgColor="#2E85B2"
-    //             animateOnRender={true}
-    //             className="w-60 md:w-96"
-    //           />
-    //           <div className="w-full">
-    //             <ul className="my-6">
-    //               {missingCareerSkills.map((skill) => (
-    //                 <li key={skill}>
-    //                   {skill} -{" "}
-    //                   <SkillDropdown
-    //                     skill={skill}
-    //                     onChange={handleStatusChange}
-    //                   />
-    //                 </li>
-    //               ))}
-    //             </ul>
-    //           </div>
-    //         </>
-    //       ) : (
-    //         <p className="text-base items-center justify-center text-black pb-3">
-    //           You don&apos;t have current progress yet.
-    //         </p>
-    //       )}
-    //     </div>
-    //   </div>
-    // </div>
   );
 }
