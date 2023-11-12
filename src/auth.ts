@@ -1,5 +1,5 @@
 import NextAuth, { NextAuthConfig } from "next-auth";
-import GitHub from "next-auth/providers/GitHub";
+import GitHub from "../node_modules/.pnpm/@auth+core@0.0.0-manual.e9863699/node_modules/@auth/core/providers/github.js";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "@/db";
 
