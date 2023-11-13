@@ -103,7 +103,7 @@ export default function Career() {
   return (
     <div className="flex flex-col justify-center my-5 mx-10">
       <h1 className="m-5 text-center font-bold text-xl mb-16">
-        Sugggested Paths According to Your Resume Skills and Qualifications
+        Suggested Paths According to Your Resume Skills and Qualifications
       </h1>
       {loading ? (
         <>

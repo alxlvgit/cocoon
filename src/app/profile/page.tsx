@@ -4,15 +4,9 @@
 import React from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import { useState, useEffect } from "react";
-import {
-  setCourses,
-  setPrograms,
-} from "@/redux/features/resumeProcessingSlice";
-import { stat } from "fs";
-import { set, string } from "zod";
-import Image from "next/image";
+import { useState } from "react";
 import Link from "next/link";
+
 
 /*
 
@@ -71,7 +65,6 @@ export default function Profile() {
     },
   };
 
-  // const completedSkillsForTest: string[] = [];
 
   // Use this to get the current path
   const currentPath = useAppSelector((state) => state.pathSlice.currentPath);
@@ -82,12 +75,9 @@ export default function Profile() {
 
   const {
     missingCareerSkills,
-    programs,
-    courses,
     pickedCareer,
-    requiredCareerSkills,
-    transferableResumeSkills,
     matchingCareerSkills,
+    courses
   } = useAppSelector((state) => state.resumeProcessingSlice);
   const [skillsMismatch, setSkillsMismatch] = useState(0);
   const [bestMatch, setBestMatch] = useState("");
@@ -105,10 +95,8 @@ export default function Profile() {
       [skill]: status,
     }));
     if (!completedSkillsForTest.includes(skill)) {
-      console.log("push");
       status === "Completed" ? completedSkillsForTest.push(skill) : null;
     } else {
-      console.log("splice");
       status === "Start Soon"
         ? completedSkillsForTest.splice(
             completedSkillsForTest.indexOf(skill),
@@ -126,22 +114,25 @@ export default function Profile() {
       (completedSkillsForTest.length / missingCareerSkills.length) * 100
     );
     setCompletedPercentage(completedPercentage);
-    console.log("completedSkillsForTest: ", completedSkillsForTest);
   };
+  function capitalizeSentences(sentences: string[]): string[] {
+    return sentences.map(sentence => {
+      // Trim the sentence to remove leading and trailing spaces
+      const trimmedSentence = sentence.trim();
 
-  console.log("missingCareerSkills: ", missingCareerSkills);
+      // Check if the sentence is not empty
+      if (trimmedSentence.length > 0) {
+        // Capitalize the first letter of the sentence and concatenate the rest
+        return trimmedSentence.charAt(0).toUpperCase() + trimmedSentence.slice(1);
+      }
 
-  const premissingskills = [
-    "design digital user interfaces or websites",
-    "ensure compatibility and usability across browsers or devices",
-    "use web framework applications",
-    "analyze web use metrics",
-    "optimize websites for marketability and search engine ranking",
-    "design and test interfaces for human-computer interaction",
-    "maximize the usability of digital devices, websites, and software",
-    "create graphics used in websites",
-    "collaborate with management or users to develop e-…and to integrate these strategies with web sites.",
-  ];
+      // If the sentence is empty, return it as is
+      return trimmedSentence;
+    });
+  }
+
+  console.log(courses)
+  
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 justify-center w-3/4 m-auto my-5 ">
@@ -153,16 +144,16 @@ export default function Profile() {
         <div className=" bg-blue-100 p-5 rounded-3xl md:col-span-2 shadow-md grid items-center justify-center">
           <div className="p-5 grid items-center">
             <p className="font-extrabold text-xl text-center pb-10">
-              Career Path: <span>UX/UI Design</span>
+              Career Path: <span>{pickedCareer}</span>
             </p>
 
             <p className="font-extrabold pb-3">
-              Current Lesson: <span> React - Native </span>
+              Current Lesson: <span> {currentPath} </span>
             </p>
             <div className="bg-white flex flex-col items-center justify-center h-32 rounded-xl">
               <p className="text-gray-500">Your progress</p>
               <p className="text-xl font-extrabold text-blue-500 pb-3">
-                {completedPercentage}% to complete
+                {completedPercentage}% completed
               </p>
               <ProgressBar
                 completed={completedPercentage}
@@ -172,20 +163,9 @@ export default function Profile() {
                 className="w-4/5"
               />
             </div>
-
-            <div className="w-full">
-              <ul className="my-6">
-                {missingCareerSkills.map((skill) => (
-                  <li key={skill}>
-                    {skill} -{" "}
-                    <SkillDropdown
-                      skill={skill}
-                      onChange={handleStatusChange}
-                    />
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {courses.map((course) => (
+              <p>{course.courseName}</p>
+            ))}
           </div>
         </div>
       ) : (
@@ -230,7 +210,16 @@ export default function Profile() {
           <p className="font-bold text-lg text-center">Skills</p>
         </div>
         <div className="row-span-2">
-          <p className="text-base">Nothing to display</p>
+          <p className="text-base font-bold">This is 70% accurate.</p>
+          <div className="w-full">
+            <ul className="my-6">
+              {capitalizeSentences(matchingCareerSkills).map((skill) => (
+                <li key={skill}>
+                  {skill} 
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
 
@@ -239,7 +228,20 @@ export default function Profile() {
           <p className="font-bold text-lg text-center">Missing Skills</p>
         </div>
         <div className="row-span-2">
-          <p className="text-base">Nothing to display</p>
+          {/* <p className="text-base">Nothing to display</p> */}
+          <div className="w-full">
+            <ul className="my-6">
+              {capitalizeSentences(missingCareerSkills).map((skill) => (
+                <li key={skill}>
+                  {skill} -{" "}
+                  <SkillDropdown
+                    skill={skill}
+                    onChange={handleStatusChange}
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
 
@@ -248,7 +250,7 @@ export default function Profile() {
           <p className="font-bold text-lg text-center">Statistics</p>
         </div>
         <div className="row-span-2">
-          <p className="text-base">Nothing to display</p>
+          <p className="text-base">wtf idk</p>
         </div>
       </div>
 
@@ -259,7 +261,8 @@ export default function Profile() {
           </p>
         </div>
         <div className="row-span-2">
-          <p className="text-base text-center">Nothing to display</p>
+          <p className="text-base text-center">wtf idk</p>
+          
         </div>
       </div>
       <div className=" bg-blue-100 p-5 rounded-3xl	shadow-md grid grid-rows-3 items-center justify-center">
@@ -267,7 +270,8 @@ export default function Profile() {
           <p className="font-bold text-lg text-center">Saved Careers</p>
         </div>
         <div className="row-span-2">
-          <p className="text-base">Nothing to display</p>
+          {pickedCareer} 
+          {/* should be an array of saved careers */}
         </div>
       </div>
     </div>
