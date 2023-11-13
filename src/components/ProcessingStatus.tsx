@@ -90,7 +90,7 @@ const ProcessingStatus = ({ done, text }: { done: boolean; text: string }) => {
             </span>
           </div>
         </div>
-      ) : text === "Only single page PDFs are supported at this time." ? (
+      ) : (
         <div className="flex flex-col m-2 items-center p-3 px-10 bg-white border border-gray-600 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 space-y-2 w-6/12 mb-10">
           <div
             aria-label="Loading..."
@@ -111,13 +111,12 @@ const ProcessingStatus = ({ done, text }: { done: boolean; text: string }) => {
                 d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
               />
             </svg>
-
             <span className="text-xs sm:text-sm md:text-xl font-medium text-gray-500">
               {text}
             </span>
           </div>
         </div>
-      ) : null}
+      )}
     </>
   );
 };

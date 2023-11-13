@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PathContainer from "./PathContainer";
 
-const Pathes = ({
+const PathsSelection = ({
   skillsMismatch: skillsMatched,
   positionTitle,
   recommendedPath,
@@ -74,4 +74,4 @@ const Pathes = ({
   );
 };
 
-export default Pathes;
+export default PathsSelection;
