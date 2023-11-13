@@ -8,22 +8,22 @@ const ProcessingStatuses = () => {
   const statusComponents = [
     <ProcessingStatus key={"uploaded"} done={true} text="File Uploaded" />,
     <ProcessingStatus
-      key={"extracted"}
+      key={"extracted-text"}
       done={true}
       text="Extracted Text. Analysing document..."
     />,
     <ProcessingStatus
-      key={"fail"}
+      key={"failed-to-retrieve"}
       done={false}
       text="Failed to retrieve key phrases."
     />,
     <ProcessingStatus
-      key={"fail"}
+      key={"only-single-page-pdf"}
       done={false}
       text="Only single page PDFs are supported at this time."
     />,
     <ProcessingStatus
-      key={"fail"}
+      key={"processing-failed"}
       done={false}
       text="Processing failed. Please try again."
     />,

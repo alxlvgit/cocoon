@@ -9,7 +9,7 @@ const nextConfig = {
   // },
   reactStrictMode: false,
   images: {
-    domains: ["velog.velcdn.com"],
+    domains: ["velog.velcdn.com", "avatars.githubusercontent.com"],
   },
 };
 
