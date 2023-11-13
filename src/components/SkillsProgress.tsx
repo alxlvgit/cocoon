@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppSelector } from "@/redux/hooks";
 import { useEffect, useState } from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
 import Link from "next/link";

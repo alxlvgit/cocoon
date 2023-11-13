@@ -1,7 +1,8 @@
-import { auth } from "@/auth";
+import { auth, signOut } from "@/auth";
 import SkillsProgress from "@/components/SkillsProgress";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import SignoutButton from "@/components/SignoutButton";
 
 /*
 NOTES FROM SELINA TO XIAO 👽👽👽👽👽👽👽👽👽👽👽👽👽👽👽👽
@@ -38,8 +39,8 @@ export default async function Profile() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 justify-center w-3/4 m-auto my-5 ">
-      <div className="flex align-middle items-center flex-col xs:flex-row">
-        <div className="w-20 h-20 xs:mr-6">
+      <div className="flex flex-col xs:flex-row xs:justify-between align-middle items-center sm:col-span-2">
+        <div className="w-20 h-20 xs:mr-6 mx-auto">
           <Image
             src={userData.user.avatar}
             alt={userData.user.username + " avatar"}
@@ -48,11 +49,19 @@ export default async function Profile() {
             className="object-cover h-20 w-20 rounded-full"
           />
         </div>
-        <div className="mt-3 xs:mt-0 flex flex-col items-center xs:items-start">
-          <h1 className="font-bold text-xl">Welcome,</h1>
-          <p className="text-lg text-gray-500 text-center">
-            {userData.user.username}
-          </p>
+        <div className="flex-grow flex flex-col sm:flex-row justify-between">
+          <div className="mb-2 xs:mb-0 flex flex-col items-start xs:items-start">
+            <h1 className="font-bold w-full text-xl">Welcome,</h1>
+            <p className="text-lg text-gray-500 text-left">
+              {userData.user.username}
+            </p>
+          </div>
+          <SignoutButton
+            signOut={async () => {
+              "use server";
+              await signOut({ redirectTo: "/" });
+            }}
+          />
         </div>
       </div>
 
