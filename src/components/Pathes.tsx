@@ -1,5 +1,7 @@
 import { useState } from "react";
 import PathContainer from "./PathContainer";
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 const Pathes = ({
   skillsMismatch: skillsMatched,
@@ -27,6 +29,9 @@ const Pathes = ({
         <h1 className="text-base md:text-lg lg:text-3lg font-extrabold text-center hover:font-semibold w-full mb-4">
           {positionTitle}
         </h1>
+        <div className="w-32 h-32 ">
+          <CircularProgressbar value={skillsMatched} text={`${skillsMatched}%`} />;
+        </div>
         <h1 className="text-base md:text-lg text-left justify-center items-center">
           Your resume skills have {skillsMatched}% match with {positionTitle}{" "}
           job

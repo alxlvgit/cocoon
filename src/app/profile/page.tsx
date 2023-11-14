@@ -6,6 +6,7 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { useState } from "react";
 import Link from "next/link";
+import TopCareerSuggestions from "@/components/top-career-suggestions";
 
 
 /*
@@ -129,10 +130,7 @@ export default function Profile() {
       // If the sentence is empty, return it as is
       return trimmedSentence;
     });
-  }
-
-  console.log(courses)
-  
+  }  
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 justify-center w-3/4 m-auto my-5 ">
@@ -164,7 +162,9 @@ export default function Profile() {
               />
             </div>
             {courses.map((course) => (
-              <p>{course.courseName}</p>
+              <div className="bg-gray-300 my-4 p-2 rounded-md">
+                <p>{course.courseName}</p>
+              </div>
             ))}
           </div>
         </div>
@@ -214,9 +214,11 @@ export default function Profile() {
           <div className="w-full">
             <ul className="my-6">
               {capitalizeSentences(matchingCareerSkills).map((skill) => (
+              <div className="bg-blue-200 my-4 p-2 rounded-md">
                 <li key={skill}>
                   {skill} 
                 </li>
+              </div>
               ))}
             </ul>
           </div>
@@ -232,13 +234,16 @@ export default function Profile() {
           <div className="w-full">
             <ul className="my-6">
               {capitalizeSentences(missingCareerSkills).map((skill) => (
-                <li key={skill}>
-                  {skill} -{" "}
-                  <SkillDropdown
-                    skill={skill}
-                    onChange={handleStatusChange}
-                  />
-                </li>
+                <div className="bg-blue-200 my-4 p-2 rounded-md">
+                  <li key={skill}>
+                    {skill} -{" "}
+                    <SkillDropdown
+                      skill={skill}
+                      onChange={handleStatusChange}
+                    />
+                  </li>
+                </div>
+                
               ))}
             </ul>
           </div>
@@ -260,18 +265,18 @@ export default function Profile() {
             Top career suggestions
           </p>
         </div>
-        <div className="row-span-2">
-          <p className="text-base text-center">wtf idk</p>
-          
-        </div>
+        <TopCareerSuggestions />
       </div>
       <div className=" bg-blue-100 p-5 rounded-3xl	shadow-md grid grid-rows-3 items-center justify-center">
         <div>
           <p className="font-bold text-lg text-center">Saved Careers</p>
         </div>
         <div className="row-span-2">
-          {pickedCareer} 
-          {/* should be an array of saved careers */}
+          {pickedCareer ? (<div className="bg-blue-200 my-4 p-2 rounded-md">
+            {/* should be an array of saved careers */}
+            {pickedCareer}
+          </div>) : (null)}
+          
         </div>
       </div>
     </div>
