@@ -3,24 +3,16 @@ import Link from "next/link";
 export default function Footer() {
   return (
     <footer className="bg-white rounded-lg m-4">
-      <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-        {/* Your other footer content */}
-        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
-          © 2023{" "}
-          <a href="#" className="hover:underline">
-            Cocoon™
-          </a>
-          . All Rights Reserved.
-        </span>
-
+      <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8 flex items-center justify-between">
         <svg
-          className="mx-auto mt-4"
+          className="ml-2"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 146.82 208.78"
+          width="70"
+          height="70"
         >
           <g id="images">
             <g>
-              {/* Your SVG paths */}
               <path
                 className="cls-1"
                 d="m37.28,70.54c2.89,1.23,5.77,1.85,8.64,1.85,1.97,0,4.02-.3,6.15-.89,3.55-.98,6.63-2.74,9.26-5.26,1.21-1.17,2.32-2.49,3.34-3.95,1.02-1.47,1.52-2.51,1.52-3.12,0-.57-.34-.86-1.01-.86-.45,0-.87.37-1.26,1.11-.68,1.27-1.57,2.57-2.69,3.91-1.12,1.33-2.2,2.4-3.24,3.2-1.62,1.23-3.48,2.2-5.59,2.92-2.11.72-4.17,1.08-6.17,1.08-.7,0-1.58-.07-2.64-.22l-.18-18.52.18-21.81c.68-.14,1.39-.22,2.15-.22,3.21,0,6.27.71,9.15,2.14,2.89,1.43,5.21,3.36,6.97,5.8.57.8,1.06,1.2,1.47,1.2.25,0,.47-.09.68-.28s.31-.39.31-.62c0-.84-1.03-2.21-3.08-4.12-4.31-4-9.41-6-15.32-6-3.45,0-6.66.72-9.63,2.15-4.08,2.01-7.24,4.91-9.47,8.71-2.09,3.57-3.14,7.36-3.14,11.38s1,7.66,3.01,11.17c2.42,4.23,5.95,7.31,10.58,9.26Z"
@@ -47,8 +39,17 @@ export default function Footer() {
               />
             </g>
           </g>
-          
         </svg>
+        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400 mt-">
+          © 2023{" "}
+          <a href="#" className="hover:underline">
+            Cocoon™ All Rights Reserved.
+          </a>
+        </span>
+
+        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400 mt-">
+       
+        </span>
       </div>
     </footer>
   );
