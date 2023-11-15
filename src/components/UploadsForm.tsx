@@ -113,7 +113,7 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
   };
 
   return (
-    <div className="flex flex-col mt-1 items-center p-4 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 space-y-2 mb-5">
+    <div className="relative flex flex-col mt-[-50px] items-center justify-center p-4 max-w-300 bg-white border border-e2e8f0 rounded-2xl shadow-md mb-5">
       <p className="text-base font-semibold">Upload Resume</p>
       <label
         htmlFor="pdfUpload"
