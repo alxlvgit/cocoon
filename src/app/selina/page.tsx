@@ -1,4 +1,3 @@
-//@ts-nocheck
 "use client";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
@@ -37,13 +36,6 @@ export default function Selina() {
   };
 
   const options = {
-    cutout: "50%",
-    animation: {
-      animateRotate: true,
-      animateScale: true,
-      duration: 2000,
-      easing: "easeInOutQuart",
-    },
     plugins: {
       legend: {
         display: false,
@@ -51,6 +43,13 @@ export default function Selina() {
       tooltip: {
         enabled: true,
       },
+    },
+    cutout: "60%",
+    animation: {
+      animateRotate: true,
+      animateScale: true,
+      duration: 2000,
+      easing: "easeInOutQuart",
     },
     centerLabel: {
       center: {
@@ -67,6 +66,7 @@ export default function Selina() {
 
   const textCenter = {
     id: "hello",
+
     afterRender(chart, args, pluginOptions) {
       const { ctx } = chart;
 
@@ -102,21 +102,23 @@ export default function Selina() {
             ></Doughnut>
           </div>
           <div className="place-self-center">
-            <p className="text-gray-700 text-xl ">
+            <p className="text-gray-700 text-base md:text-lg lg:text-xl">
               You are a{" "}
               <span className="font-bold text-gray-900 underline dark:text-white decoration-blue-500 decoration-double">
                 {chosenPath.matchingPercentage}%
               </span>{" "}
               match with
             </p>
-            <p className="font-bold text-xl">
+            <p className="font-bold text-base  md:text-lg lg:text-xl">
               <span className="font-semibold text-gray-900 underline dark:text-white decoration-sky-500 decoration-wavy">
                 {chosenPath.titleOfPath}
               </span>
             </p>
           </div>
         </div>
-        <div className="bg-indigo-100 h-full w-full rounded-lg mx-auto p-5 text-center flex flex-col align-middle items-center justify-center"></div>
+        <div className="bg-indigo-100 h-full w-full rounded-lg mx-auto p-5 text-center grid grid-cols-1 align-middle items-center justify-center">
+          <div className="bg-indigo-400 h-full w-full rounded-lg mx-auto p-5 text-center grid grid-cols-1 align-middle items-center justify-center"></div>
+        </div>
       </div>
       <div></div>
     </div>

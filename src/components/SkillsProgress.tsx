@@ -51,7 +51,7 @@ const SkillsProgress = () => {
               <ul className="my-6">
                 {missingCareerSkills.map((skill) => (
                   <li key={skill}>
-                    {skill} - <SkillsDropdown skill={skill} />
+                    {skill} <SkillsDropdown skill={skill} />
                   </li>
                 ))}
               </ul>
