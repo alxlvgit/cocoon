@@ -3,7 +3,7 @@ import PathContainer from "./PathContainer";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-const Pathes = ({
+const PathsSelection = ({
   skillsMismatch: skillsMatched,
   positionTitle,
   recommendedPath,
@@ -79,4 +79,4 @@ const Pathes = ({
   );
 };
 
-export default Pathes;
+export default PathsSelection;

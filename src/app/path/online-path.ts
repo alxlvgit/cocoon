@@ -1,5 +1,14 @@
 "use server";
 
+export type UdemyCourse = {
+  avg_rating: number;
+  description: string;
+  title: string;
+  url: string;
+  is_paid: boolean;
+  price: string;
+};
+
 // Find the courses based on the search term
 export const findUdemyCourses = async (
   searchTerm: string,
@@ -18,7 +27,7 @@ export const findUdemyCourses = async (
   );
   const data = await results.json();
   if (data.results && data.results.length > 0) {
-    return data.results;
+    return data.results as UdemyCourse[];
   }
   return null;
 };
@@ -41,7 +50,7 @@ export const findTheCheapestUdemyCourses = async (
   );
   const data = await results.json();
   if (data.results && data.results.length > 0) {
-    return data.results;
+    return data.results as UdemyCourse[];
   }
   return null;
 };
