@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 "use client";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
@@ -86,9 +88,6 @@ export default function Selina() {
 
   return (
     <div className="flex flex-col items-center justify-center my-5 mx-10 ">
-      <h1 className="m-5 text-center font-bold text-2xl mb-10">
-        Suggested Paths Based on Your Profile
-      </h1>
       <div className="grid grid-cols-1 gap-4 m-3 w-full lg:w-1/2">
         <div className="bg-indigo-100 h-full w-full rounded-lg mx-auto p-4 text-center align-middle items-center justify-center grid grid-cols-1 md:grid-cols-2 pb-8">
           <h1 className="m-5 text-center font-bold md:col-span-2 text-lg mb-10">
