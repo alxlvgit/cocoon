@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import * as odotnet from '@/app/api/odotnet/fetch-api';
 import * as enums from '@/app/api/odotnet/enums';
+import Link from 'next/link';
 
 export default function TopCareerSuggestions() {
     const [careersData, setCareersData] = useState([]);
@@ -33,8 +34,10 @@ export default function TopCareerSuggestions() {
                             <h1>{career.title}</h1>
                         </div>
                     ))}
-                    <button className='bg-blue-300 w-1/2 my-4 p-2 rounded-md border border-gray-600'>See More</button>
-                
+                    <Link href="/careers">
+                        <button className='bg-blue-300 w-1/2 my-4 p-2 rounded-md border border-gray-600'>See More</button>
+                    </Link>
+
             </div>
         </>
         
