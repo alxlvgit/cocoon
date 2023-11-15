@@ -1,9 +1,11 @@
+
 import React from "react";
 import { auth, signOut } from "@/auth";
 import { redirect } from "next/navigation";
 import SignoutButton from "@/components/SignoutButton";
 import ProfileClient from "@/components/ProfileClient";
 import Image from "next/image";
+
 
 /*
 NOTES FROM SELINA TO XIAO 👽👽👽👽👽👽👽👽👽👽👽👽👽👽👽👽
@@ -13,7 +15,6 @@ Data we need for this page: Missing skills, Matched skills, Number Completed Cou
 If don't have these data, I think alex and you (BE devs) should talk to the designers or 
 at minimum, let's discuss what we have, and what we are going to show on this page....! 
 */
-
 
 
 export default async function Profile() {
@@ -30,6 +31,7 @@ export default async function Profile() {
           <Image
             src={user.image ? user.image : "/images/avatar.png"} 
             alt={user.name + " avatar"}
+
             width={80}
             height={80}
             className="object-cover h-20 w-20 rounded-full"
@@ -53,5 +55,4 @@ export default async function Profile() {
       <ProfileClient user={user} />
     </div>
   )
-
 }

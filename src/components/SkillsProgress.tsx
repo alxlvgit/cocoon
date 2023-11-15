@@ -6,7 +6,6 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import Link from "next/link";
 
 
-
 const SkillsProgress = () => {
   const completedSkills = useAppSelector(
     (state) => state.pathSlice.completedSkills
@@ -95,5 +94,6 @@ const SkillsProgress = () => {
     }
   </>
 )}
+
 
 export default SkillsProgress;
