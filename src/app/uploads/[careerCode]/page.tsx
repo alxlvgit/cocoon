@@ -36,7 +36,7 @@ async function Uploads({ params }: { params: { careerCode: string } }) {
       }
       {
         isFormVisible && (
-          <div className={`transition-opacity duration-1000 ease-in ${isFormVisible ? 'opacity-100' : 'opacity-0'}`}>
+          <div className={`transition-opacity duration-1000 ease-in ${isFormVisible ? "opacity-100" : "opacity-0"}`}>
             <UploadsForm careerCode={careerCode} />
             <ProcessingStatuses />
           </div>
