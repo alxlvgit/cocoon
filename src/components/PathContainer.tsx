@@ -2,7 +2,6 @@ import { setCurrentPath } from "@/redux/features/pathSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
 
-
 const PathContainer = ({
   pathData: pathName,
   onMouseEnter,
