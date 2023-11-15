@@ -70,7 +70,7 @@ const SignUpPage: React.FC = () => {
             Re-enter Password
           </label>
           <input
-            className="shadow appearance-none border placeholder-black rounded-3xl w-full py-2 px-3 placeholder-black leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border placeholder-black rounded-3xl w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline"
             id="password-confirm"
             type="password"
             placeholder="Confirm Password"
