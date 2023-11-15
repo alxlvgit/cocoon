@@ -19,9 +19,6 @@ const LoginPage: React.FC = () => {
             placeholder="Email or Username"
           />
         </div>
-
-       
-
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm mb-2"
