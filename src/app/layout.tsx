@@ -1,6 +1,7 @@
 import React from "react";
 import NavBar from "@/components/Navbar";
 import MobileNavbar from "@/components/MobileNavbar";
+import Footer from "@/components/Footer"; 
 import "./globals.css";
 import type { Metadata } from "next";
 import { twMerge } from "tailwind-merge";
@@ -34,9 +35,8 @@ export default function RootLayout({
           </header>
 
           <main className="flex-grow">{children}</main>
-          <footer className="w-full flex justify-center text-sm text-zinc-400 py-12">
-            Cocoon
-          </footer>
+
+          <Footer />
         </body>
       </ReduxProvider>
     </html>
