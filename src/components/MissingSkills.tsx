@@ -2,6 +2,7 @@
 
 import { useAppSelector } from "@/redux/hooks";
 import SkillsDropdown from "./SkillsDropdown";
+import { index } from "drizzle-orm/pg-core";
 
 function capitalizeSentences(sentences: string[]): string[] {
     return sentences.map(sentence => {
@@ -34,11 +35,12 @@ const MissingSkills = () => {
                     <p className="font-bold text-lg text-center">Missing Skills</p>
                 </div>
                 {capitalizeSentences(missingCareerSkills).map((skill) => (
-                    <div className="bg-blue-200 my-4 p-2 rounded-md" key={skill}>
+                    <div className="bg-blue-200 my-4 p-2 rounded-md">
                         <p key={skill}>
                             {skill} -{" "}
                             <SkillsDropdown
                                 skill={skill}
+                                key={skill}
                             />
                         </p>
                     </div>
