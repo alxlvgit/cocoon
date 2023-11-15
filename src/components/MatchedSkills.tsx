@@ -35,7 +35,7 @@ const MatchedSkills = () => {
                 </div>
                     <p className="text-base font-bold">This is 70% accurate.</p>
                             {capitalizeSentences(matchingCareerSkills).map((skill) => (
-                                <div className="bg-blue-200 my-4 p-2 rounded-md">
+                                <div className="bg-blue-200 my-4 p-2 rounded-md" key={skill}>
                                     <p key={skill}>
                                         {skill}
                                     </p>

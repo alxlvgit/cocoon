@@ -35,7 +35,7 @@ const MissingSkills = () => {
                     <p className="font-bold text-lg text-center">Missing Skills</p>
                 </div>
                 {capitalizeSentences(missingCareerSkills).map((skill) => (
-                    <div className="bg-blue-200 my-4 p-2 rounded-md">
+                    <div className="bg-blue-200 my-4 p-2 rounded-md" key={skill}>
                         <p key={skill}>
                             {skill} -{" "}
                             <SkillsDropdown
