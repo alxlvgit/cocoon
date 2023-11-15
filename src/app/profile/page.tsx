@@ -2,7 +2,7 @@ import React from "react";
 import { auth, signOut } from "@/auth";
 import { redirect } from "next/navigation";
 import SignoutButton from "@/components/SignoutButton";
-import ProfileClient from "./profile-client";
+import ProfileClient from "@/components/ProfileClient";
 
 /*
 NOTES FROM SELINA TO XIAO 👽👽👽👽👽👽👽👽👽👽👽👽👽👽👽👽
