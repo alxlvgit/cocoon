@@ -1,6 +1,7 @@
 import { Course, Program } from "@/programs-data/programs-courses-finder";
 import { semanticSearchLambda } from "../uploads/document-processing";
 import { findTheCheapestUdemyCourses, findUdemyCourses } from "./online-path";
+import { UdemyCourse } from "./online-path";
 
 // Calculate the matching skills percentage
 export const calculateSkillsMatchPercentage = (
@@ -115,29 +116,34 @@ export const findRecommendedPath = async (
   pickedCareer: string,
   programs: Program[],
   courses: Course[]
-) => {
-  const bestMatchProgram = await findBestMatchProgram(pickedCareer, programs);
-  const bestMatchCourse = await findBestMatchCourse(pickedCareer, courses);
-  const bestUdemyMatches = await findUdemyCourses(pickedCareer, 10);
-
-  if (matchingSkillsPercentage >= 0 && matchingSkillsPercentage <= 40) {
-    if (bestMatchProgram) {
-      return { bestMatchProgram };
-    } else if (bestMatchCourse) {
-      return { bestMatchCourse };
-    } else if (bestUdemyMatches) {
-      return { mostRelevantUdemyCourse: bestUdemyMatches[0] };
-    }
-  } else if (matchingSkillsPercentage > 40 && matchingSkillsPercentage < 70) {
-    if (bestMatchCourse) {
-      return { bestMatchCourse };
-    } else if (bestUdemyMatches) {
-      return { mostRelevantUdemyCourse: bestUdemyMatches[0] };
-    }
-  } else if (matchingSkillsPercentage >= 70 && matchingSkillsPercentage < 100) {
-    if (bestUdemyMatches) {
-      return { mostRelevantUdemyCourse: bestUdemyMatches[0] };
-    }
+): Promise<{
+  bcitProgram?: Program;
+  bcitCourse?: Course;
+  udemyCourse?: UdemyCourse;
+} | null> => {
+  const bcitProgram = await findBestMatchProgram(pickedCareer, programs);
+  if (
+    matchingSkillsPercentage >= 0 &&
+    matchingSkillsPercentage <= 40 &&
+    bcitProgram
+  ) {
+    return { bcitProgram };
+  }
+  const bcitCourse = await findBestMatchCourse(pickedCareer, courses);
+  if (
+    matchingSkillsPercentage > 40 &&
+    matchingSkillsPercentage < 70 &&
+    bcitCourse
+  ) {
+    return { bcitCourse };
+  }
+  const udemyCourses = await findUdemyCourses(pickedCareer, 10);
+  if (
+    matchingSkillsPercentage >= 70 &&
+    matchingSkillsPercentage < 100 &&
+    udemyCourses
+  ) {
+    return { udemyCourse: udemyCourses[0] };
   }
   return null;
 };
@@ -148,32 +154,34 @@ export const findTheCheapestPath = async (
   programs: Program[],
   courses: Course[],
   pickedCarrer: string
-) => {
-  const cheapestProgram = await findTheCheapestProgram(programs);
-  const cheapestCourse = await findTheCheapestCourse(courses);
-  const cheapestUdemyCourse = await findTheCheapestUdemyCourses(
-    pickedCarrer,
-    10
-  );
-
-  if (matchingSkillsPercentage >= 0 && matchingSkillsPercentage <= 40) {
-    if (cheapestProgram) {
-      return { cheapestProgram };
-    } else if (cheapestCourse) {
-      return { cheapestCourse };
-    } else if (cheapestUdemyCourse) {
-      return { cheapestUdemyCourse: cheapestUdemyCourse[0] };
-    }
-  } else if (matchingSkillsPercentage > 40 && matchingSkillsPercentage < 70) {
-    if (cheapestCourse) {
-      return { cheapestCourse };
-    } else if (cheapestUdemyCourse) {
-      return { cheapestUdemyCourse: cheapestUdemyCourse[0] };
-    }
-  } else if (matchingSkillsPercentage >= 70 && matchingSkillsPercentage < 100) {
-    if (cheapestUdemyCourse) {
-      return { cheapestUdemyCourse: cheapestUdemyCourse[0] };
-    }
+): Promise<{
+  bcitProgram?: Program;
+  bcitCourse?: Course;
+  udemyCourse?: UdemyCourse;
+} | null> => {
+  const bcitProgram = await findTheCheapestProgram(programs);
+  if (
+    matchingSkillsPercentage >= 0 &&
+    matchingSkillsPercentage <= 40 &&
+    bcitProgram
+  ) {
+    return { bcitProgram };
+  }
+  const bcitCourse = await findTheCheapestCourse(courses);
+  if (
+    matchingSkillsPercentage > 40 &&
+    matchingSkillsPercentage < 70 &&
+    bcitCourse
+  ) {
+    return { bcitCourse };
+  }
+  const udemyCourses = await findTheCheapestUdemyCourses(pickedCarrer, 10);
+  if (
+    matchingSkillsPercentage >= 70 &&
+    matchingSkillsPercentage < 100 &&
+    udemyCourses
+  ) {
+    return { udemyCourse: udemyCourses[0] };
   }
   return null;
 };

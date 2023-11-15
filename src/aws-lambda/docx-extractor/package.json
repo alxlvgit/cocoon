@@ -6,7 +6,8 @@
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "esbuild index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
-    "postbuild": "cd dist && zip -r index.zip index.js*"
+    "postbuild": "cd dist && zip -r index.zip index.js*",
+    "update-function": "aws lambda update-function-code --function-name docx-text-extractor --zip-file fileb://dist/index.zip"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.122",
