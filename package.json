@@ -10,7 +10,8 @@
     "generate": "drizzle-kit generate:pg",
     "db:push": "drizzle-kit push:pg",
     "migrate": "pnpx tsx ./src/db/migrate.ts",
-    "seed": "pnpx tsx ./src/db/seed.ts"
+    "seed": "pnpx tsx ./src/db/seed.ts",
+    "studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@auth/core": "^0.18.1",
