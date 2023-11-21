@@ -1,7 +1,36 @@
-import { Course, Program } from "@/programs-data/programs-courses-finder";
 import { semanticSearchLambda } from "../uploads/document-processing";
-import { findTheCheapestUdemyCourses, findUdemyCourses } from "./online-path";
+import { findUdemyCourses } from "./online-path";
+import programsData from "@/programsData.json";
+import { Course, Program, SemanticSearchResult } from "@/types/types";
 import { UdemyCourse } from "./online-path";
+
+// change this to have not success but a program object, and program with skills object
+// same for courses
+type MatchedCoursesResult =
+  | {
+      success: { [key: string]: string[] };
+      error?: undefined;
+    }
+  | {
+      success?: undefined;
+      error: string;
+    };
+
+type MatchedProgramsResult =
+  | {
+      success: Program[];
+      error?: undefined;
+    }
+  | {
+      success?: undefined;
+      error: string;
+    };
+
+export type RecommendedPathResult = {
+  bcitProgram?: Program;
+  bcitCourses?: { [key: string]: string[] };
+  udemyCourses?: UdemyCourse;
+};
 
 // Calculate the matching skills percentage
 export const calculateSkillsMatchPercentage = (
@@ -16,126 +45,153 @@ export const calculateSkillsMatchPercentage = (
   return percentage;
 };
 
-// Find the best match course
-const findBestMatchCourse = async (
-  searchKeyword: string,
-  courses: Course[]
-) => {
-  const coursesNames = courses.map((course: { courseName: string }) => {
-    return course.courseName;
-  });
-  const searchTerm = `The most relevant course name for ${searchKeyword} is:`;
-  const bestMatch = await semanticSearchLambda(
-    [searchTerm],
-    coursesNames,
-    0.7,
-    1,
-    1
-  );
-  const bestMatchCourse = courses.find(
-    (course: { courseName: string }) =>
-      course.courseName.toLowerCase() ===
-      bestMatch[searchTerm][0].pageContent.toLowerCase()
-  );
-  if (bestMatchCourse) {
-    return bestMatchCourse;
-  } else {
-    return null;
-  }
-};
+// Find matching BCIT programs
+export const matchProgramsWithKeyPhrases = async (
+  keyPhrases: string[]
+): Promise<MatchedProgramsResult> => {
+  try {
+    const data = JSON.stringify(programsData);
+    const { programs } = JSON.parse(data);
+    const programsNames = programs.map(
+      (program: { programName: string }) => program.programName
+    );
 
-// Find the best match program
-const findBestMatchProgram = async (
-  searchKeyword: string,
-  programs: Program[]
-) => {
-  const programsNames = programs.map(
-    (program: { programName: string }) => program.programName
-  );
-  const searchTerm = `The most relevant program name for ${searchKeyword} is:`;
-  const bestMatch = await semanticSearchLambda(
-    [searchTerm],
-    programsNames,
-    0.7,
-    1,
-    1
-  );
-  const bestMatchProgram = programs.find(
-    (program: { programName: string }) =>
-      program.programName.toLowerCase() ===
-      bestMatch[searchTerm][0].pageContent.toLowerCase()
-  );
-  if (bestMatchProgram) {
-    return bestMatchProgram;
-  } else {
-    return null;
-  }
-};
+    const programSearch = await semanticSearchLambda(
+      keyPhrases,
+      programsNames,
+      0.6,
+      1,
+      1
+    );
 
-// Find the cheapest program
-const findTheCheapestProgram = async (programs: Program[]) => {
-  const cheapestProgram = programs.reduce(
-    (cheapest: Program | null, current: Program) => {
-      if (!cheapest) return current;
-      const cheapestCost = parseFloat(
-        (cheapest.tuitionDomestic || "0").replace("$", "")
+    let matchedPrograms = new Set<Program>();
+    for (const key in programSearch) {
+      matchedPrograms.add(
+        programs.find(
+          (program: { programName: string }) =>
+            program.programName.toLowerCase() ===
+            programSearch[key][0].pageContent.toLowerCase()
+        )
       );
-      const currentCost = parseFloat(
-        (current.tuitionDomestic || "0").replace("$", "")
-      );
-      return cheapestCost < currentCost ? cheapest : current;
-    },
-    null
-  );
-  if (cheapestProgram) {
-    return cheapestProgram;
+    }
+
+    return { success: Array.from(matchedPrograms) };
+  } catch (err) {
+    console.error(err);
+    return { error: "Could not match the programs with keyphrases" };
   }
-  return null;
 };
 
-// Find the cheapest course
-const findTheCheapestCourse = async (courses: Course[]) => {
-  const cheapestCourse = courses.reduce(
-    (cheapest: Course | null, current: Course) => {
-      if (!cheapest) return current;
-      const cheapestCost = parseFloat((cheapest.cost || "0").replace("$", ""));
-      const currentCost = parseFloat((current.cost || "0").replace("$", ""));
-      return cheapestCost < currentCost ? cheapest : current;
-    },
-    null
-  );
-  if (cheapestCourse) {
-    return cheapestCourse;
+// Find matching BCIT courses
+export const matchCoursesWithKeyPhrases = async (
+  keyPhrases: string[]
+): Promise<MatchedCoursesResult> => {
+  try {
+    const data = JSON.stringify(programsData);
+    const { courses } = JSON.parse(data);
+    const coursesNames = courses.map(
+      (course: { courseName: string }) => course.courseName
+    );
+
+    const courseSearch: {
+      [key: string]: SemanticSearchResult[];
+    } = await semanticSearchLambda(keyPhrases, coursesNames, 0.6, 1, 1);
+
+    const matchedCoursesWithSkills: {
+      [key: string]: string[];
+    } = {};
+
+    const matchedCourses = new Set<Course>();
+
+    Object.entries(courseSearch).map(([key, value]) => {
+      const course = courses.find(
+        (course: { courseName: string }) =>
+          course.courseName.toLowerCase() === value[0].pageContent.toLowerCase()
+      );
+      if (course) {
+        matchedCourses.add(course);
+        if (!matchedCoursesWithSkills[course.courseName]) {
+          matchedCoursesWithSkills[course.courseName] = [];
+        }
+        matchedCoursesWithSkills[course.courseName].push(key);
+      }
+    });
+    console.log(matchedCoursesWithSkills);
+    console.log(matchedCourses);
+
+    return {
+      success: matchedCoursesWithSkills,
+    };
+  } catch (err) {
+    console.error(err);
+    return { error: "Could not match the courses with keyphrases" };
   }
-  return null;
+};
+
+// Find the best match single program
+export const findBestMatchProgram = async (
+  searchKeyword: string,
+  missingSkills: string[]
+) => {
+  try {
+    const programs = await matchProgramsWithKeyPhrases(missingSkills);
+    if (programs.success) {
+      const programsNames = programs.success.map(
+        (program: { programName: string }) => program.programName
+      );
+      const searchTerm = `The most relevant program name for ${searchKeyword} is:`;
+      const bestMatch = await semanticSearchLambda(
+        [searchTerm],
+        programsNames,
+        0.7,
+        1,
+        1
+      );
+      const bestMatchProgramObject = programs.success.find(
+        (program: { programName: string }) =>
+          program.programName.toLowerCase() ===
+          bestMatch[searchTerm][0].pageContent.toLowerCase()
+      );
+      if (bestMatchProgramObject) {
+        return {
+          success: {
+            [bestMatchProgramObject.programName]: missingSkills,
+            bestMatchProgramObject,
+          },
+        };
+      } else {
+        return { error: "Could not find the best match program" };
+      }
+    } else {
+      return { error: "Could not find the best match program" };
+    }
+  } catch (err) {
+    console.error(err);
+    return { error: "Could not find the best match program" };
+  }
 };
 
 // Find the recommended path (program or course) based on the matching skills percentage, recommended programs and recommended courses
 export const findRecommendedPath = async (
   matchingSkillsPercentage: number,
   pickedCareer: string,
-  programs: Program[],
-  courses: Course[]
-): Promise<{
-  bcitProgram?: Program;
-  bcitCourse?: Course;
-  udemyCourse?: UdemyCourse;
-} | null> => {
-  const bcitProgram = await findBestMatchProgram(pickedCareer, programs);
+  program: Program,
+  courses?: { [key: string]: string[] }
+): Promise<RecommendedPathResult | null> => {
   if (
     matchingSkillsPercentage >= 0 &&
-    matchingSkillsPercentage <= 40 &&
-    bcitProgram
+    matchingSkillsPercentage <= 50 &&
+    program
   ) {
-    return { bcitProgram };
+    return { bcitProgram: program };
   }
-  const bcitCourse = await findBestMatchCourse(pickedCareer, courses);
+
   if (
-    matchingSkillsPercentage > 40 &&
+    matchingSkillsPercentage > 50 &&
     matchingSkillsPercentage < 70 &&
-    bcitCourse
+    courses
   ) {
-    return { bcitCourse };
+    return { bcitCourses: courses };
   }
   const udemyCourses = await findUdemyCourses(pickedCareer, 10);
   if (
@@ -143,45 +199,7 @@ export const findRecommendedPath = async (
     matchingSkillsPercentage < 100 &&
     udemyCourses
   ) {
-    return { udemyCourse: udemyCourses[0] };
-  }
-  return null;
-};
-
-// Find the cheapest path (program or courses) based on the matching skills percentage, recommended programs and recommended courses
-export const findTheCheapestPath = async (
-  matchingSkillsPercentage: number,
-  programs: Program[],
-  courses: Course[],
-  pickedCarrer: string
-): Promise<{
-  bcitProgram?: Program;
-  bcitCourse?: Course;
-  udemyCourse?: UdemyCourse;
-} | null> => {
-  const bcitProgram = await findTheCheapestProgram(programs);
-  if (
-    matchingSkillsPercentage >= 0 &&
-    matchingSkillsPercentage <= 40 &&
-    bcitProgram
-  ) {
-    return { bcitProgram };
-  }
-  const bcitCourse = await findTheCheapestCourse(courses);
-  if (
-    matchingSkillsPercentage > 40 &&
-    matchingSkillsPercentage < 70 &&
-    bcitCourse
-  ) {
-    return { bcitCourse };
-  }
-  const udemyCourses = await findTheCheapestUdemyCourses(pickedCarrer, 10);
-  if (
-    matchingSkillsPercentage >= 70 &&
-    matchingSkillsPercentage < 100 &&
-    udemyCourses
-  ) {
-    return { udemyCourse: udemyCourses[0] };
+    return { udemyCourses: udemyCourses[0] };
   }
   return null;
 };

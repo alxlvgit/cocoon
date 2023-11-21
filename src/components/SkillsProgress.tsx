@@ -48,11 +48,11 @@ const SkillsProgress = () => {
                                 className="w-4/5"
                             />
                         </div>
-                        {courses.map((course) => (
+                        {/* {courses.map((course) => (
                             <div className="bg-gray-300 my-4 p-2 rounded-md" key={course.courseCode}>
                                 <p>{course.courseName}</p>
                             </div>
-                        ))}
+                        ))} */}
                     </div>
                 </div>
             ) : (

@@ -1,21 +1,18 @@
 "use client";
 
 import {
+  RecommendedPathResult,
+  findBestMatchProgram,
   matchCoursesWithKeyPhrases,
-  matchProgramsWithKeyPhrases,
-} from "@/programs-data/programs-courses-finder";
-import {
-  setCourses,
-  setPrograms,
-} from "@/redux/features/resumeProcessingSlice";
+} from "@/app/path/college-path";
+import { setCourses, setProgram } from "@/redux/features/resumeProcessingSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import React, { useEffect, useState } from "react";
 import {
   calculateSkillsMatchPercentage,
   findRecommendedPath,
-  findTheCheapestPath,
 } from "@/app/path/college-path";
-import { findUdemyCourses } from "@/app/path/online-path";
+import { UdemyCourse, findUdemyCourses } from "@/app/path/online-path";
 import PathsSelection from "./PathsSelection";
 
 const PathsController = () => {
@@ -29,63 +26,52 @@ const PathsController = () => {
   } = useAppSelector((state) => state.resumeProcessingSlice);
 
   const [skillsMatch, setSkillsMatch] = useState<number | null>(null);
-  const [pathData, setRecommendedPath] = useState("");
-  const [cheapestPath, setCheapestPath] = useState("");
-  const [onlineOnlyPath, setOnlineOnlyPath] = useState("");
+  const [recommendedPathData, setRecommendedPath] =
+    useState<RecommendedPathResult>({});
+  const [onlineOnlyPathData, setOnlineOnlyPath] = useState<UdemyCourse | null>(
+    null
+  );
 
   useEffect(() => {
-    const findMatchedProgramsCourses = async () => {
-      const [programsSearch, coursesSearch] = await Promise.all([
-        matchProgramsWithKeyPhrases(missingCareerSkills),
-        matchCoursesWithKeyPhrases(missingCareerSkills),
-      ]);
-      const { matchedCourses } = coursesSearch;
-      const { matchedPrograms } = programsSearch;
-      dispatch(setPrograms(matchedPrograms));
-      dispatch(setCourses(matchedCourses));
-      return { matchedCourses, matchedPrograms };
-    };
-
-    const formatPathResult = (pathData: any) => {
-      const result = pathData.bcitProgram
-        ? `${pathData.bcitProgram.programName} - BCIT Program`
-        : pathData.bcitCourse
-        ? `${pathData.bcitCourse.courseName} - BCIT Course`
-        : `${pathData.udemyCourse.title} - Udemy Course`;
-      return result;
-    };
-
     const generatePaths = async () => {
-      if (!missingCareerSkills || !pickedCareer || !requiredCareerSkills) {
+      try {
+        if (!missingCareerSkills || !pickedCareer || !requiredCareerSkills) {
+          setLoading(false);
+          throw new Error("Error. Missing required data. Check Redux store");
+        }
+        const courses = await matchCoursesWithKeyPhrases(missingCareerSkills);
+        const program = await findBestMatchProgram(
+          pickedCareer,
+          missingCareerSkills
+        );
+        if (!courses.success || !program.success) {
+          setLoading(false);
+          throw new Error("Error finding matching courses and programs");
+        }
+        // TODO: dispatch the courses with skills and courses objects separately
+        // TODO: dispatch the program with skills and program objects separately
+        dispatch(setCourses(courses.success));
+        dispatch(setProgram(program.success));
+        const skillsMatchedPercentage = calculateSkillsMatchPercentage(
+          matchingCareerSkills,
+          requiredCareerSkills
+        );
+        setSkillsMatch(skillsMatchedPercentage);
+        const recommendedPath = await findRecommendedPath(
+          skillsMatchedPercentage,
+          pickedCareer,
+          program.success.bestMatchProgramObject,
+          courses.success
+        );
+        const udemyCoursesResult = await findUdemyCourses(pickedCareer!, 10);
+        //TODO: dispatch both paths to the store
+        recommendedPath && setRecommendedPath(recommendedPath);
+        // TODO: include more courses in the online path
+        udemyCoursesResult && setOnlineOnlyPath(udemyCoursesResult[0]);
         setLoading(false);
-        return;
+      } catch (error) {
+        console.log(error);
       }
-      const skillsMatchedPercentage = calculateSkillsMatchPercentage(
-        matchingCareerSkills,
-        requiredCareerSkills
-      );
-      setSkillsMatch(skillsMatchedPercentage);
-
-      const { matchedCourses, matchedPrograms } =
-        await findMatchedProgramsCourses();
-
-      const recommendedPath = await findRecommendedPath(
-        skillsMatchedPercentage,
-        pickedCareer,
-        matchedPrograms,
-        matchedCourses
-      );
-      const cheapestPath = await findTheCheapestPath(
-        skillsMatchedPercentage,
-        matchedPrograms,
-        matchedCourses,
-        pickedCareer
-      );
-      const udemyCoursesResult = await findUdemyCourses(pickedCareer!, 10);
-      cheapestPath && setCheapestPath(formatPathResult(cheapestPath));
-      recommendedPath && setRecommendedPath(formatPathResult(recommendedPath));
-      udemyCoursesResult && setOnlineOnlyPath(udemyCoursesResult[0].title);
-      setLoading(false);
     };
     generatePaths();
   }, [
@@ -104,17 +90,15 @@ const PathsController = () => {
           <div className="mx-auto mt-8 animate-spin rounded-full h-32 w-32 border-b-2 border-blue-700 dark:border-white"></div>
         </>
       ) : pickedCareer &&
-        pathData &&
-        cheapestPath &&
-        onlineOnlyPath &&
+        recommendedPathData &&
+        onlineOnlyPathData &&
         skillsMatch ? (
         <>
           <PathsSelection
-            skillsMismatch={skillsMatch!}
+            skillsMatched={skillsMatch!}
             positionTitle={pickedCareer || "N/A"}
-            recommendedPath={pathData || "N/A"}
-            cheapestPath={cheapestPath || "N/A"}
-            onlineOnlyPath={onlineOnlyPath || "N/A"}
+            recommendedPathData={recommendedPathData}
+            onlineOnlyPath={onlineOnlyPathData}
           />
         </>
       ) : (
@@ -128,7 +112,6 @@ const PathsController = () => {
           </h1>
         </>
       )}
-      
     </>
   );
 };

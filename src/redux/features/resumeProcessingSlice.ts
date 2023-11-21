@@ -1,4 +1,4 @@
-import { Course, Program } from "@/programs-data/programs-courses-finder";
+import { Program } from "@/types/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type ResumeProcessingState = {
@@ -10,8 +10,11 @@ type ResumeProcessingState = {
   requiredCareerSkills: string[];
   matchingCareerSkills: string[];
   pickedCareer: string | null;
-  programs: Program[];
-  courses: Course[];
+  program: {
+    [x: string]: string[] | Program | null;
+    bestMatchProgramObject: Program | null;
+  };
+  courses: { [key: string]: string[] };
 };
 
 const initialState: ResumeProcessingState = {
@@ -23,8 +26,10 @@ const initialState: ResumeProcessingState = {
   requiredCareerSkills: [],
   matchingCareerSkills: [],
   pickedCareer: null,
-  programs: [],
-  courses: [],
+  program: {
+    bestMatchProgramObject: null,
+  },
+  courses: {},
 };
 
 export const resumeProcessingSlice = createSlice({
@@ -56,10 +61,17 @@ export const resumeProcessingSlice = createSlice({
     setPickedCareer: (state, action: PayloadAction<string | null>) => {
       state.pickedCareer = action.payload;
     },
-    setPrograms: (state, action: PayloadAction<Program[]>) => {
-      state.programs = action.payload;
+    setProgram: (
+      state,
+      action: PayloadAction<
+        { [x: string]: string[] | Program | null } & {
+          bestMatchProgramObject: Program | null;
+        }
+      >
+    ) => {
+      state.program = action.payload;
     },
-    setCourses: (state, action: PayloadAction<Course[]>) => {
+    setCourses: (state, action: PayloadAction<{ [key: string]: string[] }>) => {
       state.courses = action.payload;
     },
     resetResumeProcessingState: (state) => {
@@ -71,8 +83,10 @@ export const resumeProcessingSlice = createSlice({
       state.requiredCareerSkills = [];
       state.matchingCareerSkills = [];
       state.pickedCareer = null;
-      state.programs = [];
-      state.courses = [];
+      state.program = {
+        bestMatchProgramObject: null,
+      };
+      state.courses = {};
     },
   },
 });
@@ -87,7 +101,7 @@ export const {
   setRequiredSkills,
   setMatchingSkills,
   setPickedCareer,
-  setPrograms,
+  setProgram,
   setCourses,
 } = resumeProcessingSlice.actions;
 
