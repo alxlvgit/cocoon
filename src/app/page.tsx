@@ -14,13 +14,19 @@ function Home() {
         />
       </div>
 
-      <div className="grid grid-cols-1 p-16 lg:grid-cols-[2fr_2fr] h-1/5">
-        <h1 className="text-3xl md:text-7xl text-white font-bold max-w-[40rem] leading-[90%] tracking-[-2px] pb-3 self-start animate-fade-up animate-duration-[2000ms] animate-normal animate-fill-forwards">
-          <span className="underline decoration-sky-500 ">Cocoon</span> {""}
-          guide you to a brighter tomorrow.
+      <div className="grid grid-cols-1 mx-14 md:p-16 lg:grid-cols-[2fr_2fr] h-1/5">
+        <h1 className=" text-white font-bold max-w-[40rem] leading-[90%] tracking-[-2px] pb-3 self-start animate-fade-up animate-duration-[2000ms] animate-normal animate-fill-forwards">
+          <span className="text-6xl md:text-8xl underline decoration-sky-500 ">
+            Cocoon
+          </span>
+          <span className="text-5xl md:text-6xl">
+            {" "}
+            guides you to a brighter tomorrow.
+          </span>
         </h1>
-        <div className="text-base text-white leading-[150%] self-end animate-fade-left animate-duration-[2000ms]  animate-normal animate-fill-forwards grid grid-rows-2">
-          <div className="pb-8 w-full flex flex-co p-10 transition-transform transform justify-center items-center animate-fade">
+
+        <div className="text-base text-white leading-[150%] self-end animate-fade-left animate-duration-[2000ms]  animate-normal animate-fill-forwards grid grid-rows-2 xl:relative xl:bottom-28">
+          <div className="pb-8 w-full p-10 transition-transform transform justify-center items-center animate-fade">
             <video
               autoPlay
               muted
@@ -30,10 +36,10 @@ function Home() {
               src="/assets/Ai-generatedCocoonIntro.mp4"
             ></video>
           </div>
-          {/* <div>
+          <div>
             <Link
               href="/dashboard"
-              className="inline-flex px-3 py-4 md:px-6 md:py-5 text-center items-center justify-center text-base md:text-xl lg:text-3xl font-medium text-white bg-sky-500 rounded-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 m-5 md:m-3"
+              className="inline-flex px-3 py-4 md:px-6 md:py-5 text-center items-center justify-center text-base md:text-xl lg:text-3xl font-medium text-white bg-transparent rounded-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 m-5 md:m-3 border"
             >
               Start Now
               <svg
@@ -52,7 +58,7 @@ function Home() {
                 />
               </svg>
             </Link>
-          </div> */}
+          </div>
         </div>
       </div>
       {/* <div className="grid lg:grid-cols-2 bg-white pt-10"> */}
