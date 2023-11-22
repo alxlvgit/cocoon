@@ -1,24 +1,28 @@
+import { RecommendedPathResult } from "@/app/path/path-search";
+import { UdemyCourse } from "@/app/path/fetch-udemy";
 import { setCurrentPath } from "@/redux/features/pathSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
 
 const PathContainer = ({
-  pathData: pathName,
+  recommendedPathData,
+  udemyPathData,
   onMouseEnter,
   onMouseLeave,
   hoveredPath,
   pathType,
 }: {
-  pathData: string;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
   hoveredPath: string | null;
   pathType: string;
+  recommendedPathData?: RecommendedPathResult;
+  udemyPathData?: UdemyCourse[];
 }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const setMyCurrentPath = () => {
-    dispatch(setCurrentPath(pathName));
+    dispatch(setCurrentPath(pathType));
     router.push("/profile");
   };
 
@@ -28,14 +32,36 @@ const PathContainer = ({
       onMouseEnter={() => onMouseEnter()}
       onMouseLeave={() => onMouseLeave()}
     >
-      <h1 className="text-xs md:text-base lg:text-lg text-left font-bold mt-3 w-full">
+      <h1 className="text-xs md:text-base lg:text-xl text-left font-bold mt-3 w-full">
         {pathType} Path:
       </h1>
-      <p className="text-xs md:text-base lg:text-lg text-left w-full">
-        {pathName}
-      </p>
-
-      {hoveredPath === pathName && (
+      <div className="text-xs md:text-sm lg:text-lg text-left w-full">
+        {recommendedPathData &&
+          (recommendedPathData.bcitProgram ? (
+            recommendedPathData.bcitProgram.programName + " - BCIT Program"
+          ) : recommendedPathData.bcitCourses ? (
+            <>
+              <p className="font-bold mt-3">BCIT Courses:</p>
+              {recommendedPathData.bcitCourses.map((course) => (
+                <p key={course.courseCode}>- {course.courseName}</p>
+              ))}
+            </>
+          ) : recommendedPathData.udemyCourses ? (
+            <>
+              <p className="font-bold mt-3">Udemy Courses:</p>
+              {recommendedPathData!.udemyCourses.title}
+            </>
+          ) : null)}
+        {udemyPathData && (
+          <>
+            <p className="font-bold mt-3">Udemy Courses:</p>
+            {udemyPathData.map((course) => (
+              <p key={course.url}>- {course.title}</p>
+            ))}
+          </>
+        )}
+      </div>
+      {hoveredPath === pathType && (
         <button
           onClick={setMyCurrentPath}
           className="bg-white w-fit mt-2 hover:bg-gray-100 text-gray-800 font-semibold py-1 px-4 mr-2 border border-gray-400 rounded-lg shadow text-sm"

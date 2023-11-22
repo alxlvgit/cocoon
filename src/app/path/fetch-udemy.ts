@@ -1,5 +1,4 @@
 "use server";
-
 export type UdemyCourse = {
   avg_rating: number;
   description: string;
@@ -7,13 +6,16 @@ export type UdemyCourse = {
   url: string;
   is_paid: boolean;
   price: string;
+  headline: string;
+  published_title: string;
+  id: number;
 };
 
 // Find the courses based on the search term
-export const findUdemyCourses = async (
+export const searchUdemyCourses = async (
   searchTerm: string,
   pageSize: number
-) => {
+): Promise<UdemyCourse[] | null> => {
   const results = await fetch(
     `https://www.udemy.com/api-2.0/courses/?page=1&page_size=${pageSize}&search=${searchTerm}`,
     {
@@ -32,7 +34,7 @@ export const findUdemyCourses = async (
   return null;
 };
 
-// Find the cheapest courses based on the search term
+// Find the cheapest courses based on the search term. This function is currently not used.
 export const findTheCheapestUdemyCourses = async (
   searchTerm: string,
   pageSize: number
