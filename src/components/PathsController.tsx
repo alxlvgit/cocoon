@@ -110,7 +110,7 @@ const PathsController = () => {
         skillsMatch ? (
         <>
           <PathsSelection
-            skillsMismatch={skillsMatch}
+            skillsMismatch={skillsMatch!}
             positionTitle={pickedCareer || "N/A"}
             recommendedPath={pathData || "N/A"}
             cheapestPath={cheapestPath || "N/A"}
@@ -128,6 +128,7 @@ const PathsController = () => {
           </h1>
         </>
       )}
+      
     </>
   );
 };

@@ -10,8 +10,8 @@ export default async function Path() {
 
   return (
     <div className="flex flex-col justify-center my-5 mx-10">
-      <h1 className="m-5 text-center font-bold text-xl mb-16">
-        Suggested Paths According to Your Resume Skills and Qualifications
+      <h1 className="m-5 text-center font-bold text-2xl mb-5">
+        Suggested Paths Based on Your Profile
       </h1>
       <PathsController />
     </div>
