@@ -7,16 +7,6 @@ import ProfileClient from "@/components/ProfileClient";
 import Image from "next/image";
 
 
-/*
-NOTES FROM SELINA TO XIAO 👽👽👽👽👽👽👽👽👽👽👽👽👽👽👽👽
-
-Data we need for this page: Missing skills, Matched skills, Number Completed Courses, Learning Hours, Top career suggestions, Saved Careers.
-
-If don't have these data, I think alex and you (BE devs) should talk to the designers or 
-at minimum, let's discuss what we have, and what we are going to show on this page....! 
-*/
-
-
 export default async function Profile() {
   const session = await auth();
   if (!session) {
