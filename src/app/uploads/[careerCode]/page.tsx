@@ -20,7 +20,6 @@ async function Uploads({ params }: { params: { careerCode: string } }) {
         </div>
       </div>
       <UploadsForm careerCode={careerCode} />
-      <ProcessingStatuses />
     </div>
   );
 }
