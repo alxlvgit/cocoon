@@ -29,6 +29,8 @@ import {
   setRequiredSkills,
 } from "@/redux/features/resumeProcessingSlice";
 import GoogleDocForm from "./GoogleDocForm";
+import ProcessingStatuses from "@/components/ProcessingStatuses";
+
 
 const UploadsForm = ({ careerCode }: { careerCode: string }) => {
   const dispatch = useAppDispatch();
@@ -48,11 +50,13 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
   const runAnalysis = async (extractedText: string) => {
     dispatch(setProcessingStatus(2));
     const resumeKeyPhrases = await extractResumeKeyPhrases(extractedText); // Step 2: if text is extracted, extract key phrases by using ChatOpenAI API
+    dispatch(setProcessingStatus(7));
     const careerSkillsKeyPhrases = await extractCareerKeyPhrases(careerCode); // Step 3: extract key phrases from career skills
     const { title, requiredTasks } = careerSkillsKeyPhrases
       ? careerSkillsKeyPhrases
       : { title: null, requiredTasks: null };
     if (requiredTasks && resumeKeyPhrases && title) {
+      dispatch(setProcessingStatus(6));
       const matchingMissingSkills = await findMissingSkills(
         requiredTasks,
         resumeKeyPhrases

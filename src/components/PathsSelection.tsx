@@ -5,23 +5,22 @@ import PathContainer from "./PathContainer";
 import "react-circular-progressbar/dist/styles.css";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import { RecommendedPathResult } from "@/app/path/path-search";
+import { UdemyCourse } from "@/app/path/fetch-udemy";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PathsSelection = ({
-  skillsMismatch: skillsMatched,
+  skillsMatched,
   positionTitle,
   recommendedPath,
-  cheapestPath,
-  onlineOnlyPath,
+  udemyPath,
 }: {
-  skillsMismatch: number;
+  skillsMatched: number;
   positionTitle: string;
-  recommendedPath: string;
-  cheapestPath: string;
-  onlineOnlyPath: string;
+  recommendedPath: RecommendedPathResult;
+  udemyPath: UdemyCourse[];
 }) => {
-  // const [showDetails, setShowDetails] = useState(false);
   const [hoveredPath, setHoveredPath] = useState<string | null>(null);
 
   const data = {
@@ -95,9 +94,7 @@ const PathsSelection = ({
     },
   };
 
-  // const handleClick = () => {
-  //   setShowDetails(!showDetails);
-  // };
+  
 
   return (
     <>
@@ -128,49 +125,13 @@ const PathsSelection = ({
                 </span>
               </p>
             </div>
-
-            {/* 
-            {showDetails && ( */}
-            {/* <>
-              <PathContainer
-                pathType="Recommended"
-                pathData={recommendedPath}
-                onMouseEnter={() => setHoveredPath(recommendedPath)}
-                onMouseLeave={() => setHoveredPath(null)}
-                hoveredPath={hoveredPath}
-              />
-              <PathContainer
-                pathType="Cheapest"
-                pathData={cheapestPath}
-                onMouseEnter={() => setHoveredPath(cheapestPath)}
-                onMouseLeave={() => setHoveredPath(null)}
-                hoveredPath={hoveredPath}
-              />
-              <PathContainer
-                pathType="Online-Only"
-                pathData={onlineOnlyPath}
-                onMouseEnter={() => setHoveredPath(onlineOnlyPath)}
-                onMouseLeave={() => setHoveredPath(null)}
-                hoveredPath={hoveredPath}
-              />
-            </> */}
-            {/* )} */}
           </div>
           <div className="bg-indigo-400 h-full w-full rounded-lg mx-auto p-5 text-center grid grid-cols-1  items-center place-items-center justify-between gap-3">
             <div className="bg-indigo-100 h-full w-full rounded-lg mx-auto p-5  text-center grid grid-cols-1 align-middle items-center justify-center ">
               <PathContainer
                 pathType="Recommended"
-                pathData={recommendedPath}
-                onMouseEnter={() => setHoveredPath(recommendedPath)}
-                onMouseLeave={() => setHoveredPath(null)}
-                hoveredPath={hoveredPath}
-              />
-            </div>
-            <div className="bg-indigo-100 h-full w-full rounded-lg mx-auto p-5 text-center grid grid-cols-1 align-middle items-center justify-center">
-              <PathContainer
-                pathType="Cheapest"
-                pathData={cheapestPath}
-                onMouseEnter={() => setHoveredPath(cheapestPath)}
+                recommendedPathData={recommendedPath}
+                onMouseEnter={() => setHoveredPath("Recommended")}
                 onMouseLeave={() => setHoveredPath(null)}
                 hoveredPath={hoveredPath}
               />
@@ -178,8 +139,8 @@ const PathsSelection = ({
             <div className="bg-indigo-100 h-full w-full rounded-lg mx-auto p-5 text-center grid grid-cols-1 align-middle items-center justify-center">
               <PathContainer
                 pathType="Online-Only"
-                pathData={onlineOnlyPath}
-                onMouseEnter={() => setHoveredPath(onlineOnlyPath)}
+                udemyPathData={udemyPath}
+                onMouseEnter={() => setHoveredPath("Online-Only")}
                 onMouseLeave={() => setHoveredPath(null)}
                 hoveredPath={hoveredPath}
               />

@@ -1,4 +1,4 @@
-import { Course, Program } from "@/programs-data/programs-courses-finder";
+import { Course, Program } from "@/types/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type ResumeProcessingState = {
@@ -10,8 +10,6 @@ type ResumeProcessingState = {
   requiredCareerSkills: string[];
   matchingCareerSkills: string[];
   pickedCareer: string | null;
-  programs: Program[];
-  courses: Course[];
 };
 
 const initialState: ResumeProcessingState = {
@@ -23,8 +21,6 @@ const initialState: ResumeProcessingState = {
   requiredCareerSkills: [],
   matchingCareerSkills: [],
   pickedCareer: null,
-  programs: [],
-  courses: [],
 };
 
 export const resumeProcessingSlice = createSlice({
@@ -56,12 +52,7 @@ export const resumeProcessingSlice = createSlice({
     setPickedCareer: (state, action: PayloadAction<string | null>) => {
       state.pickedCareer = action.payload;
     },
-    setPrograms: (state, action: PayloadAction<Program[]>) => {
-      state.programs = action.payload;
-    },
-    setCourses: (state, action: PayloadAction<Course[]>) => {
-      state.courses = action.payload;
-    },
+   
     resetResumeProcessingState: (state) => {
       state.processing = false;
       state.processingStep = null;
@@ -71,8 +62,7 @@ export const resumeProcessingSlice = createSlice({
       state.requiredCareerSkills = [];
       state.matchingCareerSkills = [];
       state.pickedCareer = null;
-      state.programs = [];
-      state.courses = [];
+    
     },
   },
 });
@@ -87,8 +77,6 @@ export const {
   setRequiredSkills,
   setMatchingSkills,
   setPickedCareer,
-  setPrograms,
-  setCourses,
 } = resumeProcessingSlice.actions;
 
 export default resumeProcessingSlice.reducer;
