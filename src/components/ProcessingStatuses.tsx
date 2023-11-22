@@ -12,7 +12,7 @@ const ProcessingStatuses = () => {
     <ProcessingStatus
       key={"extracted-text"}
       done={true}
-      text="Extracting text. Analysing your resume..."
+      text="Extracting text. Analyzing your resume..."
     />,
     // 2
     <ProcessingStatus
