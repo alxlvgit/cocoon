@@ -30,7 +30,8 @@ export const semanticSearchLambda = async (
   dataToStoreInVectorStore: string[],
   minSimilarityScore: number,
   kIncrement: number,
-  maxK: number
+  maxK: number,
+  metadata?: { id: number }[]
 ) => {
   const data = await fetch(
     "https://4u4plgzyv6amk3jeqp5wmcksla0swhmm.lambda-url.us-west-2.on.aws/",
@@ -42,6 +43,7 @@ export const semanticSearchLambda = async (
         minSimilarityScore: minSimilarityScore,
         kIncrement: kIncrement,
         maxK: maxK,
+        metadata: metadata ? metadata : null,
       }),
     }
   );

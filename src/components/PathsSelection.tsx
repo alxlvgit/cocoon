@@ -5,21 +5,21 @@ import PathContainer from "./PathContainer";
 import "react-circular-progressbar/dist/styles.css";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { RecommendedPathResult } from "@/app/path/college-path";
-import { UdemyCourse } from "@/app/path/online-path";
+import { RecommendedPathResult } from "@/app/path/path-search";
+import { UdemyCourse } from "@/app/path/fetch-udemy";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PathsSelection = ({
   skillsMatched,
   positionTitle,
-  recommendedPathData: recommendedPath,
-  onlineOnlyPath,
+  recommendedPath,
+  udemyPath,
 }: {
   skillsMatched: number;
   positionTitle: string;
-  recommendedPathData: RecommendedPathResult;
-  onlineOnlyPath: UdemyCourse;
+  recommendedPath: RecommendedPathResult;
+  udemyPath: UdemyCourse[];
 }) => {
   const [hoveredPath, setHoveredPath] = useState<string | null>(null);
 
@@ -137,7 +137,7 @@ const PathsSelection = ({
             <div className="bg-indigo-100 h-full w-full rounded-lg mx-auto p-5 text-center grid grid-cols-1 align-middle items-center justify-center">
               <PathContainer
                 pathType="Online-Only"
-                onlineOnlyPathData={onlineOnlyPath}
+                udemyPathData={udemyPath}
                 onMouseEnter={() => setHoveredPath("Online-Only")}
                 onMouseLeave={() => setHoveredPath(null)}
                 hoveredPath={hoveredPath}

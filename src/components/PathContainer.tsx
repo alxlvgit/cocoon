@@ -1,12 +1,12 @@
-import { RecommendedPathResult } from "@/app/path/college-path";
-import { UdemyCourse } from "@/app/path/online-path";
+import { RecommendedPathResult } from "@/app/path/path-search";
+import { UdemyCourse } from "@/app/path/fetch-udemy";
 import { setCurrentPath } from "@/redux/features/pathSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
 
 const PathContainer = ({
   recommendedPathData,
-  onlineOnlyPathData,
+  udemyPathData,
   onMouseEnter,
   onMouseLeave,
   hoveredPath,
@@ -17,7 +17,7 @@ const PathContainer = ({
   hoveredPath: string | null;
   pathType: string;
   recommendedPathData?: RecommendedPathResult;
-  onlineOnlyPathData?: UdemyCourse;
+  udemyPathData?: UdemyCourse[];
 }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -42,8 +42,8 @@ const PathContainer = ({
           ) : recommendedPathData.bcitCourses ? (
             <>
               <p className="font-bold mt-3">BCIT Courses:</p>
-              {Object.keys(recommendedPathData.bcitCourses).map((course) => (
-                <p key={course}>- {course}</p>
+              {recommendedPathData.bcitCourses.map((course) => (
+                <p key={course.courseCode}>- {course.courseName}</p>
               ))}
             </>
           ) : recommendedPathData.udemyCourses ? (
@@ -52,10 +52,12 @@ const PathContainer = ({
               {recommendedPathData!.udemyCourses.title}
             </>
           ) : null)}
-        {onlineOnlyPathData && (
+        {udemyPathData && (
           <>
             <p className="font-bold mt-3">Udemy Courses:</p>
-            <p>{onlineOnlyPathData.title}</p>
+            {udemyPathData.map((course) => (
+              <p key={course.url}>- {course.title}</p>
+            ))}
           </>
         )}
       </div>

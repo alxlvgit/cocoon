@@ -26,13 +26,17 @@ export const handler = async (
       kIncrement,
       maxK,
     } = requestBody;
-
+    let metadata = [];
     // Load the text array into the memory vector store
-    const metadata = dataToStoreInVectorStore.map(
-      (text: string, index: number) => ({
-        id: index,
-      })
-    );
+    if (requestBody?.metadata) {
+      metadata = requestBody.metadata;
+    } else {
+      metadata = dataToStoreInVectorStore.map(
+        (text: string, index: number) => ({
+          id: index,
+        })
+      );
+    }
     const vectorStore = await MemoryVectorStore.fromTexts(
       dataToStoreInVectorStore,
       metadata,

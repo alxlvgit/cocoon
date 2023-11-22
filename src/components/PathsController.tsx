@@ -4,15 +4,23 @@ import {
   RecommendedPathResult,
   findBestMatchProgram,
   matchCoursesWithKeyPhrases,
-} from "@/app/path/college-path";
-import { setCourses, setProgram } from "@/redux/features/resumeProcessingSlice";
+} from "@/app/path/path-search";
+import {
+  setCourses,
+  setCoursesSkills,
+  setProgram,
+  setProgramSkills,
+  setUdemyCourses,
+  setUdemyCoursesWithSkills,
+} from "@/redux/features/pathSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import React, { useEffect, useState } from "react";
 import {
   calculateSkillsMatchPercentage,
   findRecommendedPath,
-} from "@/app/path/college-path";
-import { UdemyCourse, findUdemyCourses } from "@/app/path/online-path";
+  findUdemyPath,
+} from "@/app/path/path-search";
+import { UdemyCourse, searchUdemyCourses } from "@/app/path/fetch-udemy";
 import PathsSelection from "./PathsSelection";
 
 const PathsController = () => {
@@ -28,48 +36,73 @@ const PathsController = () => {
   const [skillsMatch, setSkillsMatch] = useState<number | null>(null);
   const [recommendedPathData, setRecommendedPath] =
     useState<RecommendedPathResult>({});
-  const [onlineOnlyPathData, setOnlineOnlyPath] = useState<UdemyCourse | null>(
+  const [udemyPathData, setOnlineOnlyPath] = useState<UdemyCourse[] | null>(
     null
   );
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const generatePaths = async () => {
       try {
         if (!missingCareerSkills || !pickedCareer || !requiredCareerSkills) {
           setLoading(false);
-          throw new Error("Error. Missing required data. Check Redux store");
+          setErrorMessage(
+            "Please select a career and upload your resume to generate paths."
+          );
+          console.log("Data is missing. Please check redux store.");
+          return;
         }
-        const courses = await matchCoursesWithKeyPhrases(missingCareerSkills);
-        const program = await findBestMatchProgram(
-          pickedCareer,
-          missingCareerSkills
-        );
-        if (!courses.success || !program.success) {
-          setLoading(false);
-          throw new Error("Error finding matching courses and programs");
-        }
-        // TODO: dispatch the courses with skills and courses objects separately
-        // TODO: dispatch the program with skills and program objects separately
-        dispatch(setCourses(courses.success));
-        dispatch(setProgram(program.success));
         const skillsMatchedPercentage = calculateSkillsMatchPercentage(
           matchingCareerSkills,
           requiredCareerSkills
         );
         setSkillsMatch(skillsMatchedPercentage);
+        const matchedCoursesResult = await matchCoursesWithKeyPhrases(
+          missingCareerSkills
+        );
+        const matchedProgramResult = await findBestMatchProgram(
+          pickedCareer,
+          missingCareerSkills
+        );
+        const { courses, coursesWithSkills } = matchedCoursesResult;
+        const { program, programWithSkills } = matchedProgramResult;
+        if (!courses || !coursesWithSkills || !program || !programWithSkills) {
+          setLoading(false);
+          setErrorMessage("Error generating paths. Please try again.");
+          console.log(
+            "Courses or program is missing. Please check redux store."
+          );
+          return;
+        }
+        dispatch(setCourses(matchedCoursesResult.courses));
+        dispatch(setProgram(matchedProgramResult.program));
+        dispatch(setCoursesSkills(matchedCoursesResult.coursesWithSkills));
+        dispatch(setProgramSkills(matchedProgramResult.programWithSkills));
         const recommendedPath = await findRecommendedPath(
           skillsMatchedPercentage,
           pickedCareer,
-          program.success.bestMatchProgramObject,
-          courses.success
+          program,
+          courses
         );
-        const udemyCoursesResult = await findUdemyCourses(pickedCareer!, 10);
-        //TODO: dispatch both paths to the store
         recommendedPath && setRecommendedPath(recommendedPath);
-        // TODO: include more courses in the online path
-        udemyCoursesResult && setOnlineOnlyPath(udemyCoursesResult[0]);
+        const udemyCoursesResult = await findUdemyPath(
+          pickedCareer,
+          missingCareerSkills
+        );
+        const { udemyCourses, udemyCoursesWithSkills } = udemyCoursesResult;
+        if (!udemyCourses || !udemyCoursesWithSkills) {
+          setLoading(false);
+          setErrorMessage("Error generating paths. Please try again.");
+          console.log("Udemy courses is missing. Please check redux store.");
+          return;
+        }
+        setOnlineOnlyPath(udemyCoursesResult.udemyCourses);
+        dispatch(setUdemyCoursesWithSkills(udemyCoursesWithSkills));
+        dispatch(setUdemyCourses(udemyCourses));
         setLoading(false);
       } catch (error) {
+        setLoading(false);
+        setErrorMessage("Error generating paths. Please try again.");
         console.log(error);
       }
     };
@@ -91,14 +124,14 @@ const PathsController = () => {
         </>
       ) : pickedCareer &&
         recommendedPathData &&
-        onlineOnlyPathData &&
+        udemyPathData &&
         skillsMatch ? (
         <>
           <PathsSelection
-            skillsMatched={skillsMatch!}
+            skillsMatched={skillsMatch}
             positionTitle={pickedCareer || "N/A"}
-            recommendedPathData={recommendedPathData}
-            onlineOnlyPath={onlineOnlyPathData}
+            recommendedPath={recommendedPathData}
+            udemyPath={udemyPathData}
           />
         </>
       ) : (
@@ -106,10 +139,9 @@ const PathsController = () => {
           <h1 className="place-self-center my-5">
             Sorry, we don&apos;t have any paths for you.{" "}
           </h1>
-          <h1 className="place-self-center my-5">
-            Please proceed to the Careers page, pick a career, upload your
-            resume and run the analysis.
-          </h1>
+          {errorMessage && (
+            <h1 className="place-self-center my-5">{errorMessage}</h1>
+          )}
         </>
       )}
     </>
