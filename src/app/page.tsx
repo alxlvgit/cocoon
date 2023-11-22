@@ -15,7 +15,7 @@ function Home() {
             className="filter brightness-50"
           />
         </div>
-        <div className="grid mx-14 lg:mx-1 md:p-10 h-96	lg:grid-cols-[2fr_2fr] ">
+        <div className="grid mx-14 lg:mx-1 md:p-10	lg:grid-cols-[2fr_2fr] ">
           <div>
             <h1 className=" text-white font-bold max-w-[40rem] leading-[90%] tracking-[-2px] pb-3 self-start animate-fade-up animate-duration-[2000ms] animate-normal animate-fill-forwards">
               <span className="text-6xl md:text-8xl underline decoration-sky-500 ">
