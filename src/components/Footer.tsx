@@ -1,14 +1,13 @@
-
 export default function Footer() {
   return (
-    <footer className="bg-white rounded-lg m-4">
-      <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8 flex items-center justify-between">
+    <footer className="bg-[#6DB8C5]">
+      <div className="w-full max-w-screen-xl sticky mx-auto p-4 md:py-8 flex items-center justify-between">
         <svg
           className="ml-2"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 146.82 208.78"
-          width="70"
-          height="70"
+          width="90"
+          height="90"
         >
           <g id="images">
             <g>
@@ -46,9 +45,7 @@ export default function Footer() {
           </a>
         </span>
 
-        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400 mt-">
-       
-        </span>
+        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400 mt-"></span>
       </div>
     </footer>
   );
