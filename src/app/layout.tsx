@@ -1,7 +1,7 @@
 import React from "react";
 import NavBar from "@/components/Navbar";
 import MobileNavbar from "@/components/MobileNavbar";
-import Footer from "@/components/Footer"; 
+import Footer from "@/components/Footer";
 import "./globals.css";
 import type { Metadata } from "next";
 import { twMerge } from "tailwind-merge";
@@ -36,7 +36,7 @@ export default function RootLayout({
 
           <main className="flex-grow">{children}</main>
 
-          <Footer />
+          {/* <Footer /> */}
         </body>
       </ReduxProvider>
     </html>
