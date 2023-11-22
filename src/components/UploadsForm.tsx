@@ -167,7 +167,7 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
             <GoogleDocForm runAnalysisFunction={runAnalysis} />
           </div>
         )
-    } 
+    }       
     </>
   );
 };
