@@ -118,7 +118,7 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
     <>
       {
         !isFormVisible && (
-            <div className="relative flex flex-col mt-[50px] items-center justify-center min-w-300 min-h-180 bg-white border border-e2e8f0 rounded-2xl shadow-md mb-5 p-5 text-2xl font-bold transition-opacity duration-1000 ease-out">
+          <div className="relative flex flex-col md:mt-[-50px] mt-[50px]   items-center justify-center min-w-300 min-h-180 bg-white border border-e2e8f0 rounded-2xl shadow-md mb-5 p-5 text-2xl font-bold transition-opacity duration-1000 ease-out">
                 <p>Upload Resume</p>
                 <button className="bg-white m-3 hover:bg-gray-300 text-4a5568 font-semibold py-1 px-4 border border-cbd5e0 rounded shadow-sm text-sm px-20 text-lg" onClick={() => setIsFormVisible(true)}>
                     🡡 Upload
