@@ -3,7 +3,7 @@ import Link from "next/link";
 
 function Home() {
   return (
-    <div>
+    <div className="w-full h-full  z-50">
       <div className="grid grid-cols-1 px-16 lg:grid-cols-[3fr_1fr] py-12">
         <Image
           src="/assets/AdobeStock_621566683.jpeg"

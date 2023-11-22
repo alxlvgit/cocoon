@@ -10,12 +10,12 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 import {
   extractTextFromDocx,
   extractTextFromPdf,
-} from "@/app/uploads/resume-parsers";
+} from "@/app/(main)/uploads/resume-parsers";
 import {
   extractCareerKeyPhrases,
   extractResumeKeyPhrases,
   findMissingSkills,
-} from "@/app/uploads/document-processing";
+} from "@/app/(main)/uploads/document-processing";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
 import {

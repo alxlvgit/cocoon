@@ -1,6 +1,7 @@
 // "use server"
 
-import * as odotnet from "../api/odotnet/fetch-api";
+import * as odotnet from "@/app/api/odotnet/fetch-api";
+
 import { KeyPhrases } from "@/aws-lambda/text-to-structured";
 
 // Invoke AWS Lambda function to extract key phrases from text

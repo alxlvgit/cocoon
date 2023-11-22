@@ -114,7 +114,7 @@ const MobileNavbar: React.FC = () => {
             Profile
           </a>
         </div>
-      )}
+      )}z
     </div>
   );
 };

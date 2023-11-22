@@ -14,8 +14,8 @@ import {
   calculateSkillsMatchPercentage,
   findRecommendedPath,
   findTheCheapestPath,
-} from "@/app/path/college-path";
-import { findUdemyCourses } from "@/app/path/online-path";
+} from "@/app/(main)/path/college-path";
+import { findUdemyCourses } from "@/app/(main)/path/online-path";
 import PathsSelection from "./PathsSelection";
 
 const PathsController = () => {
@@ -128,7 +128,6 @@ const PathsController = () => {
           </h1>
         </>
       )}
-      
     </>
   );
 };

@@ -1,7 +1,6 @@
-
 export default function Footer() {
   return (
-    <footer className="bg-white rounded-lg m-4">
+    <footer className="bg-white rounded-lg z-40 ml-48 w-[calc(100vw-208px)]">
       <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8 flex items-center justify-between">
         <svg
           className="ml-2"
@@ -46,9 +45,7 @@ export default function Footer() {
           </a>
         </span>
 
-        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400 mt-">
-       
-        </span>
+        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400 mt-"></span>
       </div>
     </footer>
   );

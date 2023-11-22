@@ -1,5 +1,5 @@
 import { Course, Program } from "@/programs-data/programs-courses-finder";
-import { semanticSearchLambda } from "../uploads/document-processing";
+import { semanticSearchLambda } from ".././uploads/document-processing";
 import { findTheCheapestUdemyCourses, findUdemyCourses } from "./online-path";
 import { UdemyCourse } from "./online-path";
 
