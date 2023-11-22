@@ -1,6 +1,4 @@
-"use client";
 import Link from "next/link";
-import { useState } from "react";
 
 const CareerTile = ({ career }: { career: CareerData }) => {
   // const [addedToBucket, setAddedToBucket] = useState(false);

@@ -1,8 +1,12 @@
+//@ts-nocheck
+"use client";
 import { useState } from "react";
 import PathContainer from "./PathContainer";
-import { CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import "react-circular-progressbar/dist/styles.css";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut } from "react-chartjs-2";
 
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PathsSelection = ({
   skillsMismatch: skillsMatched,
@@ -17,67 +21,189 @@ const PathsSelection = ({
   cheapestPath: string;
   onlineOnlyPath: string;
 }) => {
-  const [showDetails, setShowDetails] = useState(false);
+  // const [showDetails, setShowDetails] = useState(false);
   const [hoveredPath, setHoveredPath] = useState<string | null>(null);
 
-  const handleClick = () => {
-    setShowDetails(!showDetails);
+  const data = {
+    labels: ["Matched", "Unmatched"],
+    datasets: [
+      {
+        label: "Skill Analysis",
+        data: [skillsMatched, 100 - skillsMatched],
+        backgroundColor: [
+          "rgba(85, 111, 242, 0.9)",
+          "rgba(177, 190, 255, 0.6)",
+          "rgba(177, 190, 255, 0.2)",
+        ],
+        borderColor: ["#556ff2", "#B1BEFF"],
+        borderWidth: 0,
+        hoverOffset: 6,
+        shadowOffsetX: 3,
+        shadowOffsetY: 3,
+        shadowBlur: 20,
+        shadowColor: "rgba(0, 0, 0, 0.5)", // Enhanced shadow color
+      },
+    ],
   };
 
+  const options = {
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        enabled: true,
+      },
+    },
+    cutout: "60%",
+    animation: {
+      animateRotate: true,
+      animateScale: true,
+      duration: 2000,
+      easing: "easeInOutQuart",
+    },
+    centerLabel: {
+      center: {
+        text: `${skillsMatched}%`,
+        color: "#333",
+        fontStyle: "Arial",
+        sidePadding: 20,
+        minFontSize: 20,
+      },
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
+  const textCenter = {
+    id: "hello",
+
+    afterRender(chart, args, pluginOptions) {
+      const { ctx } = chart;
+
+      ctx.save();
+      ctx.font = "bolder 25px sans-serif";
+      ctx.fillStyle = "#556ff2";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+
+      ctx.fillText(
+        `${skillsMatched}%`,
+        chart.getDatasetMeta(0).data[0].x,
+        chart.getDatasetMeta(0).data[0].y
+      );
+    },
+  };
+
+  // const handleClick = () => {
+  //   setShowDetails(!showDetails);
+  // };
+
   return (
-    <div className="mx-auto p-4 w-full lg:w-4/5 justify-center items-center align-middle rounded-2xl shadow-xl bg-gradient-to-t from-indigo-300 cursor-pointer  z-30 border-0 text-black">
-      <div className="bg-indigo-100 h-full w-full rounded-lg mx-auto p-4 text-center shadow-2xl flex flex-col align-middle items-center justify-center">
-        <h1 className="text-base md:text-lg lg:text-3lg font-extrabold text-center hover:font-semibold w-full mb-4">
-          {positionTitle}
-        </h1>
-        <div className="w-32 h-32 ">
-          <CircularProgressbar value={skillsMatched} text={`${skillsMatched}%`} />;
-        </div>
-        <h1 className="text-base md:text-lg text-left justify-center items-center">
-          Your resume skills have {skillsMatched}% match with {positionTitle}{" "}
-          job
-        </h1>
-        {showDetails && (
-          <>
-            <PathContainer
-              pathType="Recommended"
-              pathData={recommendedPath}
-              onMouseEnter={() => setHoveredPath(recommendedPath)}
-              onMouseLeave={() => setHoveredPath(null)}
-              hoveredPath={hoveredPath}
-            />
-            <PathContainer
-              pathType="Cheapest"
-              pathData={cheapestPath}
-              onMouseEnter={() => setHoveredPath(cheapestPath)}
-              onMouseLeave={() => setHoveredPath(null)}
-              hoveredPath={hoveredPath}
-            />
-            <PathContainer
-              pathType="Online-Only"
-              pathData={onlineOnlyPath}
-              onMouseEnter={() => setHoveredPath(onlineOnlyPath)}
-              onMouseLeave={() => setHoveredPath(null)}
-              hoveredPath={hoveredPath}
-            />
-          </>
-        )}
-        <div className="grid grid-cols-1 md:grid-cols-2 pt-14 lg:gap-4 gap-1 ">
-          <button
-            onClick={() => {
-              handleClick();
-            }}
-            className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-4 mr-2 border border-gray-400 rounded-lg shadow text-sm"
-          >
-            {showDetails ? "Hide Details" : "Show Details"}
-          </button>
-          <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-4 mr-2 border border-gray-400 rounded-lg shadow text-sm">
-            Remove
-          </button>
+    <>
+      <div className="flex flex-col items-center justify-center my-5 mx-5 ">
+        <div className="grid grid-cols-1 gap-4 m-3 w-full lg:w-1/2">
+          <div className="bg-indigo-100 h-full w-full rounded-lg mx-auto p-4 text-center align-middle items-center justify-center grid grid-cols-1 md:grid-cols-2 pb-8">
+            <h1 className="m-5 text-center font-bold md:col-span-2 text-lg mb-10">
+              {positionTitle}
+            </h1>
+            <div className="w-full h-full flex items-center justify-center pb-5">
+              <Doughnut
+                data={data}
+                options={options}
+                plugins={[textCenter]}
+              ></Doughnut>
+            </div>
+            <div className="place-self-center">
+              <p className="text-gray-700 text-base md:text-lg lg:text-xl">
+                You are a{" "}
+                <span className="font-bold text-gray-900 underline dark:text-white decoration-blue-500 decoration-double">
+                  {skillsMatched}%
+                </span>{" "}
+                match with
+              </p>
+              <p className="font-bold text-base  md:text-lg lg:text-xl">
+                <span className="font-semibold text-gray-900 underline dark:text-white decoration-sky-500 decoration-wavy">
+                  {positionTitle}
+                </span>
+              </p>
+            </div>
+
+            {/* 
+            {showDetails && ( */}
+            {/* <>
+              <PathContainer
+                pathType="Recommended"
+                pathData={recommendedPath}
+                onMouseEnter={() => setHoveredPath(recommendedPath)}
+                onMouseLeave={() => setHoveredPath(null)}
+                hoveredPath={hoveredPath}
+              />
+              <PathContainer
+                pathType="Cheapest"
+                pathData={cheapestPath}
+                onMouseEnter={() => setHoveredPath(cheapestPath)}
+                onMouseLeave={() => setHoveredPath(null)}
+                hoveredPath={hoveredPath}
+              />
+              <PathContainer
+                pathType="Online-Only"
+                pathData={onlineOnlyPath}
+                onMouseEnter={() => setHoveredPath(onlineOnlyPath)}
+                onMouseLeave={() => setHoveredPath(null)}
+                hoveredPath={hoveredPath}
+              />
+            </> */}
+            {/* )} */}
+          </div>
+          <div className="bg-indigo-400 h-full w-full rounded-lg mx-auto p-5 text-center grid grid-cols-1  items-center place-items-center justify-between gap-3">
+            <div className="bg-indigo-100 h-full w-full rounded-lg mx-auto p-5  text-center grid grid-cols-1 align-middle items-center justify-center ">
+              <PathContainer
+                pathType="Recommended"
+                pathData={recommendedPath}
+                onMouseEnter={() => setHoveredPath(recommendedPath)}
+                onMouseLeave={() => setHoveredPath(null)}
+                hoveredPath={hoveredPath}
+              />
+            </div>
+            <div className="bg-indigo-100 h-full w-full rounded-lg mx-auto p-5 text-center grid grid-cols-1 align-middle items-center justify-center">
+              <PathContainer
+                pathType="Cheapest"
+                pathData={cheapestPath}
+                onMouseEnter={() => setHoveredPath(cheapestPath)}
+                onMouseLeave={() => setHoveredPath(null)}
+                hoveredPath={hoveredPath}
+              />
+            </div>
+            <div className="bg-indigo-100 h-full w-full rounded-lg mx-auto p-5 text-center grid grid-cols-1 align-middle items-center justify-center">
+              <PathContainer
+                pathType="Online-Only"
+                pathData={onlineOnlyPath}
+                onMouseEnter={() => setHoveredPath(onlineOnlyPath)}
+                onMouseLeave={() => setHoveredPath(null)}
+                hoveredPath={hoveredPath}
+              />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
 export default PathsSelection;
+
+/*
+ <div className="grid grid-cols-1 md:grid-cols-2 pt-14 lg:gap-4 gap-1 ">
+              <button
+                onClick={() => {
+                  handleClick();
+                }}
+                className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-4 mr-2 border border-gray-400 rounded-lg shadow text-sm"
+              >
+                {/* {showDetails ? "Hide Details" : "Show Details"} */
+//</button>
+// <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-4 mr-2 border border-gray-400 rounded-lg shadow text-sm">
+//Remove
+//</button>
+// </div>
