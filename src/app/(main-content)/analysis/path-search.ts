@@ -125,7 +125,7 @@ export const matchProgramsWithKeyPhrases = async (
     const programSearch = await semanticSearchLambda(
       keyPhrases,
       programsNames,
-      0.6,
+      0.7,
       1,
       1
     );
@@ -161,7 +161,7 @@ export const matchCoursesWithKeyPhrases = async (
 
     const courseSearch: {
       [key: string]: SemanticSearchResult[];
-    } = await semanticSearchLambda(keyPhrases, coursesNames, 0.6, 1, 1);
+    } = await semanticSearchLambda(keyPhrases, coursesNames, 0.7, 1, 1);
 
     const matchedCoursesWithSkills: {
       [key: string]: string[];
@@ -231,7 +231,7 @@ export const findUdemyPath = async (
   missingSkills: string[]
 ): Promise<UdemyPathResult> => {
   try {
-    const udemyFetchResult = await searchUdemyCourses(searchTerm, 150);
+    const udemyFetchResult = await searchUdemyCourses(searchTerm, 200);
     const textToEmbed = udemyFetchResult!.map((course) => {
       return `
     Course Title: ${course.title}
@@ -250,7 +250,7 @@ export const findUdemyPath = async (
     } = await semanticSearchLambda(
       missingSkills,
       textToEmbed,
-      0.6,
+      0.75,
       1,
       1,
       metadata

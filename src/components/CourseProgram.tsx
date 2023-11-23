@@ -10,23 +10,21 @@ export default function CourseProgram({
   type: string;
 }) {
   return (
-    <div className="group flex flex-col sm:flex-row w-full hover:cursor-pointer justify-between items-center align-middle mb-2 bg-bright-main rounded-lg p-9">
-      <h1 className="text-sm sm:group-hover:w-2/3 w-full font-medium">
-        {title}
-      </h1>
-      <div className="sm:w-1/4 w-full flex sm:justify-end mt-2 sm:mt-0 justify-center items-center">
+    <div className="group flex flex-col sm:flex-row w-full justify-between items-center align-middle mb-2 bg-bright-main rounded-lg p-9">
+      <h1 className="text-sm w-2/3 font-medium">{title}</h1>
+      <div className="w-1/4 flex sm:justify-end mt-2 sm:mt-0 justify-center items-center">
         <Link
-          className="group-hover:block px-3 py-2 border border-gray-400 rounded-lg shadow hover:bg-white bg-button-bg font-medium hidden w-fit text-xs text-center"
+          className=" px-3 py-1 border border-gray-400 rounded-lg shadow hover:bg-white bg-button-bg  w-fit text-xs text-center"
           href={type === "Udemy" ? "https://www.udemy.com" + link : link}
           target="_blank"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
-            viewBox="0 0 24 24"
+            viewBox="0 0 22 22"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-4 h-4 inline mr-1"
+            className="w-3 h-3 inline mr-1"
           >
             <path
               strokeLinecap="round"

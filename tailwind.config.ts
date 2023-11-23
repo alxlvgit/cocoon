@@ -19,6 +19,11 @@ const config: Config = {
         "bright-main": "#D0F0F6",
         "button-bg": "#DBC2CF",
       },
+      colors: {
+        "main-color": "#6DB8C5",
+        "bright-main-color": "#D0F0F6",
+        "button-main": "#DBC2CF",
+      },
     },
     screens: {
       xs: "475px",

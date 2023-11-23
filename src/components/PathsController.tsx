@@ -132,7 +132,7 @@ const PathsController = () => {
       {loading ? (
         <>
           <h1 className="place-self-center my-5">Loading your paths...</h1>
-          <div className="mx-auto mt-8 animate-spin rounded-full h-16 w-16 border-b-2 border-blue-700 dark:border-white"></div>
+          <div className="mx-auto mt-8 animate-spin rounded-full h-16 w-16 border-b-2 border-main-color dark:border-white"></div>
         </>
       ) : pickedCareer &&
         skillsMatch &&

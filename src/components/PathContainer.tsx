@@ -31,7 +31,7 @@ const PathContainer = ({
               title={
                 recommendedPathData.bcitProgram.programName + " - BCIT Program"
               }
-              link={""}
+              link={recommendedPathData.bcitProgram.url}
             />
           ) : recommendedPathData.bcitCourses ? (
             <>
@@ -40,7 +40,7 @@ const PathContainer = ({
                   type="BCIT"
                   key={course.courseCode}
                   title={course.courseName + " - BCIT Course"}
-                  link={""}
+                  link={course.url}
                 />
               ))}
             </>

@@ -29,7 +29,6 @@ import {
   setRequiredSkills,
 } from "@/redux/features/resumeProcessingSlice";
 import GoogleDocForm from "./GoogleDocForm";
-import ProcessingStatuses from "@/components/ProcessingStatuses";
 
 const UploadsForm = ({ careerCode }: { careerCode: string }) => {
   const dispatch = useAppDispatch();
@@ -46,15 +45,15 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
 
   // // Run analysis on extracted text
   const runAnalysis = async (extractedText: string) => {
-    dispatch(setProcessingStatus(2));
+    dispatch(setProcessingStatus(3));
     const resumeKeyPhrases = await extractResumeKeyPhrases(extractedText); // Step 2: if text is extracted, extract key phrases by using ChatOpenAI API
-    dispatch(setProcessingStatus(7));
+    dispatch(setProcessingStatus(4));
     const careerSkillsKeyPhrases = await extractCareerKeyPhrases(careerCode); // Step 3: extract key phrases from career skills
     const { title, requiredTasks } = careerSkillsKeyPhrases
       ? careerSkillsKeyPhrases
       : { title: null, requiredTasks: null };
     if (requiredTasks && resumeKeyPhrases && title) {
-      dispatch(setProcessingStatus(6));
+      dispatch(setProcessingStatus(5));
       const matchingMissingSkills = await findMissingSkills(
         requiredTasks,
         resumeKeyPhrases
@@ -71,7 +70,7 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
       router.push("/analysis");
     } else {
       dispatch(setProcessing(false));
-      dispatch(setProcessingStatus(5));
+      dispatch(setProcessingStatus(7));
     }
   };
 
@@ -98,11 +97,12 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
         if (isPdf) {
           const numPages = await getNumberOfPDFPages(base64Bytes);
           if (numPages > 1) {
-            dispatch(setProcessingStatus(4));
+            dispatch(setProcessingStatus(6));
             dispatch(setProcessing(false));
             return;
           }
         }
+        dispatch(setProcessingStatus(2));
         const extractedText = isDocx
           ? await extractTextFromDocx(base64Bytes)
           : await extractTextFromPdf(base64Bytes); // Step 1: extract text from pdf or docx
@@ -111,7 +111,7 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
         }
       };
     } else {
-      dispatch(setProcessingStatus(3));
+      dispatch(setProcessingStatus(7));
       dispatch(setProcessing(false));
     }
   };
@@ -122,7 +122,7 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
         <div className="relative flex flex-col md:mt-[-50px] mt-[50px]   items-center justify-center min-w-300 min-h-180 bg-white border border-e2e8f0 rounded-2xl shadow-md mb-5 p-5 text-2xl font-bold transition-opacity duration-1000 ease-out">
           <p>Upload Resume</p>
           <button
-            className="bg-white m-3 hover:bg-gray-300 text-4a5568 font-semibold py-1 px-4 border border-cbd5e0 rounded shadow-sm text-sm px-20 text-lg"
+            className="bg-white m-3 hover:bg-gray-300 text-4a5568 font-semibold py-1 border border-cbd5e0 rounded shadow-sm text-sm px-4"
             onClick={() => setIsFormVisible(true)}
           >
             🡡 Upload
