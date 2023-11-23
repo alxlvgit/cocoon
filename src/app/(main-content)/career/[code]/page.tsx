@@ -8,7 +8,7 @@ export default async function Career({ params }: { params: { code: string } }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl mx-auto pb-8 m-3 px-3 w-full">
         <Suspense
           fallback={
-            <div className="mx-auto mt-8 col-span-2 animate-spin rounded-full h-12 w-12 border-b-2 border-blue-700 dark:border-white"></div>
+            <div className="mx-auto mt-8 col-span-2 animate-spin rounded-full h-16 w-16 border-b-2 border-blue-700 dark:border-white"></div>
           }
         >
           <AllCareerData careerCode={params.code} />

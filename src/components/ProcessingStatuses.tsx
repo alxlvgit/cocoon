@@ -6,43 +6,46 @@ import ProcessingStatus from "./ProcessingStatus";
 const ProcessingStatuses = () => {
   // Status components to display during document processing
   const statusComponents = [
-    // 0
-    <ProcessingStatus key={"uploaded"} done={true} text="File Uploaded" />,
     // 1
-    <ProcessingStatus
-      key={"extracted-text"}
-      done={true}
-      text="Extracting text. Analyzing your resume..."
-    />,
+    <ProcessingStatus key={"uploaded"} error={false} text="File Uploaded" />,
     // 2
     <ProcessingStatus
-      key={"failed-to-retrieve"}
-      done={false}
-      text="Failed to retrieve key phrases."
+      key={"extracted-text"}
+      error={false}
+      text="Extracting text from document..."
     />,
     // 3
     <ProcessingStatus
-      key={"only-single-page-pdf"}
-      done={false}
-      text="Only single page PDFs are supported at this time."
+      key={"extracting-key-phrases-from-resume"}
+      error={false}
+      text="Extracting key phrases from your resume..."
     />,
     // 4
     <ProcessingStatus
-      key={"processing-failed"}
-      done={false}
-      text="Processing failed. Please try again."
+      key={"extracting-career-key-phrases"}
+      error={false}
+      text="Extracting key phrases from career requirements..."
     />,
     // 5
     <ProcessingStatus
-      key={"finding-missing-skills"}
-      done={true}
-      text="Finding your missing skills for this career..."
+      key={"matching-skills"}
+      error={false}
+      text=" 
+    Matching your skills to career requirements...
+    "
     />,
     // 6
     <ProcessingStatus
-      key={"extracting-key-phrases-from-career"}
-      done={true}
-      text="Matching your skills to the career..."
+      key={"only-single-page-pdf"}
+      error={true}
+      text="Only single page PDFs are supported at this time."
+    />,
+
+    // 7
+    <ProcessingStatus
+      key={"failed-analyze-resume"}
+      error={true}
+      text="Could not analyze your resume. Please upload a file and try again."
     />,
   ];
 

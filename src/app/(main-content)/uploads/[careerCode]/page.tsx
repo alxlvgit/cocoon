@@ -1,10 +1,8 @@
 import { auth } from "@/auth";
-import MobileNavbar from "@/components/MobileNavbar";
-import NavBar from "@/components/Navbar";
+import { redirect } from "next/navigation";
 import ProcessingStatuses from "@/components/ProcessingStatuses";
 import UploadBackground from "@/components/UploadBG";
 import UploadsForm from "@/components/UploadsForm";
-import { redirect } from "next/navigation";
 
 async function Uploads({ params }: { params: { careerCode: string } }) {
   const careerCode = params.careerCode;
