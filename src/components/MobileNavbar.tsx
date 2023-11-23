@@ -75,19 +75,19 @@ const MobileNavbar: React.FC = () => {
         <div className="flex flex-col w-full align-middle items-center mt-10">
           <button
             onClick={() => handleButtonClick("/home")}
-            className="hover:bg-nav-button text-lg font-bold text-center w-3/4 border border-white border-opacity-30 rounded-xl px-6 mb-8 py-4"
+            className="hover:bg-bright-main text-lg font-bold text-center w-3/4 border border-white border-opacity-30 rounded-xl px-6 mb-8 py-4"
           >
             Home
           </button>
           <button
             onClick={() => handleButtonClick("/careers")}
-            className="hover:bg-nav-button text-lg font-bold w-3/4 text-center border border-white border-opacity-30 rounded-xl mb-8 px-6 py-4"
+            className="hover:bg-bright-main text-lg font-bold w-3/4 text-center border border-white border-opacity-30 rounded-xl mb-8 px-6 py-4"
           >
             Career Paths
           </button>
           <button
             onClick={() => handleButtonClick("/analysis")}
-            className="hover:bg-nav-button w-3/4 text-lg font-bold text-center border border-white border-opacity-30 rounded-xl px-6 py-4"
+            className="hover:bg-bright-main w-3/4 text-lg font-bold text-center border border-white border-opacity-30 rounded-xl px-6 py-4"
           >
             Analysis
           </button>

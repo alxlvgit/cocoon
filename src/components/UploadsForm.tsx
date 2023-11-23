@@ -68,7 +68,7 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
       dispatch(setRequiredSkills(requiredTasks));
       dispatch(setProcessing(false));
       dispatch(setProcessingStatus(null));
-      router.push("/home");
+      router.push("/analysis");
     } else {
       dispatch(setProcessing(false));
       dispatch(setProcessingStatus(5));

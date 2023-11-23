@@ -16,7 +16,8 @@ const config: Config = {
       backgroundColor: {
         "356CBE": "#356CBE",
         "main-bg": "#6DB8C5",
-        "nav-button": "#D0F0F6",
+        "bright-main": "#D0F0F6",
+        "button-bg": "#DBC2CF",
       },
     },
     screens: {
@@ -28,6 +29,9 @@ const config: Config = {
     },
   },
   darkMode: "class",
-  plugins: [require("tailwindcss-animated")],
+  plugins: [require("tailwindcss-animated"), require("tailwind-scrollbar")],
+  variants: {
+    scrollbar: ["rounded"],
+  },
 };
 export default config;
