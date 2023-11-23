@@ -24,6 +24,7 @@ import { UdemyCourse } from "@/app/(main-content)/analysis/fetch-udemy";
 import PathsSelection from "./PathsSelection";
 import SkillsContainer from "./SkillsContainer";
 import SkillsMatchInfo from "./SkillsMatchInfo";
+import AnalysisResultStatus from "./AnalysisResultStatus";
 
 const PathsController = () => {
   const [loading, setLoading] = useState(true);
@@ -131,7 +132,7 @@ const PathsController = () => {
       {loading ? (
         <>
           <h1 className="place-self-center my-5">Loading your paths...</h1>
-          <div className="mx-auto mt-8 animate-spin rounded-full h-32 w-32 border-b-2 border-blue-700 dark:border-white"></div>
+          <div className="mx-auto mt-8 animate-spin rounded-full h-16 w-16 border-b-2 border-blue-700 dark:border-white"></div>
         </>
       ) : pickedCareer &&
         skillsMatch &&
@@ -162,14 +163,7 @@ const PathsController = () => {
           />
         </div>
       ) : (
-        <>
-          <h1 className="place-self-center my-5">
-            Sorry, we don&apos;t have any paths for you.{" "}
-          </h1>
-          {errorMessage && (
-            <h1 className="place-self-center my-5">{errorMessage}</h1>
-          )}
-        </>
+        <AnalysisResultStatus errorMessage={errorMessage} />
       )}
     </>
   );
