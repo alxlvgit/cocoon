@@ -1,4 +1,6 @@
 import { auth } from "@/auth";
+import MobileNavbar from "@/components/MobileNavbar";
+import NavBar from "@/components/Navbar";
 import ProcessingStatuses from "@/components/ProcessingStatuses";
 import UploadBackground from "@/components/UploadBG";
 import UploadsForm from "@/components/UploadsForm";
@@ -12,11 +14,13 @@ async function Uploads({ params }: { params: { careerCode: string } }) {
   }
 
   return (
-    <div className="flex flex-col md:mt-3 md:mb-8 md:mx-14 items-center bg-blue-100 md:rounded-xl shadow-2xl h-screen md:h-full">
-      <UploadBackground />
-      <ProcessingStatuses />
-      <UploadsForm careerCode={careerCode} />
-    </div>
+    <main className="mt-36">
+      <div className="flex flex-col md:mt-3 md:mb-8 md:mx-14 items-center bg-blue-100 md:rounded-xl shadow-2xl h-screen md:h-full">
+        <UploadBackground />
+        <ProcessingStatuses />
+        <UploadsForm careerCode={careerCode} />
+      </div>
+    </main>
   );
 }
 

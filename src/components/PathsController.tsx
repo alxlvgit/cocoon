@@ -4,7 +4,7 @@ import {
   RecommendedPathResult,
   findBestMatchProgram,
   matchCoursesWithKeyPhrases,
-} from "@/app/path/path-search";
+} from "@/app/(main-content)/analysis/path-search";
 import {
   setCourses,
   setCoursesSkills,
@@ -19,8 +19,11 @@ import {
   calculateSkillsMatchPercentage,
   findRecommendedPath,
   findUdemyPath,
-} from "@/app/path/path-search";
-import { UdemyCourse, searchUdemyCourses } from "@/app/path/fetch-udemy";
+} from "@/app/(main-content)/analysis/path-search";
+import {
+  UdemyCourse,
+  searchUdemyCourses,
+} from "@/app/(main-content)/analysis/fetch-udemy";
 import PathsSelection from "./PathsSelection";
 
 const PathsController = () => {
@@ -144,7 +147,6 @@ const PathsController = () => {
           )}
         </>
       )}
-      
     </>
   );
 };

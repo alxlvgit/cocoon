@@ -28,7 +28,7 @@ function Home() {
             </h1>
             <div className="relative pt-8">
               <Link
-                href="/profile"
+                href="/home"
                 className="relative inline-flex items-center justify-center p-4 px-3 md:px-6 py-2 md:py-3 overflow-hidden font-medium transition duration-300 ease-out border-2 rounded-full shadow-md group border-white"
               >
                 <span className="absolute inset-0 flex items-center justify-center w-full h-full text-black duration-300 -translate-x-full bg-356CBE group-hover:translate-x-0 ease">
@@ -73,7 +73,8 @@ function Home() {
           <div className="animate-fade-left p-7 w-4/5 bg-[#494949] min-h-auto md:h-80 relative bottom-40 sm:bottom-32 md:bottom-12 lg:bottom-11 rounded-2xl">
             <h3 className="text-white font-semibold text-xl">About Cocoon</h3>
             <div>
-              <img
+              <Image
+                alt="About Cocoon"
                 height={450}
                 width={250}
                 className="float-right relative rounded-lg bottom-20 ml-4 drop-shadow-xl hidden lg:block"

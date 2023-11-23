@@ -1,13 +1,10 @@
 import React from "react";
 import NavBar from "@/components/Navbar";
 import MobileNavbar from "@/components/MobileNavbar";
-import Footer from "@/components/Footer";
-import "./globals.css";
+import "@/app/globals.css";
 import type { Metadata } from "next";
-import { twMerge } from "tailwind-merge";
 import { Roboto } from "next/font/google";
 import { ReduxProvider } from "@/redux/provider";
-import Bucket from "@/components/Bucket";
 
 const inter = Roboto({ weight: "400", subsets: ["latin-ext"] });
 
@@ -24,19 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark:bg-black dark:text-white">
       <ReduxProvider>
-        <body className={`${inter.className} min-h-screen flex flex-col `}>
-          <header className="px-5 py-10">
-            <div className="sm:hidden">
-              <MobileNavbar />
-            </div>
-            <div className="hidden sm:flex ">
-              <NavBar />
-            </div>
-          </header>
-
-          <main className="flex-grow">{children}</main>
-
-          {/* <Footer /> */}
+        <body className={`${inter.className}`}>
+          <NavBar />
+          <MobileNavbar />
+          {children}
         </body>
       </ReduxProvider>
     </html>

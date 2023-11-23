@@ -5,8 +5,8 @@ import PathContainer from "./PathContainer";
 import "react-circular-progressbar/dist/styles.css";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { RecommendedPathResult } from "@/app/path/path-search";
-import { UdemyCourse } from "@/app/path/fetch-udemy";
+import { RecommendedPathResult } from "@/app/(main-content)/analysis/path-search";
+import { UdemyCourse } from "@/app/(main-content)/analysis/fetch-udemy";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -93,9 +93,6 @@ const PathsSelection = ({
       );
     },
   };
-
- 
-  
 
   return (
     <>
