@@ -1,5 +1,5 @@
-import { RecommendedPathResult } from "@/app/path/path-search";
-import { UdemyCourse } from "@/app/path/fetch-udemy";
+import { RecommendedPathResult } from "@/app/(main-content)/analysis/path-search";
+import { UdemyCourse } from "@/app/(main-content)/analysis/fetch-udemy";
 import { setCurrentPath } from "@/redux/features/pathSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { useRouter } from "next/navigation";

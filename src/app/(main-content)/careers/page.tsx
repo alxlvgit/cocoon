@@ -11,7 +11,7 @@ async function Careers() {
   // console.log(careersData, "careersData");
 
   return (
-    <>
+    <main className="mt-36">
       <div>
         <h1 className="m-5 text-center font-bold text-2xl">
           Make Your Next Step With Us!
@@ -22,7 +22,7 @@ async function Careers() {
           <CareerTile key={career.code} career={career} />
         ))}
       </div>
-    </>
+    </main>
   );
 }
 

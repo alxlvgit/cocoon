@@ -15,6 +15,8 @@ const config: Config = {
       },
       backgroundColor: {
         "356CBE": "#356CBE",
+        "main-bg": "#6DB8C5",
+        "nav-button": "#D0F0F6",
       },
     },
     screens: {

@@ -10,12 +10,12 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 import {
   extractTextFromDocx,
   extractTextFromPdf,
-} from "@/app/uploads/resume-parsers";
+} from "@/app/(main-content)/uploads/resume-parsers";
 import {
   extractCareerKeyPhrases,
   extractResumeKeyPhrases,
   findMissingSkills,
-} from "@/app/uploads/document-processing";
+} from "@/app/(main-content)/uploads/document-processing";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
 import {
@@ -31,7 +31,6 @@ import {
 import GoogleDocForm from "./GoogleDocForm";
 import ProcessingStatuses from "@/components/ProcessingStatuses";
 
-
 const UploadsForm = ({ careerCode }: { careerCode: string }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -39,7 +38,6 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
 
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [isFormVisible, setIsFormVisible] = useState(false);
-
 
   const getNumberOfPDFPages = async (pdfData: string) => {
     const pdf = await pdfjs.getDocument({ data: atob(pdfData) }).promise;
@@ -70,7 +68,7 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
       dispatch(setRequiredSkills(requiredTasks));
       dispatch(setProcessing(false));
       dispatch(setProcessingStatus(null));
-      router.push("/path");
+      router.push("/home");
     } else {
       dispatch(setProcessing(false));
       dispatch(setProcessingStatus(5));
@@ -120,54 +118,53 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
 
   return (
     <>
-      {
-        !isFormVisible && (
-          <div className="relative flex flex-col md:mt-[-50px] mt-[50px]   items-center justify-center min-w-300 min-h-180 bg-white border border-e2e8f0 rounded-2xl shadow-md mb-5 p-5 text-2xl font-bold transition-opacity duration-1000 ease-out">
-                <p>Upload Resume</p>
-                <button className="bg-white m-3 hover:bg-gray-300 text-4a5568 font-semibold py-1 px-4 border border-cbd5e0 rounded shadow-sm text-sm px-20 text-lg" onClick={() => setIsFormVisible(true)}>
-                    🡡 Upload
-                </button>
-            </div>
-        )
-    }
-    {
-        isFormVisible && (
-          <div className="flex flex-col mt-1 items-center p-4 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 space-y-2 mb-5">
-            <p className="text-base font-semibold">Upload Resume</p>
-            <label
-              htmlFor="pdfUpload"
-              className="mb-1 block text-xs font-medium text-gray-700"
+      {!isFormVisible && (
+        <div className="relative flex flex-col md:mt-[-50px] mt-[50px]   items-center justify-center min-w-300 min-h-180 bg-white border border-e2e8f0 rounded-2xl shadow-md mb-5 p-5 text-2xl font-bold transition-opacity duration-1000 ease-out">
+          <p>Upload Resume</p>
+          <button
+            className="bg-white m-3 hover:bg-gray-300 text-4a5568 font-semibold py-1 px-4 border border-cbd5e0 rounded shadow-sm text-sm px-20 text-lg"
+            onClick={() => setIsFormVisible(true)}
+          >
+            🡡 Upload
+          </button>
+        </div>
+      )}
+      {isFormVisible && (
+        <div className="flex flex-col mt-1 items-center p-4 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 space-y-2 mb-5">
+          <p className="text-base font-semibold">Upload Resume</p>
+          <label
+            htmlFor="pdfUpload"
+            className="mb-1 block text-xs font-medium text-gray-700"
+          >
+            PDF, DOCX only
+          </label>
+          <input
+            id="pdfUpload"
+            className="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.60rem] text-xs font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.60rem] file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-5 file:py-[0.60rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.86rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary pb-4 sm:pb-2"
+            type="file"
+            accept="application/pdf,.docx"
+            onChange={(e) => setUploadedFile(e.target.files![0])}
+          />
+          <div>
+            <button
+              onClick={handleFileUpload}
+              className="bg-white m-3 hover:bg-gray-100 text-gray-800 font-semibold py-1 px-4 border border-gray-400 rounded shadow text-sm"
             >
-              PDF, DOCX only
-            </label>
-            <input
-              id="pdfUpload"
-              className="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.60rem] text-xs font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.60rem] file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-5 file:py-[0.60rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.86rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary pb-4 sm:pb-2"
-              type="file"
-              accept="application/pdf,.docx"
-              onChange={(e) => setUploadedFile(e.target.files![0])}
-            />
-            <div>
-              <button
-                onClick={handleFileUpload}
-                className="bg-white m-3 hover:bg-gray-100 text-gray-800 font-semibold py-1 px-4 border border-gray-400 rounded shadow text-sm"
-              >
-                Start With Your File
-              </button>
-            </div>
-
-            {errorMsg.length > 0 ? (
-              <p className="text-xs pb-3 text-red-700 underline decoration-wavy">
-                {errorMsg}
-              </p>
-            ) : null}
-
-            <hr className="w-48 h-2 mx-auto my-5 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-700" />
-
-            <GoogleDocForm runAnalysisFunction={runAnalysis} />
+              Start With Your File
+            </button>
           </div>
-        )
-    }       
+
+          {errorMsg.length > 0 ? (
+            <p className="text-xs pb-3 text-red-700 underline decoration-wavy">
+              {errorMsg}
+            </p>
+          ) : null}
+
+          <hr className="w-48 h-2 mx-auto my-5 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-700" />
+
+          <GoogleDocForm runAnalysisFunction={runAnalysis} />
+        </div>
+      )}
     </>
   );
 };
