@@ -1,8 +1,6 @@
 import * as odotnet from "@/app/api/odotnet/fetch-api";
 import * as enums from "@/app/api/odotnet/enums";
 import CareerTile from "@/components/CareerTitleTile";
-import NavBar from "@/components/Navbar";
-import MobileNavbar from "@/components/MobileNavbar";
 
 async function Careers() {
   // Fetch careers data for those interested in ux/ui designer

@@ -4,15 +4,27 @@ import { redirect } from "next/navigation";
 import SignoutButton from "@/components/SignoutButton";
 import ProfileClient from "@/components/ProfileClient";
 import Image from "next/image";
-import NavBar from "@/components/Navbar";
-import MobileNavbar from "@/components/MobileNavbar";
 
 export default async function Profile() {
   const session = await auth();
+
+  // Use this for productions
+  // if (!session) {
+  // redirect("/api/auth/signin?callbackUrl=/profile");
+  // }
+  // const { user } = session;
+
+  // Keep this here temporary for development
+  let user = null;
   if (!session) {
-    redirect("/api/auth/signin?callbackUrl=/profile");
+    user = {
+      name: "Guest",
+      image: "/assets/avatar-placeholder.jpg",
+      email: "",
+    };
+  } else {
+    user = session.user;
   }
-  const { user } = session;
 
   return (
     <main className="mt-36">
@@ -20,7 +32,7 @@ export default async function Profile() {
         <div className="flex flex-col xs:flex-row xs:justify-between align-middle items-center sm:col-span-2">
           <div className="w-20 h-20 xs:mr-6 mx-auto">
             <Image
-              src={user.image ? user.image : "/images/avatar.png"}
+              src={user.image ? user.image : "/assets/avatar-placeholder.jpg"}
               alt={user.name + " avatar"}
               width={80}
               height={80}

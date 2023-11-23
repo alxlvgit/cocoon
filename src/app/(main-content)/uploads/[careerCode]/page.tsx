@@ -8,10 +8,10 @@ import { redirect } from "next/navigation";
 
 async function Uploads({ params }: { params: { careerCode: string } }) {
   const careerCode = params.careerCode;
-  const session = await auth();
-  if (!session) {
-    redirect(`/api/auth/signin?callbackUrl=/uploads/${careerCode}`);
-  }
+  // const session = await auth();
+  // if (!session) {
+  //   redirect(`/api/auth/signin?callbackUrl=/uploads/${careerCode}`);
+  // }
 
   return (
     <main className="mt-36">

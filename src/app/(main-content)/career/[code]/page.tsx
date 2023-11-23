@@ -1,8 +1,6 @@
 import StartAnalysisContainer from "@/components/StartAnalysisContainer";
 import AllCareerData from "@/components/AllCareerData";
 import { Suspense } from "react";
-import NavBar from "@/components/Navbar";
-import MobileNavbar from "@/components/MobileNavbar";
 
 export default async function Career({ params }: { params: { code: string } }) {
   return (
