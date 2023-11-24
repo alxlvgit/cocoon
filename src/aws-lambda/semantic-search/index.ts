@@ -57,19 +57,23 @@ export const handler = async (
 
     for (const searchedPhrase of inputData) {
       const result = await retriever.getRelevantDocuments(searchedPhrase);
+
       if (result.length > 0) {
-        const resultContent: SimilaritySearchResult = {
-          pageContent: result[0].pageContent,
-          metadata: result[0].metadata as { id: number },
-        };
-        if (matches[searchedPhrase]) {
-          matches[searchedPhrase].push(resultContent);
-        } else {
-          matches[searchedPhrase] = [resultContent];
-        }
-        console.log(searchedPhrase + " Matches " + resultContent);
+        result.map((result) => {
+          const resultContent: SimilaritySearchResult = {
+            pageContent: result.pageContent,
+            metadata: result.metadata as { id: number },
+          };
+          if (matches[searchedPhrase]) {
+            matches[searchedPhrase].push(resultContent);
+          } else {
+            matches[searchedPhrase] = [resultContent];
+          }
+          console.log(searchedPhrase + " Matches " + resultContent);
+        });
       }
     }
+
     return {
       statusCode: 200,
       body: JSON.stringify(matches),
