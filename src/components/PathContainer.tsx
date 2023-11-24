@@ -1,20 +1,15 @@
-import { RecommendedPathResult } from "@/app/path/path-search";
-import { UdemyCourse } from "@/app/path/fetch-udemy";
+import { RecommendedPathResult } from "@/app/(main-content)/analysis/path-search";
+import { UdemyCourse } from "@/app/(main-content)/analysis/fetch-udemy";
 import { setCurrentPath } from "@/redux/features/pathSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
+import CourseProgram from "./CourseProgram";
 
 const PathContainer = ({
   recommendedPathData,
   udemyPathData,
-  onMouseEnter,
-  onMouseLeave,
-  hoveredPath,
   pathType,
 }: {
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
-  hoveredPath: string | null;
   pathType: string;
   recommendedPathData?: RecommendedPathResult;
   udemyPathData?: UdemyCourse[];
@@ -23,52 +18,65 @@ const PathContainer = ({
   const router = useRouter();
   const setMyCurrentPath = () => {
     dispatch(setCurrentPath(pathType));
-    router.push("/profile");
+    router.push("/home");
   };
 
   return (
-    <div
-      className="flex flex-col w-full hover:bg-indigo-200 rounded-lg p-6"
-      onMouseEnter={() => onMouseEnter()}
-      onMouseLeave={() => onMouseLeave()}
-    >
-      <h1 className="text-xs md:text-base lg:text-xl text-left font-bold mt-3 w-full">
-        {pathType} Path:
-      </h1>
+    <div className="flex flex-col w-full rounded-lg ">
       <div className="text-xs md:text-sm lg:text-lg text-left w-full">
         {recommendedPathData &&
           (recommendedPathData.bcitProgram ? (
-            recommendedPathData.bcitProgram.programName + " - BCIT Program"
+            <CourseProgram
+              type="BCIT"
+              title={
+                recommendedPathData.bcitProgram.programName + " - BCIT Program"
+              }
+              link={recommendedPathData.bcitProgram.url}
+            />
           ) : recommendedPathData.bcitCourses ? (
             <>
-              <p className="font-bold mt-3">BCIT Courses:</p>
               {recommendedPathData.bcitCourses.map((course) => (
-                <p key={course.courseCode}>- {course.courseName}</p>
+                <CourseProgram
+                  type="BCIT"
+                  key={course.courseCode}
+                  title={course.courseName + " - BCIT Course"}
+                  link={course.url}
+                />
               ))}
             </>
           ) : recommendedPathData.udemyCourses ? (
             <>
-              <p className="font-bold mt-3">Udemy Courses:</p>
-              {recommendedPathData!.udemyCourses.title}
+              <CourseProgram
+                type="Udemy"
+                key={recommendedPathData.udemyCourses.id}
+                title={
+                  recommendedPathData.udemyCourses.title + " - Udemy Course"
+                }
+                link={recommendedPathData.udemyCourses.url}
+              />
             </>
           ) : null)}
         {udemyPathData && (
           <>
-            <p className="font-bold mt-3">Udemy Courses:</p>
             {udemyPathData.map((course) => (
-              <p key={course.url}>- {course.title}</p>
+              <CourseProgram
+                type="Udemy"
+                key={course.id}
+                title={course.title}
+                link={course.url}
+              />
             ))}
           </>
         )}
       </div>
-      {hoveredPath === pathType && (
+      <div className="flex justify-start items-center">
         <button
           onClick={setMyCurrentPath}
-          className="bg-white w-fit mt-2 hover:bg-gray-100 text-gray-800 font-semibold py-1 px-4 mr-2 border border-gray-400 rounded-lg shadow text-sm"
+          className="bg-button-bg w-fit hover:bg-gray-100 text-gray-800 font-medium py-1 px-4 mr-2 border border-gray-400 rounded-lg shadow text-sm"
         >
-          Make it my path
+          Commit Path
         </button>
-      )}
+      </div>
     </div>
   );
 };

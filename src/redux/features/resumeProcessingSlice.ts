@@ -5,10 +5,10 @@ type ResumeProcessingState = {
   processing: boolean;
   processingStep: number | null;
   googleDocUrl: string | null;
-  transferableResumeSkills: string[];
-  missingCareerSkills: string[];
-  requiredCareerSkills: string[];
-  matchingCareerSkills: string[];
+  transferableResumeSkills: string[] | null;
+  missingCareerSkills: string[] | null;
+  requiredCareerSkills: string[] | null;
+  matchingCareerSkills: string[] | null;
   pickedCareer: string | null;
 };
 
@@ -16,10 +16,10 @@ const initialState: ResumeProcessingState = {
   processing: false,
   processingStep: null,
   googleDocUrl: null,
-  transferableResumeSkills: [],
-  missingCareerSkills: [],
-  requiredCareerSkills: [],
-  matchingCareerSkills: [],
+  transferableResumeSkills: null,
+  missingCareerSkills: null,
+  requiredCareerSkills: null,
+  matchingCareerSkills: null,
   pickedCareer: null,
 };
 
@@ -52,7 +52,7 @@ export const resumeProcessingSlice = createSlice({
     setPickedCareer: (state, action: PayloadAction<string | null>) => {
       state.pickedCareer = action.payload;
     },
-   
+
     resetResumeProcessingState: (state) => {
       state.processing = false;
       state.processingStep = null;
@@ -62,7 +62,6 @@ export const resumeProcessingSlice = createSlice({
       state.requiredCareerSkills = [];
       state.matchingCareerSkills = [];
       state.pickedCareer = null;
-    
     },
   },
 });

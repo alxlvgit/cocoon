@@ -17,15 +17,18 @@ const SkillsProgress = () => {
   const currentPath = useAppSelector((state) => state.pathSlice.currentPath);
 
   useEffect(() => {
+    if (!missingCareerSkills || !pickedCareer) {
+      return;
+    }
     const completedPercentage = Math.trunc(
       (completedSkills.length / missingCareerSkills.length) * 100
     );
     setCompletedPercentage(completedPercentage);
-  }, [completedSkills, missingCareerSkills, courses, pickedCareer]);
+  }, [completedSkills, missingCareerSkills, pickedCareer]);
 
   return (
     <>
-      {missingCareerSkills.length > 0 ? (
+      {missingCareerSkills && missingCareerSkills.length > 0 ? (
         <div className=" bg-blue-100 p-5 rounded-3xl md:col-span-2 shadow-md grid items-center justify-center">
           <div className="p-5 grid items-center">
             <p className="font-extrabold text-xl text-center pb-10">

@@ -19,11 +19,17 @@ const config: Config = {
       },
       backgroundColor: {
         "356CBE": "#356CBE",
+
         'custom-bg': '#C3EBF2',
         'button-bg': '#DBC2CF',
         'button-bg-hover': '#9E8B9A',
         'main-bg': '#6DB8C5'
-        
+        "bright-main": "#D0F0F6", 
+      },
+      colors: {
+        "main-color": "#6DB8C5",
+        "bright-main-color": "#D0F0F6",
+        "button-main": "#DBC2CF",
       },
     },
     screens: {
@@ -35,6 +41,9 @@ const config: Config = {
     },
   },
   darkMode: "class",
-  plugins: [require("tailwindcss-animated")],
+  plugins: [require("tailwindcss-animated"), require("tailwind-scrollbar")],
+  variants: {
+    scrollbar: ["rounded"],
+  },
 };
 export default config;

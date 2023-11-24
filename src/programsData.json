@@ -3,6 +3,7 @@
         {
             "programName": "Digital Photography",
             "tuitionDomestic": "$2100",
+            "url": "https://www.bcit.ca/programs/digital-photography-statement-of-completion-part-time-0445000000",
             "intakes": [
                 "January",
                 "April",
@@ -39,6 +40,7 @@
         {
             "programName": "User Interface (UI) and User Experience (UX) Design",
             "tuitionDomestic": "$3000",
+            "url": "https://www.bcit.ca/programs/user-interface-ui-and-user-experience-ux-design-associate-certificate-part-time-5985acert",
             "intakes": [
                 "September",
                 "January",
@@ -56,6 +58,7 @@
         {
             "programName": "Graphic Design Foundations",
             "tuitionDomestic": "$2700",
+            "url": "https://bcit.ca/programs/graphic-design-foundations-associate-certificate-part-time-6505acert",
             "intakes": [
                 "September",
                 "January",
@@ -73,6 +76,7 @@
         {
             "programName": "Media Techniques for Business",
             "tuitionDomestic": "$9000",
+            "url": "https://www.bcit.ca/programs/media-techniques-for-business-certificate-part-time-6450mcert",
             "intakes": [
                 "September",
                 "January",
@@ -89,6 +93,7 @@
         {
             "programName": "Media Techniques and Marketing Communications",
             "tuitionDomestic": "$9500",
+            "url": "https://www.bcit.ca/programs/media-techniques-and-marketing-communications-certificate-part-time-630pmcert",
             "intakes": [
                 "September",
                 "January",
@@ -102,6 +107,7 @@
                 "May",
                 "September"
             ],
+            "url": "https://www.bcit.ca/programs/graphic-design-certificate-full-time-part-time-6585cert",
             "degree": "Certificate",
             "tuitionDomestic": "$8615",
             "tuition": {
@@ -127,6 +133,7 @@
         {
             "courseCode": "GDES 1069",
             "courseName": "Layout: Adobe InDesign",
+            "url": "https://www.bcit.ca/courses/layout-adobe-indesign-gdes-1069/",
             "terms": [
                 "Fall",
                 "Winter",
@@ -173,6 +180,7 @@
         {
             "courseCode": "GDES 1105",
             "courseName": "Visual Composition + Layout",
+            "url": "https://www.bcit.ca/courses/visual-composition-and-layout-gdes-1105/",
             "terms": [
                 "Fall",
                 "Winter",
@@ -219,6 +227,7 @@
         {
             "courseCode": "GDES 1140",
             "courseName": "Colour Theory",
+            "url": "https://www.bcit.ca/courses/colour-theory-gdes-1140/",
             "terms": [
                 "Fall",
                 "Winter",
@@ -265,6 +274,7 @@
         {
             "courseCode": "GDES 1190",
             "courseName": "Web Design",
+            "url": "https://www.bcit.ca/courses/web-design-gdes-1190/",
             "terms": [
                 "Fall"
             ],
@@ -294,6 +304,7 @@
         {
             "courseCode": "GDES 1235",
             "courseName": "Graphic Design Process",
+            "url": "https://www.bcit.ca/courses/graphic-design-process-gdes-1235/",
             "terms": [
                 "Fall"
             ],
@@ -353,6 +364,7 @@
         {
             "courseCode": "GDES 1255",
             "courseName": "Visual Language",
+            "url": "https://www.bcit.ca/courses/visual-language-gdes-1255/",
             "terms": [
                 "Fall"
             ],
@@ -382,6 +394,7 @@
         {
             "courseCode": "GDES 1270",
             "courseName": "Vector Graphics: Adobe Illustrator",
+            "url": "https://www.bcit.ca/courses/vector-graphics-adobe-illustrator-gdes-1270/",
             "terms": [
                 "Fall"
             ],
@@ -441,6 +454,7 @@
         {
             "courseCode": "GDES 1275",
             "courseName": "Raster Graphics: Adobe Photoshop",
+            "url": "https://www.bcit.ca/courses/raster-graphics-adobe-photoshop-gdes-1275/",
             "terms": [
                 "Fall"
             ],
@@ -501,6 +515,7 @@
         {
             "courseCode": "GDES 2012",
             "courseName": "Image Post Production",
+            "url": "https://www.bcit.ca/courses/image-post-production-gdes-2012/",
             "terms": [
                 "Fall"
             ],
@@ -531,6 +546,7 @@
         {
             "courseCode": "GDES 2087",
             "courseName": "Prepress",
+            "url": "https://www.bcit.ca/courses/prepress-gdes-2087/",
             "terms": [
                 "Fall"
             ],
@@ -562,6 +578,7 @@
         {
             "courseCode": "GDES 2088",
             "courseName": "Strategic Design for Business",
+            "url": "https://www.bcit.ca/courses/strategic-design-for-business-gdes-2088/",
             "terms": [
                 "Fall"
             ],
@@ -592,6 +609,7 @@
         {
             "courseCode": "GDES 2125",
             "courseName": "Brand Identity",
+            "url": "https://www.bcit.ca/courses/brand-identity-gdes-2125/",
             "terms": [
                 "Fall"
             ],
@@ -622,6 +640,7 @@
         {
             "courseCode": "MDIA 2099",
             "courseName": "Photography 2",
+            "url": "https://www.bcit.ca/courses/photography-2-mdia-2099/",
             "format": "F, W, S, Online",
             "prerequisites": "MDIA 1099",
             "credits": 1.5,
@@ -635,6 +654,7 @@
         {
             "courseCode": "MDIA 2205",
             "courseName": "Web Design Technologies 2",
+            "url": "https://www.bcit.ca/courses/web-design-technologies-2-mdia-2205/",
             "format": "F, W, S, Online",
             "prerequisites": "50% in MDIA 1205† († may be taken concurrently)",
             "credits": 3.0,
@@ -648,6 +668,7 @@
         {
             "courseCode": "MDIA 2310",
             "courseName": "Portfolio Design",
+            "url": "https://www.bcit.ca/courses/portfolio-design-mdia-2310/",
             "format": "F, W, S, Online",
             "prerequisites": "50% in MDIA 1040 and 50% in MDIA 1105 and 50% in MDIA 1140 and 50% in MDIA 2012 and 50% in MDIA 2049 and 50% in MDIA 2180",
             "credits": 3.0,
@@ -656,6 +677,7 @@
         {
             "courseCode": "MDIA 2330",
             "courseName": "UI/UX Prototyping Tools Adobe XD",
+            "url": "https://www.bcit.ca/courses/ui-ux-prototyping-tools-adobe-xd-mdia-2330/",
             "format": "F, W, S, Online",
             "prerequisites": "No prerequisites are required for this course.",
             "credits": 3.0,
@@ -672,6 +694,7 @@
         {
             "courseCode": "MDIA 3203",
             "courseName": "Photoshop for Web Publishing",
+            "url": "https://www.bcit.ca/courses/photoshop-for-web-publishing-mdia-3203/",
             "format": "F, W, S, Online",
             "prerequisites": "50% in MDIA 1205† († may be taken concurrently)",
             "credits": 3.0,
@@ -680,6 +703,7 @@
         {
             "courseCode": "MDIA 3207",
             "courseName": "JavaScript",
+            "url": "https://www.bcit.ca/courses/javascript-mdia-3207/",
             "format": "F, W, S, Online",
             "prerequisites": "50% in MDIA 1205† († may be taken concurrently)",
             "credits": 3.0,
@@ -692,6 +716,7 @@
         {
             "courseCode": "MDIA 3209",
             "courseName": "WordPress + Content Management Systems",
+            "url": "https://www.bcit.ca/courses/wordpress-content-management-systems-mdia-3209/",
             "format": "F, W, S, Online",
             "prerequisites": "50% in MDIA 1205† († may be taken concurrently)",
             "credits": 3.0,
@@ -704,6 +729,7 @@
         {
             "courseCode": "MDIA 3210",
             "courseName": "Adobe Premiere Pro for Video",
+            "url": "https://www.bcit.ca/courses/adobe-premiere-pro-for-video-mdia-3210/",
             "format": "F, W, S, Online",
             "prerequisites": "No prerequisites are required for this course.",
             "credits": 3.0,
