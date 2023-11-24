@@ -18,19 +18,17 @@ const config: Config = {
         'custom-shadow': '2px 6px 6px rgba(0, 0, 0, 0.25)',
       },
       backgroundColor: {
-       "356CBE": "#356CBE",
+      "356CBE": "#356CBE",
         'custom-bg': '#C3EBF2',
         'button-bg': '#DBC2CF',
         'button-bg-hover': '#9E8B9A',
-        'main-bg': '#6DB8C5",
+        'main-bg': '#6DB8C5'
         "bright-main": "#D0F0F6",
-
       },
       colors: {
         "main-color": "#6DB8C5",
         "bright-main-color": "#D0F0F6",
         "button-main": "#DBC2CF",
-
       },
     },
     screens: {
