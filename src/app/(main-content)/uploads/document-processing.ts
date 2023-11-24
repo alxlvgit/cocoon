@@ -1,5 +1,6 @@
 // "use server"
 
+import { SimilaritySearchResult } from "@/aws-lambda/semantic-search";
 import * as odotnet from "../../api/odotnet/fetch-api";
 import { KeyPhrases } from "@/aws-lambda/text-to-structured";
 
@@ -112,25 +113,38 @@ export const findMissingSkills = async (
   careerPhrases: string[],
   resumePhrases: string[]
 ) => {
+  const resumePhrasesWithPrompt = resumePhrases.map((phrase) => {
+    return "What are the best matches for " + "'" + phrase + "'" + "? ";
+  });
   const result = await semanticSearchLambda(
-    resumePhrases,
+    resumePhrasesWithPrompt,
     careerPhrases,
-    0.75,
-    1,
-    1
+    0.77,
+    2,
+    6
   );
 
-  const matchedCareerSkills = new Set<string>(); // unique matches from career required skills
+  const matchedCareerSkills = new Set<string>(); // store unique matches from career required skills
 
-  const matchedResumeSkills = Object.keys(result); // matched resume skills
+  // matched resume skills
+  const matchedResumeSkills = Object.keys(result).map((resumeSkill) => {
+    return resumeSkill
+      .split("What are the best matches for ")[1]
+      .split("?")[0]
+      .toLowerCase();
+  });
+
+  // matched career required skills
   for (const resumeSkill in result) {
     if (result[resumeSkill].length > 0) {
-      matchedCareerSkills.add(result[resumeSkill][0].pageContent.toLowerCase());
+      result[resumeSkill].map((result: SimilaritySearchResult) => {
+        matchedCareerSkills.add(result.pageContent.toLowerCase());
+      });
     }
   }
   const missingCareerSkills = careerPhrases.filter(
     (skill) => !matchedCareerSkills.has(skill.toLowerCase())
-  ); // missing required career skills
+  ); // missing career required career skills
 
   return {
     missingCareerSkills,

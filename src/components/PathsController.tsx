@@ -66,6 +66,14 @@ const PathsController = () => {
           matchingCareerSkills,
           requiredCareerSkills
         );
+        if (skillsMatchedPercentage == 100) {
+          setLoading(false);
+          setErrorMessage(
+            "You already have all the skills required for this career."
+          );
+          console.log("The skills match is 100%");
+          return;
+        }
         setSkillsMatch(skillsMatchedPercentage);
         const matchedCoursesResult = await matchCoursesWithKeyPhrases(
           missingCareerSkills
@@ -76,18 +84,12 @@ const PathsController = () => {
         );
         const { courses, coursesWithSkills } = matchedCoursesResult;
         const { program, programWithSkills } = matchedProgramResult;
-        if (!courses || !coursesWithSkills || !program || !programWithSkills) {
-          setLoading(false);
-          setErrorMessage("Error generating paths. Please try again.");
-          console.log(
-            "Courses or program is missing. Please check redux store."
-          );
-          return;
+        if (courses && coursesWithSkills && program && programWithSkills) {
+          dispatch(setCourses(matchedCoursesResult.courses));
+          dispatch(setProgram(matchedProgramResult.program));
+          dispatch(setCoursesSkills(matchedCoursesResult.coursesWithSkills));
+          dispatch(setProgramSkills(matchedProgramResult.programWithSkills));
         }
-        dispatch(setCourses(matchedCoursesResult.courses));
-        dispatch(setProgram(matchedProgramResult.program));
-        dispatch(setCoursesSkills(matchedCoursesResult.coursesWithSkills));
-        dispatch(setProgramSkills(matchedProgramResult.programWithSkills));
         const recommendedPath = await findRecommendedPath(
           skillsMatchedPercentage,
           pickedCareer,
@@ -100,9 +102,11 @@ const PathsController = () => {
           missingCareerSkills
         );
         const { udemyCourses, udemyCoursesWithSkills } = udemyCoursesResult;
-        if (!udemyCourses || !udemyCoursesWithSkills) {
+        if (!udemyCourses || !udemyCoursesWithSkills || !recommendedPath) {
           setLoading(false);
-          setErrorMessage("Error generating paths. Please try again.");
+          setErrorMessage(
+            `Could not find suitable paths for this career. Your skills match with this career is ${skillsMatchedPercentage}%.`
+          );
           console.log(
             "Udemy courses data is missing. Please check redux store."
           );
@@ -135,7 +139,7 @@ const PathsController = () => {
           <div className="mx-auto mt-8 animate-spin rounded-full h-16 w-16 border-b-2 border-main-color dark:border-white"></div>
         </>
       ) : pickedCareer &&
-        skillsMatch &&
+        skillsMatch !== null &&
         recommendedPathData &&
         udemyPathData &&
         missingCareerSkills &&

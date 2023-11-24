@@ -5,12 +5,12 @@ import { UdemyCourse } from "@/app/(main-content)/analysis/fetch-udemy";
 type PathState = {
   currentPath: string;
   completedSkills: string[];
-  programSkills: { [x: string]: string[] };
-  program: Program | null;
-  coursesSkills: { [key: string]: string[] };
-  courses: Course[] | null;
-  udemyCourses: UdemyCourse[] | null;
-  udemyCoursesWithSkills: { [key: string]: string[] };
+  programSkills: { [x: string]: string[] } | undefined;
+  program: Program | undefined;
+  coursesSkills: { [key: string]: string[] } | undefined;
+  courses: Course[] | undefined;
+  udemyCourses: UdemyCourse[] | undefined;
+  udemyCoursesWithSkills: { [key: string]: string[] } | undefined;
 };
 
 type SkillStatus = {
@@ -21,11 +21,11 @@ type SkillStatus = {
 const initialState: PathState = {
   currentPath: "",
   completedSkills: [],
-  program: null,
+  program: undefined,
   programSkills: {},
-  courses: null,
+  courses: undefined,
   coursesSkills: {},
-  udemyCourses: null,
+  udemyCourses: undefined,
   udemyCoursesWithSkills: {},
 };
 
@@ -98,11 +98,11 @@ export const pathSlice = createSlice({
     resetState: (state) => {
       state.currentPath = "";
       state.completedSkills = [];
-      state.program = null;
+      state.program = undefined;
       state.programSkills = {};
-      state.courses = null;
+      state.courses = undefined;
       state.coursesSkills = {};
-      state.udemyCourses = null;
+      state.udemyCourses = undefined;
       state.udemyCoursesWithSkills = {};
     },
   },
