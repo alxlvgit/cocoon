@@ -19,11 +19,10 @@ const config: Config = {
       },
       backgroundColor: {
         "356CBE": "#356CBE",
-
         'custom-bg': '#C3EBF2',
         'button-bg': '#DBC2CF',
         'button-bg-hover': '#9E8B9A',
-        'main-bg': '#6DB8C5'
+        'main-bg': '#6DB8C5',
         "bright-main": "#D0F0F6", 
       },
       colors: {
