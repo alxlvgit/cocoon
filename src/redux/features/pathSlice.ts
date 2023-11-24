@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Course, Program } from "@/types/types";
-import { UdemyCourse } from "@/app/path/fetch-udemy";
+import { UdemyCourse } from "@/app/(main-content)/analysis/fetch-udemy";
 
 type PathState = {
   currentPath: string;

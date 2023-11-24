@@ -1,4 +1,3 @@
-
 export type Contact = {
   name: string;
   role: string;
@@ -8,6 +7,7 @@ export type Contact = {
 
 export type Course = {
   courseCode: string;
+  url: string;
   courseName: string;
   format?: string;
   prerequisites?: string;
@@ -48,6 +48,7 @@ export type CourseOffering = {
 export type Program = {
   programName: string;
   tuitionDomestic?: string;
+  url: string;
   tuition?: {
     domestic?: {
       twoTerms: string;

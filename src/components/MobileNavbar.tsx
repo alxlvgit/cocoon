@@ -1,41 +1,45 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const MobileNavbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [shouldShowLogo, setShouldShowLogo] = useState(true);
+  const router = useRouter();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (window.scrollY > 0) {
-  //       setShouldShowLogo(false);
-  //     } else {
-  //       setShouldShowLogo(true);
-  //     }
-  //   };
+  useEffect(() => {
+    // Disable overflow when the mobile navbar is open
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      // Reset overflow when the mobile navbar is closed
+      document.body.style.overflow = "auto";
+    }
 
-  //   window.addEventListener("scroll", handleScroll);
+    // Clean up the effect when the component unmounts
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
 
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
+  const handleButtonClick = (route: string) => {
+    router.push(route);
+    setIsOpen(false);
+  };
 
   return (
     <div
-      className={`w-full fixed ${
-        isOpen ? "h-full bg-356CBE" : ""
-      } z-50 top-0 left-0 p-4 ${shouldShowLogo ? "" : "hidden"}`}
+      className={`z-50 w-full sm:hidden ${
+        isOpen
+          ? "fixed top-0 left-0 z-50 h-full bg-main-bg"
+          : "block w-full h-fit fixed top-0 left-0 bg-main-bg"
+      }`}
     >
-      <div className="flex justify-between items-center">
-        {!isOpen && shouldShowLogo && (
-          <div className="text-white font-bold text-xl">Logo</div>
-        )}
+      <div className="w-full p-2 h-22 flex items-center align-middle justify-end">
         <button
           className="text-white focus:outline-none lg:hidden"
           onClick={toggleMenu}
@@ -68,51 +72,25 @@ const MobileNavbar: React.FC = () => {
         </button>
       </div>
       {isOpen && (
-        <div className="mt-14">
-          <a
-            href="/home"
-            className="p-10 block text-white text-center text-2xl"
+        <div className="flex flex-col w-full align-middle text-white font-medium items-center mt-10">
+          <button
+            onClick={() => handleButtonClick("/home")}
+            className="hover:bg-bright-main text-lg hover:text-black  text-center w-3/4 border border-white border-opacity-50 rounded-xl px-6 mb-8 py-4"
           >
             Home
-          </a>
-          <a
-            href="/about"
-            className="p-10 block text-white text-center text-2xl"
+          </button>
+          <button
+            onClick={() => handleButtonClick("/careers")}
+            className="hover:bg-bright-main text-lg hover:text-black  w-3/4 text-center border border-white border-opacity-50 rounded-xl mb-8 px-6 py-4"
           >
-            About
-          </a>
-          <a
-            href="/careers"
-            className="p-10 block text-white text-center text-2xl"
+            Career Paths
+          </button>
+          <button
+            onClick={() => handleButtonClick("/analysis")}
+            className="hover:bg-bright-main w-3/4 text-lg hover:text-black text-center border border-white border-opacity-50 rounded-xl px-6 py-4"
           >
-            Careers
-          </a>
-          <a
-            href="/path"
-            className="p-10 block text-white text-center text-2xl mb-12"
-          >
-            Path
-          </a>
-          <a
-            href="/profile"
-            className="flex items-center justify-center text-white text-2xl"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-8 h-8 mr-2"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-            Profile
-          </a>
+            Analysis
+          </button>
         </div>
       )}
     </div>
