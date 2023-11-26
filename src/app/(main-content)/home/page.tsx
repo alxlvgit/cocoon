@@ -57,6 +57,7 @@ export default async function Profile() {
           <ProfileClient user={user} />
         </div>
       </div>
+      <Test />
     </main>
   );
 }

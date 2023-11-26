@@ -1,8 +1,39 @@
-export default function CommitedCoursesPrograms() {
+import isEmpty from "@/utils/isEmpty";
+import Link from "next/link";
+
+interface Proptypes {
+  currentPathCoursesAndPrograms:
+    | {
+        [x: string]: string[];
+      }
+    | undefined;
+}
+export default function CommitedCoursesPrograms({
+  currentPathCoursesAndPrograms,
+}: Proptypes) {
+  let courseDisplay: any = (
+    <div className="col-span-2 p-36 flex items-center justify-center">
+      <p>Nothing to display</p>
+    </div>
+  );
+  if (currentPathCoursesAndPrograms) {
+    if (!isEmpty(currentPathCoursesAndPrograms)) {
+      courseDisplay = Object.keys(currentPathCoursesAndPrograms).map((val) => (
+        <div className="bg-main-bg p-10 w-full h-full rounded-lg drop-shadow-md place-self-center grid grid-rows-2 gap-5">
+          <div className="h-2/3 place-content-center">
+            <p key={val}>{val}</p>
+          </div>
+          <div className="h-fit px-3 py-1 border border-gray-400 rounded-lg shadow  place-self-center hover:bg-white bg-button-bg w-fit text-xs text-center">
+            <p>View Details</p>
+          </div>
+        </div>
+      ));
+    }
+  }
   return (
     <div className="sm:col-span-2">
       <div className="grid items-center">
-        <div className="bg-main-bg h-96 w-full rounded-2xl mx-auto p-4 text-center align-middle items-center justify-center grid grid-cols-1 md:grid-cols-4 shadow-xl">
+        <div className="bg-main-bg h-auto w-full rounded-2xl mx-auto p-4 text-center align-middle items-center justify-center grid grid-cols-1 md:grid-cols-4 shadow-xl">
           <div className="col-span-1 items-center justify-center">
             <div className="flex items-center justify-center">
               <svg
@@ -38,11 +69,11 @@ export default function CommitedCoursesPrograms() {
             <p className="font-bold pt-2">Completed Courses: 0</p>
           </div>
           <div className="col-span-3 grid grid-rows-7 w-full h-full">
-            <p className="text-lg w-fit place-self-center font-bold">
+            <p className="text-lg w-fit place-self-center font-bold pb-3">
               Courses and Programs
             </p>
-            <div className="row-span-6 bg-bright-main h-full rounded-2xl flex items-center justify-center">
-              Nothing to display
+            <div className="row-span-6 bg-bright-main h-full rounded-2xl items-center justify-center grid grid-cols-2 gap-3 p-5">
+              {courseDisplay}
             </div>
           </div>
         </div>
