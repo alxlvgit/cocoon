@@ -17,7 +17,7 @@ function Home() {
         </div>
         <div className="grid mx-14 lg:mx-1 md:p-10	lg:grid-cols-[2fr_2fr] ">
           <div>
-            <h1 className=" text-white font-bold max-w-[40rem] leading-[90%] tracking-[-2px] pb-3 self-start animate-fade-up animate-duration-[2000ms] animate-normal animate-fill-forwards">
+            <h1 className=" text-white font-bold max-w-[40rem] leading-[90%] tracking-[-2px] pb-3 self-start animate-fade-up animate-duration-[2000ms] animate-normal animate-fill-forwards pt-10 lg:pt-20">
               <span className="text-6xl md:text-8xl underline decoration-sky-500 ">
                 Cocoon
               </span>
@@ -56,7 +56,7 @@ function Home() {
           </div>
 
           <div className="text-base text-white leading-[150%] self-end animate-fade-left animate-duration-[2000ms]  animate-normal animate-fill-forwards grid  xl:relative xl:bottom-28">
-            <div className="pb-8 w-full p-10 transition-transform transform justify-center items-center animate-fade">
+            <div className="pt-10 w-full lg:pt-40 transition-transform transform justify-center items-center animate-fade">
               <video
                 autoPlay
                 muted
@@ -70,7 +70,7 @@ function Home() {
         </div>
 
         <div className="lg:w-6/7 flex flex-col md:p-5 lg:p-10 transition-transform transform justify-center md:justify-between items-center pt-72 lg:pt-40 drop-shadow-[0_35px_35px_rgba(0,0,0,0.30)]">
-          <div className="animate-fade-left p-7 w-4/5 bg-[#494949] min-h-auto md:h-80 relative bottom-40 sm:bottom-32 md:bottom-12 lg:bottom-11 rounded-2xl">
+          <div className="animate-fade-left p-7 w-4/5 bg-[#494949] min-h-auto md:h-80 relative bottom-40 sm:bottom-32 md:bottom-12 lg:bottom-40 rounded-2xl">
             <h3 className="text-white font-semibold text-xl">About Cocoon</h3>
             <div>
               <Image
