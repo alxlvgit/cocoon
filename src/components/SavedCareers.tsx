@@ -2,34 +2,32 @@
 
 import { useAppSelector } from "@/redux/hooks";
 
-
-
-
 const SavedCareers = () => {
+  const { pickedCareer } = useAppSelector(
+    (state) => state.resumeProcessingSlice
+  );
 
-    const { pickedCareer } = useAppSelector(
-        (state) => state.resumeProcessingSlice
-    );
-
-
-    return (
-        <>
-            <div className=" bg-blue-100 p-5 rounded-3xl	shadow-md grid grid-rows-3 items-center justify-center">
-                <div>
-                    <p className="font-bold text-lg text-center">Saved Careers</p>
-                </div>
-                <div className="row-span-2">
-                    {pickedCareer ? (<div className="bg-blue-200 my-4 p-2 rounded-md">
-                        {/* should be an array of saved careers */}
-                        {pickedCareer}
-                    </div>) : (null)}
-
-                </div>
+  return (
+    <>
+      <div className="bg-main-bg shadow-xl rounded-2xl flex-col flex items-center justify-start w-full h-96 p-8">
+        <div>
+          <p className="font-bold text-lg mb-2 text-center">Saved Careers</p>
+        </div>
+        <div className="overflow-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 w-full border shadow-lg border-gray-300 rounded-xl h-full bg-bright-main">
+          {pickedCareer ? (
+            <div className="bg-blue-200 my-4 p-10 rounded-md">
+              {/* should be an array of saved careers */}
+              {pickedCareer}
             </div>
-
-
-        </>
-    )
-}
+          ) : (
+            <div className="row-span-6 bg-bright-main h-full rounded-2xl flex items-center justify-center">
+              Nothing to Display
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default SavedCareers;

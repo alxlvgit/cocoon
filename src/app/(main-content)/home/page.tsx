@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import SignoutButton from "@/components/SignoutButton";
 import ProfileClient from "@/components/ProfileClient";
 import Image from "next/image";
+import Test from "@/components/Test";
 
 export default async function Profile() {
   const session = await auth();
@@ -28,8 +29,8 @@ export default async function Profile() {
 
   return (
     <main className="mt-36">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 justify-center w-3/4 m-auto my-5 ">
-        <div className="flex flex-col xs:flex-row xs:justify-between align-middle items-center sm:col-span-2">
+      <div className="flex flex-col justify-center my-5 mx-10">
+        <h1 className="flex flex-col xs:flex-row xs:justify-between align-middle items-center sm:col-span-2  mb-5">
           <div className="w-20 h-20 xs:mr-6 mx-auto">
             <Image
               src={user.image ? user.image : "/assets/avatar-placeholder.jpg"}
@@ -51,8 +52,10 @@ export default async function Profile() {
               }}
             />
           </div>
+        </h1>
+        <div className="grid lg:grid-cols-3 grid-cols-1 gap-3 w-full justify-center items-start">
+          <ProfileClient user={user} />
         </div>
-        <ProfileClient user={user} />
       </div>
     </main>
   );

@@ -23,18 +23,17 @@ export default function TopCareerSuggestions() {
 
   return (
     <>
-      <div className=" bg-blue-100 p-5 rounded-3xl md:row-span-2 	shadow-md grid grid-rows-3 items-center justify-center">
-        <div>
-          <p className="font-bold text-lg text-center">
-            Top career suggestions
-          </p>
+      <div className="bg-main-bg p-3 shadow-xl rounded-2xl flex-col flex items-center justify-start w-full h-96">
+        <p className="font-bold text-lg mb-2 text-center">
+          Top career suggestions
+        </p>
+        <div className="overflow-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 w-full border shadow-lg border-gray-300 rounded-xl px-3 pt-1 pb-3 bg-bright-main">
+          {careersData.splice(0, 5).map((career: any) => (
+            <div key={career.code} className="bg-blue-200 my-4 p-2 rounded-md">
+              <h1>{career.title}</h1>
+            </div>
+          ))}
         </div>
-
-        {careersData.splice(0, 5).map((career: any) => (
-          <div key={career.code} className="bg-blue-200 my-4 p-2 rounded-md">
-            <h1>{career.title}</h1>
-          </div>
-        ))}
         <Link
           href={`/careers`}
           className="bg-blue-300 w-1/2 my-4 p-2 rounded-md border border-gray-600 text-center"
