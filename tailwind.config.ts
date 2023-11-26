@@ -45,4 +45,5 @@ const config: Config = {
     scrollbar: ["rounded"],
   },
 };
+
 export default config;

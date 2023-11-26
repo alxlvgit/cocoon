@@ -17,7 +17,6 @@ const CareerTile = ({ career }: { career: CareerData }) => {
   // };
 
   return (
-   
     <div className="group m-3 mx-auto p-4 w-full lg:w-4/5 justify-center items-center align-middle rounded-2xl bg-custom-gradient shadow-custom-shadow cursor-pointer z-30 border-0 text-black hover:bg-custom-gradient-dark">
       <div className="bg-custom-bg flex flex-col h-full w-full rounded-lg mx-auto p-1 text-center shadow-custom-shadow align-middle items-center justify-center ">
         <div>
@@ -44,6 +43,7 @@ const CareerTile = ({ career }: { career: CareerData }) => {
               Start 
             </Link>
           </div>
+
         </div>
       </div>
     </div>

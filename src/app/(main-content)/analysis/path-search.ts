@@ -196,8 +196,8 @@ export const matchCoursesWithKeyPhrases = async (
 export const findRecommendedPath = async (
   matchingSkillsPercentage: number,
   pickedCareer: string,
-  program: Program,
-  courses: Course[]
+  program?: Program,
+  courses?: Course[]
 ): Promise<RecommendedPathResult | null> => {
   if (
     matchingSkillsPercentage >= 0 &&
