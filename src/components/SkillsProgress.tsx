@@ -1,50 +1,100 @@
-"use client";
+//@ts-nocheck
 
-import { useAppSelector } from "@/redux/hooks";
 import { useEffect, useState } from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
 import Link from "next/link";
+import { useAppSelector } from "@/redux/hooks";
+import { calculateSkillsMatchPercentage } from "@/app/(main-content)/analysis/path-search";
 
-const SkillsProgress = () => {
+interface Proptype {
+  setCurrentPathCoursesAndPrograms: (
+    obj:
+      | {
+          [key: string]: string[];
+        }
+      | undefined
+  ) => void;
+}
+
+const SkillsProgress = ({ setCurrentPathCoursesAndPrograms }: Proptype) => {
+  const { udemyCoursesWithSkills, coursesSkills, programSkills, currentPath } =
+    useAppSelector((state) => state.pathSlice);
+
+  const {
+    missingCareerSkills,
+    pickedCareer,
+    requiredCareerSkills,
+    matchingCareerSkills,
+  } = useAppSelector((state) => state.resumeProcessingSlice);
+
   const completedSkills = useAppSelector(
     (state) => state.pathSlice.completedSkills
   );
-  const [completedPercentage, setCompletedPercentage] = useState(0);
-  const { missingCareerSkills, pickedCareer } = useAppSelector(
-    (state) => state.resumeProcessingSlice
-  );
+  const [progressPercentage, setProgressPercentage] = useState(0);
+
+  const {
+    missingCareerSkills: resumeMissingCareerSkills,
+    pickedCareer: resumePickedCareer,
+  } = useAppSelector((state) => state.resumeProcessingSlice);
+
   const courses = useAppSelector((state) => state.pathSlice.courses);
-  const currentPath = useAppSelector((state) => state.pathSlice.currentPath);
 
   useEffect(() => {
     if (!missingCareerSkills || !pickedCareer) {
       return;
     }
-    const completedPercentage = Math.trunc(
-      (completedSkills.length / missingCareerSkills.length) * 100
-    );
-    setCompletedPercentage(completedPercentage);
-  }, [completedSkills, missingCareerSkills, pickedCareer]);
+
+    if (matchingCareerSkills && requiredCareerSkills) {
+      const skillsMatchedPercentage = calculateSkillsMatchPercentage(
+        matchingCareerSkills,
+        requiredCareerSkills
+      );
+
+      setProgressPercentage(skillsMatchedPercentage);
+    }
+
+    if (currentPath == "Recommended") {
+      setCurrentPathCoursesAndPrograms({ ...programSkills, ...coursesSkills });
+    } else if (currentPath == "Online-Only") {
+      setCurrentPathCoursesAndPrograms(udemyCoursesWithSkills);
+    }
+
+    // if (!matchingCareerSkills || !requiredCareerSkills) {
+    //   const completedPercentage = Math.trunc(
+    //     (completedSkills.length / missingCareerSkills.length) * 100
+    //   );
+    //   setProgressPercentage(completedPercentage);
+    // } else {
+    //   const skillsMatchedPercentage = calculateSkillsMatchPercentage(
+    //     matchingCareerSkills,
+    //     requiredCareerSkills
+    //   );
+    //   setProgressPercentage(skillsMatchedPercentage);
+    // }
+  }, [
+    completedSkills,
+    missingCareerSkills,
+    pickedCareer,
+    matchingCareerSkills,
+    requiredCareerSkills,
+  ]);
 
   return (
     <div className="sm:col-span-2">
       <div className="grid items-center">
-        <div className="bg-main-bg h-full w-full rounded-2xl mx-auto p-4 text-center align-middle items-center justify-center grid grid-cols-1 md:grid-cols-2 shadow-xl">
-          {missingCareerSkills && missingCareerSkills.length > 0 ? (
+        <div className="bg-main-bg h-full w-full rounded-2xl mx-auto p-4 text-center align-middle items-center justify-center grid grid-cols-1  shadow-xl">
+          {missingCareerSkills && missingCareerSkills.length ? (
             <>
               <h1 className="m-5 text-center font-bold md:col-span-2 text-lg mb-8">
                 Career Path: <span>{pickedCareer}</span>
               </h1>
-              <p className="font-extrabold pb-3">
-                Current Lesson: <span> {currentPath} </span>
-              </p>
-              <div className="bg-white flex flex-col items-center justify-center h-32 rounded-xl">
+              <div className="bg-white flex flex-col items-center justify-center h-32 rounded-xl w-full">
                 <p className="text-gray-500">Your progress</p>
                 <p className="text-xl font-extrabold text-blue-500 pb-3">
-                  {completedPercentage}% completed
+                  {progressPercentage}% completed
                 </p>
                 <ProgressBar
-                  completed={completedPercentage}
+                  completed={progressPercentage}
                   maxCompleted={100}
                   bgColor="#2E85B2"
                   animateOnRender={true}

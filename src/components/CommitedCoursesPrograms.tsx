@@ -1,8 +1,75 @@
-export default function CommitedCoursesPrograms() {
+import isEmpty from "@/utils/isEmpty";
+import Link from "next/link";
+import { useState } from "react";
+
+interface SelectedCourse {
+  title: string;
+  skills: string[];
+}
+
+interface PropTypes {
+  currentPathCoursesAndPrograms: Record<string, string[]> | undefined;
+}
+
+type MyModalProps = SelectedCourse | null;
+
+function MyModal(props: MyModalProps = { title: "", skills: [] }) {
+  return (
+    <dialog id="my_modal_3" className="modal">
+      <div className="modal-box h-1/3 md:h-2/3 p-5">
+        <form method="dialog">
+          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+            ✕
+          </button>
+        </form>
+        <div className="p-10 grid grid-rows-3 items-center justify-center">
+          <p className="row-span-1 font-bold text-base md:text-xl p-3">
+            {props?.title}
+          </p>
+          <ul className="row-span-3">
+            {props?.skills.map((skill) => (
+              <>
+                <li className="grid grid-cols-4 ">
+                  <div className="form-control">
+                    <label className="cursor-pointer label">
+                      <input
+                        type="checkbox"
+                        //@ts-ignore
+                        checked="checked" 
+                        className="checkbox checkbox-accent"
+                      />
+                    </label>
+                  </div>
+                  <div className="col-span-3">{skill}</div>
+                </li>
+                <div className="divider divider-accent"></div>
+              </>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </dialog>
+  );
+}
+
+export default function CommitedCoursesPrograms({
+  currentPathCoursesAndPrograms,
+}: PropTypes) {
+  const [selectedCourse, setSelectedCourse] = useState<SelectedCourse | null>(
+    null
+  );
+  console.log("HEY HEY HEY");
+  console.log(currentPathCoursesAndPrograms);
+
+  const handleCourseSelect = (title: string, skills: string[]) => {
+    setSelectedCourse({ title, skills });
+    (document.getElementById("my_modal_3") as HTMLDialogElement).showModal();
+  };
+
   return (
     <div className="sm:col-span-2">
       <div className="grid items-center">
-        <div className="bg-main-bg h-96 w-full rounded-2xl mx-auto p-4 text-center align-middle items-center justify-center grid grid-cols-1 md:grid-cols-4 shadow-xl">
+        <div className="bg-main-bg h-auto w-full rounded-2xl mx-auto p-4 text-center align-middle items-center justify-center grid grid-cols-1 md:grid-cols-4 shadow-xl">
           <div className="col-span-1 items-center justify-center">
             <div className="flex items-center justify-center">
               <svg
@@ -38,11 +105,44 @@ export default function CommitedCoursesPrograms() {
             <p className="font-bold pt-2">Completed Courses: 0</p>
           </div>
           <div className="col-span-3 grid grid-rows-7 w-full h-full">
-            <p className="text-lg w-fit place-self-center font-bold">
+            <p className="text-lg w-fit place-self-center font-bold pb-3">
               Courses and Programs
             </p>
-            <div className="row-span-6 bg-bright-main h-full rounded-2xl flex items-center justify-center">
-              Nothing to display
+            <MyModal
+              title={selectedCourse?.title || ""}
+              skills={selectedCourse?.skills || []}
+            />
+            <div className="row-span-6 bg-bright-main h-full rounded-2xl items-center justify-center grid grid-cols-2 gap-3 p-3 md:p-5">
+              <>
+                {currentPathCoursesAndPrograms &&
+                !isEmpty(currentPathCoursesAndPrograms) ? (
+                  Object.keys(currentPathCoursesAndPrograms).map((val) => (
+                    <div
+                      key={val}
+                      className="bg-main-bg p-5 md:p-10 w-full h-full rounded-lg drop-shadow-md place-self-center grid grid-rows-2 gap-5"
+                    >
+                      <div className="text-black h-2/3 place-content-center">
+                        <p>{val}</p>
+                      </div>
+                      <button
+                        className="h-fit px-3 py-1 border border-gray-400 rounded-lg shadow place-self-center hover:bg-white bg-button-bg w-fit text-xs text-center hover:cursor-pointer"
+                        onClick={() =>
+                          handleCourseSelect(
+                            val,
+                            currentPathCoursesAndPrograms[val]
+                          )
+                        }
+                      >
+                        View Details
+                      </button>
+                    </div>
+                  ))
+                ) : (
+                  <div className="col-span-2 p-36 flex items-center justify-center">
+                    <p>Nothing to display</p>
+                  </div>
+                )}
+              </>
             </div>
           </div>
         </div>
