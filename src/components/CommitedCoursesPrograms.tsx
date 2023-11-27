@@ -34,7 +34,8 @@ function MyModal(props: MyModalProps = { title: "", skills: [] }) {
                     <label className="cursor-pointer label">
                       <input
                         type="checkbox"
-                        checked="checked"
+                        //@ts-ignore
+                        checked="checked" 
                         className="checkbox checkbox-accent"
                       />
                     </label>

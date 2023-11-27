@@ -17,20 +17,33 @@ const CareerTile = ({ career }: { career: CareerData }) => {
   // };
 
   return (
-    <div className="group mx-auto p-4 w-full lg:w-4/5 justify-center items-center align-middle rounded-2xl bg-custom-gradient shadow-custom-shadow cursor-pointer z-30 border-0 text-black hover:bg-custom-gradient-dark">
-      <div className="bg-custom-bg flex flex-col h-full w-full rounded-lg mx-auto p-3 text-center shadow-custom-shadow align-middle items-center justify-center">
+    <div className="group m-3 mx-auto p-4 w-full lg:w-4/5 justify-center items-center align-middle rounded-2xl bg-custom-gradient shadow-custom-shadow cursor-pointer z-30 border-0 text-black hover:bg-custom-gradient-dark">
+      <div className="bg-custom-bg flex flex-col h-full w-full rounded-lg mx-auto p-1 text-center shadow-custom-shadow align-middle items-center justify-center ">
         <div>
-          <h1 className="text-md md:text-base lg:text-lg text-center w-full">
+          <h1 className="text-md md:text-base lg:text-lg text-center w-full mt-2 ">
             {career.title}
           </h1>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-1 pt-5 lg:gap-4 gap-1">
-          <Link
-            href={`/career/${career.code}`}
+
+
+        <div className="flex flex-cols-2">
+          <div className=" invisible group-hover:visible grid grid-cols-1 lg:grid-cols-1 pt-2 lg:gap-4 gap-1 ">
+            <Link
+              href={`/career/${career.code}`}
+              className={`  text-black bg-button-bg hover:bg-button-bg-hover focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700`}
+            >
+              Show Detail
+            </Link>
+          </div>
+          <div className=" invisible group-hover:visible grid grid-cols-1 lg:grid-cols-1 pt-2 lg:gap-4 gap-1 ">
+            <Link
+              href={`/uploads/${career.code}`}
             className={`group-hover:block hidden text-black bg-button-bg hover:bg-button-bg-hover focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700`}
-          >
-            Show Details
-          </Link>
+            >
+              Start 
+            </Link>
+          </div>
+
         </div>
       </div>
     </div>
