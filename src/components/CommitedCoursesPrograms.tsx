@@ -35,7 +35,7 @@ function MyModal(props: MyModalProps = { title: "", skills: [] }) {
                       <input
                         type="checkbox"
                         //@ts-ignore
-                        checked="checked" 
+                        checked="checked"
                         className="checkbox checkbox-accent"
                       />
                     </label>
@@ -82,15 +82,15 @@ export default function CommitedCoursesPrograms({
                 <path
                   d="M20.166 28.7677L20.166 23.726"
                   stroke="#222222"
-                  stroke-width="3.36119"
-                  stroke-linecap="round"
+                  strokeWidth="3.36119"
+                  strokeLinecap="round"
                 />
                 <path
                   d="M28.7324 8.07159L28.7324 14.8208L28.7324 19.8826"
                   stroke="#222222"
-                  stroke-width="3.36119"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="3.36119"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
                 <path
                   d="M26.3379 5.8153V14.2651C26.3379 15.1933 27.0903 15.9457 28.0185 15.9457H43.1493C43.938 15.9457 44.2922 14.9572 43.6829 14.4563L38.7057 10.3648C38.5013 10.1967 38.5013 9.88374 38.7057 9.71566L43.6829 5.62412C44.2922 5.12325 43.938 4.1347 43.1493 4.1347H28.0185C27.0903 4.1347 26.3379 4.88713 26.3379 5.8153Z"

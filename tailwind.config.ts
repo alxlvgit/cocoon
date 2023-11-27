@@ -43,11 +43,7 @@ const config: Config = {
     },
   },
   darkMode: "class",
-  plugins: [
-    require("tailwindcss-animated"),
-    require("tailwind-scrollbar"),
-    require("daisyui"),
-  ],
+  plugins: [require("tailwindcss-animated"), require("tailwind-scrollbar")],
   variants: {
     scrollbar: ["rounded"],
   },

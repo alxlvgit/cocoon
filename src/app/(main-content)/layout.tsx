@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { ReduxProvider } from "@/redux/provider";
 
-const inter = Roboto({ weight:["400", "500", "700"] ,subsets: ["latin-ext"] });
+const inter = Roboto({ weight: ["400", "500", "700"], subsets: ["latin-ext"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark:bg-black dark:text-white">
+    <html lang="en" className="w-full h-full">
       <ReduxProvider>
         <body className={`${inter.className}`}>
           <NavBar />
