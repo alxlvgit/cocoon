@@ -10,19 +10,22 @@ const config: Config = {
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        'custom-gradient': 'linear-gradient(180deg, #6DB8C5 0%, rgba(161, 247, 247, 0) 100%)',
-        'custom-gradient-dark': 'linear-gradient(180deg, #4B8B9B 100%, rgba(120, 220, 220, 0) 100%)',
+        "gradient-conic":
+          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "custom-gradient":
+          "linear-gradient(180deg, #6DB8C5 0%, rgba(161, 247, 247, 0) 100%)",
+        "custom-gradient-dark":
+          "linear-gradient(180deg, #4B8B9B 100%, rgba(120, 220, 220, 0) 100%)",
       },
       boxShadow: {
-        'custom-shadow': '2px 6px 6px rgba(0, 0, 0, 0.25)',
+        "custom-shadow": "2px 6px 6px rgba(0, 0, 0, 0.25)",
       },
       backgroundColor: {
-      "356CBE": "#356CBE",
-        'custom-bg': '#C3EBF2',
-        'button-bg': '#DBC2CF',
-        'button-bg-hover': '#9E8B9A',
-        'main-bg': '#6DB8C5',
+        "356CBE": "#356CBE",
+        "custom-bg": "#C3EBF2",
+        "button-bg": "#DBC2CF",
+        "button-bg-hover": "#9E8B9A",
+        "main-bg": "#6DB8C5",
         "bright-main": "#D0F0F6",
       },
       colors: {
@@ -40,7 +43,11 @@ const config: Config = {
     },
   },
   darkMode: "class",
-  plugins: [require("tailwindcss-animated"), require("tailwind-scrollbar")],
+  plugins: [
+    require("tailwindcss-animated"),
+    require("tailwind-scrollbar"),
+    require("daisyui"),
+  ],
   variants: {
     scrollbar: ["rounded"],
   },

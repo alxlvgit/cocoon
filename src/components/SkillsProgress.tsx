@@ -77,11 +77,6 @@ const SkillsProgress = ({ setCurrentPathCoursesAndPrograms }: Proptype) => {
     requiredCareerSkills,
   ]);
 
-  console.log(currentPath);
-  console.log(udemyCoursesWithSkills);
-  console.log(coursesSkills);
-  console.log(programSkills);
-
   return (
     <div className="sm:col-span-2">
       <div className="grid items-center">
