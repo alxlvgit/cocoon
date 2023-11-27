@@ -42,8 +42,15 @@ const config: Config = {
       xl: "1280px",
     },
   },
+  daisyui: {
+    themes: ["light"],
+  },
   darkMode: "class",
-  plugins: [require("tailwindcss-animated"), require("tailwind-scrollbar")],
+  plugins: [
+    require("tailwindcss-animated"),
+    require("tailwind-scrollbar"),
+    require("daisyui"),
+  ],
   variants: {
     scrollbar: ["rounded"],
   },
