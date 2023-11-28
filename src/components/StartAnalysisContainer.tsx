@@ -10,17 +10,17 @@ export default function StartAnalysisContainer({
   careerCode: string;
 }) {
   return (
-    <div className="bg-blue-100 p-10 rounded-3xl	 shadow-md flex flex-col items-center md:col-span-2">
+    <div className="bg-bright-main p-10 rounded-3xl	 shadow-md flex flex-col items-center justify-between md:col-span-2">
       <div>
-        <h1 className="font-semibold text-base mb-3">{title}</h1>
+        <h1 className="font-semibold text-lg mb-3">{title}</h1>
       </div>
       <div className="pb-3">
         <p className="text-sm">{data}</p>
       </div>
-      <div>
+      <div className="mt-6">
         <Link
           href={`/uploads/${careerCode}`}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-button-bg text-black border font-bold border-gray-500 hover:bg-white py-2 px-8 rounded-lg animate-pulse"
         >
           Start
         </Link>

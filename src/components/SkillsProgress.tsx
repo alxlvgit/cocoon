@@ -80,26 +80,28 @@ const SkillsProgress = ({ setCurrentPathCoursesAndPrograms }: Proptype) => {
   ]);
 
   return (
-    <div className="bg-main-bg h-full col-span-2 w-full rounded-2xl p-4 sm:p-8 text-center flex flex-col  align-middle items-center justify-between shadow-xl">
+    <div className="bg-main-bg h-full col-span-2 w-full rounded-2xl p-4 sm:p-10 text-center flex flex-col  align-middle items-center justify-between shadow-xl">
       {missingCareerSkills && missingCareerSkills.length ? (
         <>
-          <h1 className="m-5 text-center font-bold md:col-span-2 text-lg mb-8">
+          <h1 className="text-center font-bold md:col-span-2 text-lg mb-8">
             Career Path: <span>{pickedCareer}</span>
           </h1>
-          <div className="bg-white flex flex-col items-center justify-center h-32 rounded-xl w-full">
-            <div className="flex flex-col sm:items-start justify-center sm:justify-start w-full sm:w-4/5">
-              <p className="text-gray-500">Your progress</p>
-              <p className="text-xl font-extrabold text-blue-500 pb-3">
-                {progressPercentage}% completed
-              </p>
+          <div className="flex h-full w-full sm:p-8">
+            <div className="bg-white flex flex-col items-center justify-center p-8 rounded-xl w-full">
+              <div className="flex flex-col sm:items-start justify-center sm:justify-start w-full">
+                <p className="text-gray-400">Your progress</p>
+                <p className="text-xl font-extrabold text-gray-600 pb-3">
+                  {progressPercentage}% completed
+                </p>
+              </div>
+              <ProgressBar
+                completed={progressPercentage}
+                maxCompleted={100}
+                bgColor="#6DB8C5"
+                animateOnRender={true}
+                className="w-full sm:p-0"
+              />
             </div>
-            <ProgressBar
-              completed={progressPercentage}
-              maxCompleted={100}
-              bgColor="#6DB8C5"
-              animateOnRender={true}
-              className="w-full sm:w-4/5 p-2 sm:p-0"
-            />
           </div>
           {/* {courses.map((course) => (
                 <div

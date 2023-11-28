@@ -36,7 +36,7 @@ export default function TopCareerSuggestions() {
         </div>
         <Link
           href={`/careers`}
-          className="bg-blue-300 w-1/2 my-4 p-2 rounded-md border border-gray-600 text-center"
+          className="bg-button-bg hover:bg-white w-fit mt-4 px-8 py-1 text-sm rounded-md border border-gray-600 text-center"
         >
           See More
         </Link>
