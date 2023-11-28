@@ -34,15 +34,21 @@ const AllCareerData = async ({ careerCode }: { careerCode: string }) => {
 
   return (
     <>
-      <h1 className="font-semibold text-lg mb-3 md:col-span-2 text-center">
+      <h1 className="font-semibold text-xl mb-3 md:col-span-2 text-center">
         {career.title}
       </h1>
-      <SalaryDetails careerOutlook={careerOutlookData} />
-      <CareerInfo title={"Who they are"} whatTheyDo={career.what_they_do} />
       {outlook && (
         <CareerOutlook careerOutlook={outlook} brightOutlook={brightOutlook} />
       )}
-      <CareerInfo title={"What they do"} whatTheyDo={career.on_the_job.task} />
+      <SalaryDetails careerOutlook={careerOutlookData} />
+      <CareerInfo
+        title={"Tasks Performed By Workers In The Career"}
+        whatTheyDo={career.what_they_do}
+      />
+      <CareerInfo
+        title={"Career Description"}
+        whatTheyDo={career.on_the_job.task}
+      />
     </>
   );
 };

@@ -11,13 +11,13 @@ async function Careers() {
   // console.log(careersData, "careersData");
 
   return (
-    <main className="mt-36">
+    <main className="mt-24 sm:mt-36 pb-10">
       <div>
         <h1 className="m-5 text-center font-bold text-2xl">
           Make Your Next Step With Us!
         </h1>
       </div>
-      <div className="grid gap-4 sm:gap-6 justify-center grid-cols-1 md:grid-cols-2 w-3/4 m-auto my-10 auto-rows-fr">
+      <div className="grid gap-8 lg:gap-10 justify-center grid-cols-1 xs:grid-cols-2 md:grid-cols-3 w-3/5 xs:w-3/4 m-auto my-10 auto-rows-fr">
         {careersData.map((career: any) => (
           <CareerTile key={career.code} career={career} />
         ))}

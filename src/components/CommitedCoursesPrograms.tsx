@@ -67,9 +67,9 @@ export default function CommitedCoursesPrograms({
   };
 
   return (
-    <div className="sm:col-span-2">
-      <div className="grid items-center">
-        <div className="bg-main-bg h-auto w-full rounded-2xl mx-auto p-4 text-center align-middle items-center justify-center grid grid-cols-1 md:grid-cols-4 shadow-xl">
+    <div className="col-span-2">
+      <div className="grid items-center w-full">
+        <div className="bg-main-bg h-auto w-full rounded-2xl mx-auto p-4 text-center align-middle items-center justify-center grid grid-cols-1 gap-4 md:grid-cols-4 shadow-xl">
           <div className="col-span-1 items-center justify-center">
             <div className="flex items-center justify-center">
               <svg
@@ -104,7 +104,7 @@ export default function CommitedCoursesPrograms({
             </div>
             <p className="font-bold pt-2">Completed Courses: 0</p>
           </div>
-          <div className="col-span-3 grid grid-rows-7 w-full h-full">
+          <div className="md:col-span-3 grid grid-rows-7 w-full h-full">
             <p className="text-lg w-fit place-self-center font-bold pb-3">
               Courses and Programs
             </p>
@@ -112,14 +112,14 @@ export default function CommitedCoursesPrograms({
               title={selectedCourse?.title || ""}
               skills={selectedCourse?.skills || []}
             />
-            <div className="row-span-6 bg-bright-main h-full rounded-2xl items-center justify-center grid grid-cols-2 gap-3 p-3 md:p-5">
+            <div className="row-span-6 bg-bright-main h-full rounded-2xl items-center align-middle justify-center grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 md:p-5">
               <>
                 {currentPathCoursesAndPrograms &&
                 !isEmpty(currentPathCoursesAndPrograms) ? (
                   Object.keys(currentPathCoursesAndPrograms).map((val) => (
                     <div
                       key={val}
-                      className="bg-main-bg p-5 md:p-10 w-full h-full rounded-lg drop-shadow-md place-self-center grid grid-rows-2 gap-5"
+                      className="bg-main-bg p-5 md:p-8 w-full h-full gap-6 rounded-lg drop-shadow-md place-self-center flex flex-col justify-between items-center"
                     >
                       <div className="text-black h-2/3 place-content-center">
                         <p>{val}</p>
@@ -138,8 +138,8 @@ export default function CommitedCoursesPrograms({
                     </div>
                   ))
                 ) : (
-                  <div className="col-span-2 p-36 flex items-center justify-center">
-                    <p>Nothing to display</p>
+                  <div className="col-span-2 h-96 flex items-center justify-center">
+                    <p className="text-center w-full">Nothing to display</p>
                   </div>
                 )}
               </>

@@ -8,7 +8,7 @@ const ProcessingStatus = ({
   return (
     <>
       {error ? (
-        <div className="flex flex-col m-2 items-center p-3 px-10 bg-white border border-gray-600 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 space-y-2 w-6/12 mb-10">
+        <div className="flex flex-col m-2 px-10 items-center p-3 bg-white border border-gray-600 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 space-y-2 w-6/12 ">
           <div
             aria-label="Loading..."
             role="status"
@@ -34,7 +34,7 @@ const ProcessingStatus = ({
           </div>
         </div>
       ) : (
-        <div className="flex flex-col m-2 items-center p-3 px-10 bg-white border border-gray-600 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 space-y-2 w-6/12 mb-10">
+        <div className="flex flex-col m-2 items-center p-3 px-10 bg-white border border-gray-600 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 space-y-2 w-5/6 sm:w-6/12">
           <div
             aria-label="Loading..."
             role="status"
