@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import defaultTheme from "tailwindcss/defaultTheme";
 
 const config: Config = {
   content: [
@@ -36,10 +37,7 @@ const config: Config = {
     },
     screens: {
       xs: "475px",
-      sm: "640px",
-      md: "768px",
-      lg: "1025px",
-      xl: "1280px",
+      ...defaultTheme.screens,
     },
   },
   daisyui: {

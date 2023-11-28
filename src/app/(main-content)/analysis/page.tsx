@@ -9,8 +9,8 @@ export default async function Path() {
   // }
 
   return (
-    <main className="mt-36">
-      <div className="flex flex-col justify-center my-5 mx-10">
+    <main className="mt-24 sm:mt-36 pb-10">
+      <div className="flex flex-col justify-center my-5 mx-6 xs:mx-10">
         <h1 className="text-center font-bold text-xl mb-12">
           Career Path Analysis Results
         </h1>

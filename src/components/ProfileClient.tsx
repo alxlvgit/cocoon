@@ -10,7 +10,7 @@ export default function ProfileClient({ user }: { user: any }) {
     useState<{ [x: string]: string[] } | undefined>({});
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:col-span-2">
         <SkillsProgress
           setCurrentPathCoursesAndPrograms={setCurrentPathCoursesAndPrograms}
         />
@@ -18,7 +18,7 @@ export default function ProfileClient({ user }: { user: any }) {
           currentPathCoursesAndPrograms={currentPathCoursesAndPrograms}
         />
       </div>
-      <div className="grid grid-cols-1 gap-3">
+      <div className="grid grid-cols-1 gap-4 h-fit items-start justify-start">
         <TopCareerSuggestions />
         <SavedCareers />
       </div>
