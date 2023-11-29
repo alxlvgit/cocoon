@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import SignoutButton from "@/components/SignoutButton";
 import ProfileClient from "@/components/ProfileClient";
 import Image from "next/image";
-import Test from "@/components/Test";
 
 export default async function Profile() {
   const session = await auth();
