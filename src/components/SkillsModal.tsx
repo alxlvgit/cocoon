@@ -54,9 +54,7 @@ export default function SkillsModal({
 
     setSkillsAcquired(updatedSkillsAcquired);
 
-    if (missingCareerSkills) {
-      dispatch(updateMissingSkills({ skills: updatedSkillsAcquired }));
-    }
+    dispatch(updateMissingSkills({ skills: updatedSkillsAcquired }));
   };
 
   return (
