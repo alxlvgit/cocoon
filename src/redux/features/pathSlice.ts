@@ -2,15 +2,44 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Course, Program } from "@/types/types";
 import { UdemyCourse } from "@/app/(main-content)/analysis/fetch-udemy";
 
+export type PathSkill = {
+  skill: string;
+  acquired: boolean;
+};
+
+export type ProgramWithSkills = {
+  skills: PathSkill[];
+  program: Program;
+};
+
+export type CourseWithSkills = {
+  skills: PathSkill[];
+  course: Course;
+};
+
+export type UdemyCourseWithSkills = {
+  skills: PathSkill[];
+  course: UdemyCourse;
+};
+
+export type RecommendedPath = {
+  bcitProgram?: { [key: string]: ProgramWithSkills };
+  bcitCourses?: { [key: string]: CourseWithSkills };
+  udemyCourses?: { [key: string]: UdemyCourseWithSkills };
+};
+
+export type UdemyPath = {
+  [key: string]: UdemyCourseWithSkills;
+};
+
 type PathState = {
   currentPath: string;
   completedSkills: string[];
-  programSkills: { [x: string]: string[] } | undefined;
   program: Program | undefined;
-  coursesSkills: { [key: string]: string[] } | undefined;
   courses: Course[] | undefined;
   udemyCourses: UdemyCourse[] | undefined;
-  udemyCoursesWithSkills: { [key: string]: string[] } | undefined;
+  recommendedPath: RecommendedPath | undefined;
+  udemyPath: UdemyPath | undefined;
 };
 
 type SkillStatus = {
@@ -22,11 +51,10 @@ const initialState: PathState = {
   currentPath: "",
   completedSkills: [],
   program: undefined,
-  programSkills: {},
+  recommendedPath: undefined,
+  udemyPath: undefined,
   courses: undefined,
-  coursesSkills: {},
   udemyCourses: undefined,
-  udemyCoursesWithSkills: {},
 };
 
 export const pathSlice = createSlice({
@@ -39,29 +67,17 @@ export const pathSlice = createSlice({
     setProgram: (state, action: PayloadAction<Program>) => {
       state.program = action.payload;
     },
-    setProgramSkills: (
-      state,
-      action: PayloadAction<{ [x: string]: string[] }>
-    ) => {
-      state.programSkills = action.payload;
-    },
     setCourses: (state, action: PayloadAction<Course[]>) => {
       state.courses = action.payload;
-    },
-    setCoursesSkills: (
-      state,
-      action: PayloadAction<{ [key: string]: string[] }>
-    ) => {
-      state.coursesSkills = action.payload;
     },
     setUdemyCourses: (state, action: PayloadAction<UdemyCourse[]>) => {
       state.udemyCourses = action.payload;
     },
-    setUdemyCoursesWithSkills: (
-      state,
-      action: PayloadAction<{ [key: string]: string[] }>
-    ) => {
-      state.udemyCoursesWithSkills = action.payload;
+    setRecommendedPath: (state, action: PayloadAction<RecommendedPath>) => {
+      state.recommendedPath = action.payload;
+    },
+    setUdemyPath: (state, action: PayloadAction<UdemyPath>) => {
+      state.udemyPath = action.payload;
     },
     setCompletedSkills: (state, action: PayloadAction<SkillStatus>) => {
       const { skill, status } = action.payload;
@@ -99,11 +115,10 @@ export const pathSlice = createSlice({
       state.currentPath = "";
       state.completedSkills = [];
       state.program = undefined;
-      state.programSkills = {};
       state.courses = undefined;
-      state.coursesSkills = {};
       state.udemyCourses = undefined;
-      state.udemyCoursesWithSkills = {};
+      state.recommendedPath = undefined;
+      state.udemyPath = undefined;
     },
   },
 });
@@ -113,10 +128,9 @@ export const {
   setCompletedSkills,
   setProgram,
   setCourses,
-  setProgramSkills,
-  setCoursesSkills,
   setUdemyCourses,
-  setUdemyCoursesWithSkills,
+  setRecommendedPath,
+  setUdemyPath,
   resetState,
 } = pathSlice.actions;
 

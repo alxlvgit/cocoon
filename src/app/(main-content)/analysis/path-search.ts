@@ -1,3 +1,10 @@
+import {
+  CourseWithSkills,
+  ProgramWithSkills,
+  RecommendedPath,
+  UdemyCourseWithSkills,
+  UdemyPath,
+} from "@/redux/features/pathSlice";
 import { semanticSearchLambda } from "../uploads/document-processing";
 import { UdemyCourse, searchUdemyCourses } from "./fetch-udemy";
 import programsData from "@/programsData.json";
@@ -5,7 +12,7 @@ import { Course, Program, SemanticSearchResult } from "@/types/types";
 
 type MatchedBcitCoursesResult =
   | {
-      coursesWithSkills: { [key: string]: string[] };
+      coursesWithSkills: { [key: string]: CourseWithSkills };
       courses: Course[];
       error?: undefined;
     }
@@ -27,7 +34,7 @@ type MatchedBcitProgramsResult =
 
 type BestMatchedBcitProgramResult =
   | {
-      programWithSkills: { [key: string]: string[] };
+      programWithSkills: ProgramWithSkills;
       program: Program;
       error?: undefined;
     }
@@ -40,7 +47,7 @@ type BestMatchedBcitProgramResult =
 type UdemyPathResult =
   | {
       udemyCourses: UdemyCourse[];
-      udemyCoursesWithSkills: { [key: string]: string[] };
+      udemyCoursesWithSkills: UdemyPath;
       error?: undefined;
     }
   | {
@@ -48,12 +55,6 @@ type UdemyPathResult =
       udemyCoursesWithSkills?: undefined;
       error: string;
     };
-
-export type RecommendedPathResult = {
-  bcitProgram?: Program;
-  bcitCourses?: Course[];
-  udemyCourses?: UdemyCourse;
-};
 
 // Calculate the matching skills percentage
 export const calculateSkillsMatchPercentage = (
@@ -95,7 +96,11 @@ export const findBestMatchProgram = async (
       if (bestMatchProgramObject) {
         return {
           programWithSkills: {
-            [bestMatchProgramObject.programName]: missingSkills,
+            skills: missingSkills.map((skill) => ({
+              skill: skill,
+              acquired: false,
+            })),
+            program: bestMatchProgramObject,
           },
           program: bestMatchProgramObject,
         };
@@ -164,22 +169,28 @@ export const matchCoursesWithKeyPhrases = async (
     } = await semanticSearchLambda(keyPhrases, coursesNames, 0.7, 1, 1);
 
     const matchedCoursesWithSkills: {
-      [key: string]: string[];
+      [key: string]: CourseWithSkills;
     } = {};
 
     const matchedCourses = new Set<Course>();
 
     Object.entries(courseSearch).map(([key, value]) => {
-      const course = courses.find(
+      const course: Course = courses.find(
         (course: { courseName: string }) =>
           course.courseName.toLowerCase() === value[0].pageContent.toLowerCase()
       );
       if (course) {
         matchedCourses.add(course);
         if (!matchedCoursesWithSkills[course.courseName]) {
-          matchedCoursesWithSkills[course.courseName] = [];
+          matchedCoursesWithSkills[course.courseName] = {
+            skills: [],
+            course: course,
+          };
         }
-        matchedCoursesWithSkills[course.courseName].push(key);
+        matchedCoursesWithSkills[course.courseName].skills.push({
+          skill: key,
+          acquired: false,
+        });
       }
     });
     return {
@@ -196,31 +207,47 @@ export const matchCoursesWithKeyPhrases = async (
 export const findRecommendedPath = async (
   matchingSkillsPercentage: number,
   pickedCareer: string,
-  program?: Program,
-  courses?: Course[]
-): Promise<RecommendedPathResult | null> => {
+  missingSkills: string[],
+  programWithSkills?: ProgramWithSkills,
+  coursesWithSkills?: { [key: string]: CourseWithSkills }
+): Promise<RecommendedPath | null> => {
   if (
     matchingSkillsPercentage >= 0 &&
     matchingSkillsPercentage <= 50 &&
-    program
+    programWithSkills
   ) {
-    return { bcitProgram: program };
+    return {
+      bcitProgram: {
+        [programWithSkills.program.programName]: programWithSkills,
+      },
+    };
   }
 
   if (
     matchingSkillsPercentage > 50 &&
     matchingSkillsPercentage < 70 &&
-    courses
+    coursesWithSkills
   ) {
-    return { bcitCourses: courses };
+    return { bcitCourses: coursesWithSkills };
   }
   const udemyCourses = await searchUdemyCourses(pickedCareer, 1);
+  const formatedMissingSkills = missingSkills.map((skill) => ({
+    skill: skill,
+    acquired: false,
+  }));
   if (
     matchingSkillsPercentage >= 70 &&
     matchingSkillsPercentage < 100 &&
     udemyCourses
   ) {
-    return { udemyCourses: udemyCourses[0] };
+    return {
+      udemyCourses: {
+        [udemyCourses[0].title]: {
+          skills: formatedMissingSkills,
+          course: udemyCourses[0],
+        },
+      },
+    };
   }
   return null;
 };
@@ -258,7 +285,7 @@ export const findUdemyPath = async (
 
     const matchingCourses = new Set<UdemyCourse>();
     const matchingCoursesWithSkills: {
-      [key: string]: string[];
+      [key: string]: UdemyCourseWithSkills;
     } = {};
 
     Object.entries(result).map(([key, value]) => {
@@ -268,9 +295,15 @@ export const findUdemyPath = async (
       if (course) {
         matchingCourses.add(course);
         if (!matchingCoursesWithSkills[course.title]) {
-          matchingCoursesWithSkills[course.title] = [];
+          matchingCoursesWithSkills[course.title] = {
+            skills: [],
+            course: course,
+          };
         }
-        matchingCoursesWithSkills[course.title].push(key);
+        matchingCoursesWithSkills[course.title].skills.push({
+          skill: key,
+          acquired: false,
+        });
       }
     });
 

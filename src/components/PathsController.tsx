@@ -1,17 +1,15 @@
 "use client";
 
 import {
-  RecommendedPathResult,
   findBestMatchProgram,
   matchCoursesWithKeyPhrases,
 } from "@/app/(main-content)/analysis/path-search";
 import {
   setCourses,
-  setCoursesSkills,
+  setRecommendedPath,
+  setUdemyPath,
   setProgram,
-  setProgramSkills,
   setUdemyCourses,
-  setUdemyCoursesWithSkills,
 } from "@/redux/features/pathSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import React, { useEffect, useState } from "react";
@@ -20,7 +18,6 @@ import {
   findRecommendedPath,
   findUdemyPath,
 } from "@/app/(main-content)/analysis/path-search";
-import { UdemyCourse } from "@/app/(main-content)/analysis/fetch-udemy";
 import PathsSelection from "./PathsSelection";
 import SkillsContainer from "./SkillsContainer";
 import SkillsMatchInfo from "./SkillsMatchInfo";
@@ -37,10 +34,8 @@ const PathsController = () => {
   } = useAppSelector((state) => state.resumeProcessingSlice);
 
   const [skillsMatch, setSkillsMatch] = useState<number | null>(null);
-  const [recommendedPathData, setRecommendedPath] =
-    useState<RecommendedPathResult>({});
-  const [udemyPathData, setOnlineOnlyPath] = useState<UdemyCourse[] | null>(
-    null
+  const { recommendedPath, udemyPath } = useAppSelector(
+    (state) => state.pathSlice
   );
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -84,19 +79,20 @@ const PathsController = () => {
         );
         const { courses, coursesWithSkills } = matchedCoursesResult;
         const { program, programWithSkills } = matchedProgramResult;
-        if (courses && coursesWithSkills && program && programWithSkills) {
+        if (courses && program && coursesWithSkills && programWithSkills) {
           dispatch(setCourses(matchedCoursesResult.courses));
           dispatch(setProgram(matchedProgramResult.program));
-          dispatch(setCoursesSkills(matchedCoursesResult.coursesWithSkills));
-          dispatch(setProgramSkills(matchedProgramResult.programWithSkills));
         }
         const recommendedPath = await findRecommendedPath(
           skillsMatchedPercentage,
           pickedCareer,
-          program,
-          courses
+          missingCareerSkills,
+          programWithSkills,
+          coursesWithSkills
         );
-        recommendedPath && setRecommendedPath(recommendedPath);
+        if (recommendedPath) {
+          dispatch(setRecommendedPath(recommendedPath));
+        }
         const udemyCoursesResult = await findUdemyPath(
           pickedCareer,
           missingCareerSkills
@@ -112,8 +108,7 @@ const PathsController = () => {
           );
           return;
         }
-        setOnlineOnlyPath(udemyCoursesResult.udemyCourses);
-        dispatch(setUdemyCoursesWithSkills(udemyCoursesWithSkills));
+        dispatch(setUdemyPath(udemyCoursesResult.udemyCoursesWithSkills));
         dispatch(setUdemyCourses(udemyCourses));
         setLoading(false);
       } catch (error) {
@@ -140,8 +135,8 @@ const PathsController = () => {
         </>
       ) : pickedCareer &&
         skillsMatch !== null &&
-        recommendedPathData &&
-        udemyPathData &&
+        recommendedPath &&
+        udemyPath &&
         missingCareerSkills &&
         matchingCareerSkills ? (
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 w-full justify-center items-start">
@@ -162,8 +157,8 @@ const PathsController = () => {
             />
           </div>
           <PathsSelection
-            recommendedPath={recommendedPathData}
-            udemyPath={udemyPathData}
+            recommendedPath={recommendedPath}
+            udemyPath={udemyPath}
           />
         </div>
       ) : (

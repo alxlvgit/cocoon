@@ -28,7 +28,7 @@ export default async function Profile() {
   }
 
   return (
-    <main className="mt-24 sm:mt-36 pb-10">
+    <main className="mt-24 sm:mt-36 pb-10 max-w-screen-2xl m-auto">
       <div className="flex flex-col justify-center my-5 mx-6 xs:mx-10">
         <div className="flex flex-col xs:flex-row xs:justify-between align-middle items-center sm:col-span-2 mb-8">
           <div className="w-20 h-20 xs:mr-6 mx-auto">

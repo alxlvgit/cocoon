@@ -1,14 +1,16 @@
+import {
+  CourseWithSkills,
+  PathSkill,
+  ProgramWithSkills,
+  UdemyCourseWithSkills,
+} from "@/redux/features/pathSlice";
+import { useAppSelector } from "@/redux/hooks";
 import isEmpty from "@/utils/isEmpty";
-import Link from "next/link";
 import { useState } from "react";
 
 interface SelectedCourse {
   title: string;
-  skills: string[];
-}
-
-interface PropTypes {
-  currentPathCoursesAndPrograms: Record<string, string[]> | undefined;
+  skills: PathSkill[];
 }
 
 type MyModalProps = SelectedCourse | null;
@@ -27,7 +29,7 @@ function MyModal(props: MyModalProps = { title: "", skills: [] }) {
             {props?.title}
           </p>
           <ul className="row-span-3">
-            {props?.skills.map((skill) => (
+            {props?.skills.map((skillData) => (
               <>
                 <li className="grid grid-cols-4 ">
                   <div className="form-control">
@@ -40,7 +42,7 @@ function MyModal(props: MyModalProps = { title: "", skills: [] }) {
                       />
                     </label>
                   </div>
-                  <div className="col-span-3">{skill}</div>
+                  <div className="col-span-3">{skillData.skill}</div>
                 </li>
                 <div className="divider divider-accent"></div>
               </>
@@ -52,16 +54,36 @@ function MyModal(props: MyModalProps = { title: "", skills: [] }) {
   );
 }
 
-export default function CommitedCoursesPrograms({
-  currentPathCoursesAndPrograms,
-}: PropTypes) {
+export default function CommitedCoursesPrograms() {
   const [selectedCourse, setSelectedCourse] = useState<SelectedCourse | null>(
     null
   );
-  console.log("HEY HEY HEY");
-  console.log(currentPathCoursesAndPrograms);
 
-  const handleCourseSelect = (title: string, skills: string[]) => {
+  const { currentPath, recommendedPath, udemyPath } = useAppSelector(
+    (state) => state.pathSlice
+  );
+  console.log(currentPath);
+  console.log(recommendedPath);
+  console.log(udemyPath);
+  let currentPathCoursesAndPrograms:
+    | {
+        [key: string]:
+          | UdemyCourseWithSkills
+          | ProgramWithSkills
+          | CourseWithSkills;
+      }
+    | undefined = {};
+  if (currentPath === "recommended" && recommendedPath) {
+    currentPathCoursesAndPrograms = recommendedPath.bcitProgram
+      ? recommendedPath.bcitProgram
+      : recommendedPath.bcitCourses
+      ? recommendedPath.bcitCourses
+      : recommendedPath.udemyCourses;
+  } else if (currentPath === "online-only" && udemyPath) {
+    currentPathCoursesAndPrograms = udemyPath;
+  }
+
+  const handleCourseSelect = (title: string, skills: PathSkill[]) => {
     setSelectedCourse({ title, skills });
     (document.getElementById("my_modal_3") as HTMLDialogElement).showModal();
   };
@@ -119,21 +141,23 @@ export default function CommitedCoursesPrograms({
                   Object.keys(currentPathCoursesAndPrograms).map((val) => (
                     <div
                       key={val}
-                      className="bg-main-bg p-5 md:p-8 w-full h-full gap-6 rounded-lg drop-shadow-md place-self-center flex flex-col justify-between items-center"
+                      className="bg-main-bg p-5 md:p-8 w-full relative h-full gap-6 rounded-lg drop-shadow-md place-self-center flex flex-col justify-between items-center"
                     >
                       <div className="text-black h-2/3 place-content-center">
-                        <p>{val}</p>
+                        <div className="absolute top-2 left-2 sm:top-3 sm:left-3"></div>
+                        <p className="mt-6">{val}</p>
                       </div>
+
                       <button
                         className="h-fit px-3 py-1 border border-gray-400 rounded-lg shadow place-self-center hover:bg-white bg-button-bg w-fit text-xs text-center hover:cursor-pointer"
                         onClick={() =>
                           handleCourseSelect(
                             val,
-                            currentPathCoursesAndPrograms[val]
+                            currentPathCoursesAndPrograms![val].skills
                           )
                         }
                       >
-                        View Details
+                        View Skills
                       </button>
                     </div>
                   ))

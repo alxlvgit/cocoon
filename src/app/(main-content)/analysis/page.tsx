@@ -9,7 +9,7 @@ export default async function Path() {
   // }
 
   return (
-    <main className="mt-24 sm:mt-36 pb-10">
+    <main className="mt-24 sm:mt-36 pb-10 m-auto max-w-screen-2xl">
       <div className="flex flex-col justify-center my-5 mx-6 xs:mx-10">
         <h1 className="text-center font-bold text-xl mb-12">
           Career Path Analysis Results

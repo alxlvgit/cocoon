@@ -1,7 +1,9 @@
-import { RecommendedPathResult } from "@/app/(main-content)/analysis/path-search";
-import { UdemyCourse } from "@/app/(main-content)/analysis/fetch-udemy";
-import { setCurrentPath } from "@/redux/features/pathSlice";
-import { useAppDispatch } from "@/redux/hooks";
+import {
+  RecommendedPath,
+  UdemyPath,
+  setCurrentPath,
+} from "@/redux/features/pathSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
 import CourseProgram from "./CourseProgram";
 
@@ -11,10 +13,13 @@ const PathContainer = ({
   pathType,
 }: {
   pathType: string;
-  recommendedPathData?: RecommendedPathResult;
-  udemyPathData?: UdemyCourse[];
+  recommendedPathData?: RecommendedPath;
+  udemyPathData?: UdemyPath;
 }) => {
   const dispatch = useAppDispatch();
+  const { courses, program, udemyCourses } = useAppSelector(
+    (state) => state.pathSlice
+  );
   const router = useRouter();
   const setMyCurrentPath = () => {
     dispatch(setCurrentPath(pathType));
@@ -25,45 +30,45 @@ const PathContainer = ({
     <div className="flex flex-col w-full rounded-lg ">
       <div className="text-xs md:text-sm lg:text-lg text-left w-full">
         {recommendedPathData &&
-          (recommendedPathData.bcitProgram ? (
+          (recommendedPathData.bcitProgram && program ? (
             <CourseProgram
               type="BCIT"
-              title={
-                recommendedPathData.bcitProgram.programName + " - BCIT Program"
+              title={program.programName + " - BCIT Program"}
+              link={
+                recommendedPathData.bcitProgram[
+                  Object.keys(recommendedPathData.bcitProgram)[0]
+                ].program.url
               }
-              link={recommendedPathData.bcitProgram.url}
             />
-          ) : recommendedPathData.bcitCourses ? (
+          ) : recommendedPathData.bcitCourses && courses ? (
             <>
-              {recommendedPathData.bcitCourses.map((course) => (
+              {courses.map((courseData) => (
                 <CourseProgram
                   type="BCIT"
-                  key={course.courseCode}
-                  title={course.courseName + " - BCIT Course"}
-                  link={course.url}
+                  key={courseData.courseCode}
+                  title={courseData.courseName + " - BCIT Course"}
+                  link={courseData.url}
                 />
               ))}
             </>
-          ) : recommendedPathData.udemyCourses ? (
+          ) : recommendedPathData.udemyCourses && udemyCourses ? (
             <>
               <CourseProgram
                 type="Udemy"
-                key={recommendedPathData.udemyCourses.id}
-                title={
-                  recommendedPathData.udemyCourses.title + " - Udemy Course"
-                }
-                link={recommendedPathData.udemyCourses.url}
+                key={udemyCourses[0].id}
+                title={udemyCourses[0].title + " - Udemy Course"}
+                link={udemyCourses[0].url}
               />
             </>
           ) : null)}
-        {udemyPathData && (
+        {udemyPathData && udemyCourses && (
           <>
-            {udemyPathData.map((course) => (
+            {udemyCourses.map((val) => (
               <CourseProgram
                 type="Udemy"
-                key={course.id}
-                title={course.title}
-                link={course.url}
+                key={val.id}
+                title={val.title + " - Udemy Course"}
+                link={val.url}
               />
             ))}
           </>
