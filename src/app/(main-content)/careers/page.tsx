@@ -11,7 +11,7 @@ async function Careers() {
   // console.log(careersData, "careersData");
 
   return (
-    <main className="mt-24 sm:mt-36 pb-10">
+    <main className="mt-24 sm:mt-36 pb-10 max-w-screen-2xl m-auto">
       <div>
         <h1 className="m-5 text-center font-bold text-2xl">
           Make Your Next Step With Us!

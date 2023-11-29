@@ -1,5 +1,5 @@
-import { Course, Program } from "@/types/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { PathSkill } from "./pathSlice";
 
 type ResumeProcessingState = {
   processing: boolean;
@@ -42,6 +42,49 @@ export const resumeProcessingSlice = createSlice({
     setMissingSkills: (state, action: PayloadAction<string[]>) => {
       state.missingCareerSkills = action.payload;
     },
+    updateMissingSkills: (
+      state,
+      action: PayloadAction<{
+        skills: PathSkill[];
+      }>
+    ) => {
+      const { skills } = action.payload;
+      if (!state.missingCareerSkills || !state.matchingCareerSkills) {
+        return;
+      }
+      const missingSkills = [...state.missingCareerSkills];
+      const matchingCareerSkills = [...state.matchingCareerSkills];
+
+      skills.forEach((skillData) => {
+        if (!missingSkills.includes(skillData.skill) && skillData.acquired) {
+          missingSkills.push(skillData.skill);
+        } else if (
+          missingSkills.includes(skillData.skill) &&
+          !skillData.acquired
+        ) {
+          const index = missingSkills.indexOf(skillData.skill);
+          missingSkills.splice(index, 1);
+        }
+        if (
+          !matchingCareerSkills.includes(skillData.skill) &&
+          skillData.acquired
+        ) {
+          matchingCareerSkills.push(skillData.skill);
+        } else if (
+          matchingCareerSkills.includes(skillData.skill) &&
+          !skillData.acquired
+        ) {
+          const index = matchingCareerSkills.indexOf(skillData.skill);
+          matchingCareerSkills.splice(index, 1);
+        }
+      });
+
+      return {
+        ...state,
+        missingCareerSkills: missingSkills,
+        matchingCareerSkills: matchingCareerSkills,
+      };
+    },
     setRequiredSkills: (state, action: PayloadAction<string[]>) => {
       state.requiredCareerSkills = action.payload;
     },
@@ -72,6 +115,7 @@ export const {
   setGoogleDocUrl,
   setTransferableSkills,
   setMissingSkills,
+  updateMissingSkills,
   resetResumeProcessingState,
   setRequiredSkills,
   setMatchingSkills,

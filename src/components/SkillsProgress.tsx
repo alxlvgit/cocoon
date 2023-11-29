@@ -6,19 +6,8 @@ import Link from "next/link";
 import { useAppSelector } from "@/redux/hooks";
 import { calculateSkillsMatchPercentage } from "@/app/(main-content)/analysis/path-search";
 
-interface Proptype {
-  setCurrentPathCoursesAndPrograms: (
-    obj:
-      | {
-          [key: string]: string[];
-        }
-      | undefined
-  ) => void;
-}
-
-const SkillsProgress = ({ setCurrentPathCoursesAndPrograms }: Proptype) => {
-  const { udemyCoursesWithSkills, coursesSkills, programSkills, currentPath } =
-    useAppSelector((state) => state.pathSlice);
+const SkillsProgress = () => {
+  const { currentPath } = useAppSelector((state) => state.pathSlice);
 
   const {
     missingCareerSkills,
@@ -31,13 +20,6 @@ const SkillsProgress = ({ setCurrentPathCoursesAndPrograms }: Proptype) => {
     (state) => state.pathSlice.completedSkills
   );
   const [progressPercentage, setProgressPercentage] = useState(0);
-
-  const {
-    missingCareerSkills: resumeMissingCareerSkills,
-    pickedCareer: resumePickedCareer,
-  } = useAppSelector((state) => state.resumeProcessingSlice);
-
-  const courses = useAppSelector((state) => state.pathSlice.courses);
 
   useEffect(() => {
     if (!missingCareerSkills || !pickedCareer) {
@@ -53,35 +35,30 @@ const SkillsProgress = ({ setCurrentPathCoursesAndPrograms }: Proptype) => {
       setProgressPercentage(skillsMatchedPercentage);
     }
 
-    if (currentPath == "Recommended") {
-      setCurrentPathCoursesAndPrograms({ ...programSkills, ...coursesSkills });
-    } else if (currentPath == "Online-Only") {
-      setCurrentPathCoursesAndPrograms(udemyCoursesWithSkills);
+    if (!matchingCareerSkills || !requiredCareerSkills) {
+      const completedPercentage = Math.trunc(
+        (completedSkills.length / missingCareerSkills.length) * 100
+      );
+      setProgressPercentage(completedPercentage);
+    } else {
+      const skillsMatchedPercentage = calculateSkillsMatchPercentage(
+        matchingCareerSkills,
+        requiredCareerSkills
+      );
+      setProgressPercentage(skillsMatchedPercentage);
     }
-
-    // if (!matchingCareerSkills || !requiredCareerSkills) {
-    //   const completedPercentage = Math.trunc(
-    //     (completedSkills.length / missingCareerSkills.length) * 100
-    //   );
-    //   setProgressPercentage(completedPercentage);
-    // } else {
-    //   const skillsMatchedPercentage = calculateSkillsMatchPercentage(
-    //     matchingCareerSkills,
-    //     requiredCareerSkills
-    //   );
-    //   setProgressPercentage(skillsMatchedPercentage);
-    // }
   }, [
-    completedSkills,
     missingCareerSkills,
     pickedCareer,
-    matchingCareerSkills,
     requiredCareerSkills,
+    matchingCareerSkills,
+    completedSkills,
+    currentPath,
   ]);
 
   return (
     <div className="bg-main-bg h-full col-span-2 w-full rounded-2xl p-4 sm:p-10 text-center flex flex-col  align-middle items-center justify-between shadow-xl">
-      {missingCareerSkills && missingCareerSkills.length ? (
+      {pickedCareer ? (
         <>
           <h1 className="text-center font-bold md:col-span-2 text-lg mb-8">
             Career Path: <span>{pickedCareer}</span>
@@ -103,14 +80,6 @@ const SkillsProgress = ({ setCurrentPathCoursesAndPrograms }: Proptype) => {
               />
             </div>
           </div>
-          {/* {courses.map((course) => (
-                <div
-                  className="bg-gray-300 my-4 p-2 rounded-md"
-                  key={course.courseCode}
-                >
-                  <p>{course.courseName}</p>
-                </div>
-              ))} */}
         </>
       ) : (
         <>
