@@ -34,7 +34,7 @@ const SkillsProgress = () => {
 
       setProgressPercentage(skillsMatchedPercentage);
     }
-    console.log(currentPath);
+
     if (!matchingCareerSkills || !requiredCareerSkills) {
       const completedPercentage = Math.trunc(
         (completedSkills.length / missingCareerSkills.length) * 100
@@ -58,7 +58,7 @@ const SkillsProgress = () => {
 
   return (
     <div className="bg-main-bg h-full col-span-2 w-full rounded-2xl p-4 sm:p-10 text-center flex flex-col  align-middle items-center justify-between shadow-xl">
-      {missingCareerSkills && missingCareerSkills.length ? (
+      {pickedCareer ? (
         <>
           <h1 className="text-center font-bold md:col-span-2 text-lg mb-8">
             Career Path: <span>{pickedCareer}</span>

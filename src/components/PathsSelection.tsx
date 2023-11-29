@@ -15,14 +15,11 @@ const PathsSelection = ({
       <div className="bg-main-bg h-full w-full rounded-2xl mx-auto p-8 flex flex-col items-center justify-between">
         <div className="w-full mb-16">
           <p className="text-lg font-bold mb-2">Recommended Path:</p>
-          <PathContainer
-            pathType="recommended"
-            recommendedPathData={recommendedPath}
-          />
+          <PathContainer pathType="recommended" pathData={recommendedPath} />
         </div>
         <div className="w-full">
           <p className="text-lg font-bold mb-2">Online-Only Path (Udemy):</p>
-          <PathContainer pathType="online-only" udemyPathData={udemyPath} />
+          <PathContainer pathType="online-only" pathData={udemyPath} />
         </div>
       </div>
     </>

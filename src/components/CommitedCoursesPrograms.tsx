@@ -6,86 +6,51 @@ import {
 } from "@/redux/features/pathSlice";
 import { useAppSelector } from "@/redux/hooks";
 import isEmpty from "@/utils/isEmpty";
-import { useState } from "react";
-
-interface SelectedCourse {
-  title: string;
-  skills: PathSkill[];
-}
-
-type MyModalProps = SelectedCourse | null;
-
-function MyModal(props: MyModalProps = { title: "", skills: [] }) {
-  return (
-    <dialog id="my_modal_3" className="modal">
-      <div className="modal-box h-1/3 md:h-2/3 p-5">
-        <form method="dialog">
-          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-            ✕
-          </button>
-        </form>
-        <div className="p-10 grid grid-rows-3 items-center justify-center">
-          <p className="row-span-1 font-bold text-base md:text-xl p-3">
-            {props?.title}
-          </p>
-          <ul className="row-span-3">
-            {props?.skills.map((skillData) => (
-              <>
-                <li className="grid grid-cols-4 ">
-                  <div className="form-control">
-                    <label className="cursor-pointer label">
-                      <input
-                        type="checkbox"
-                        //@ts-ignore
-                        checked="checked"
-                        className="checkbox checkbox-accent"
-                      />
-                    </label>
-                  </div>
-                  <div className="col-span-3">{skillData.skill}</div>
-                </li>
-                <div className="divider divider-accent"></div>
-              </>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </dialog>
-  );
-}
+import { useEffect, useState } from "react";
+import SkillsModal from "./SkillsModal";
 
 export default function CommitedCoursesPrograms() {
-  const [selectedCourse, setSelectedCourse] = useState<SelectedCourse | null>(
-    null
-  );
+  const [selectedCourse, setSelectedCourse] = useState<{
+    title: string;
+    skills: PathSkill[];
+  } | null>(null);
 
   const { currentPath, recommendedPath, udemyPath } = useAppSelector(
     (state) => state.pathSlice
   );
-  console.log(currentPath);
-  console.log(recommendedPath);
-  console.log(udemyPath);
-  let currentPathCoursesAndPrograms:
-    | {
-        [key: string]:
-          | UdemyCourseWithSkills
-          | ProgramWithSkills
-          | CourseWithSkills;
-      }
-    | undefined = {};
-  if (currentPath === "recommended" && recommendedPath) {
-    currentPathCoursesAndPrograms = recommendedPath.bcitProgram
-      ? recommendedPath.bcitProgram
-      : recommendedPath.bcitCourses
-      ? recommendedPath.bcitCourses
-      : recommendedPath.udemyCourses;
-  } else if (currentPath === "online-only" && udemyPath) {
-    currentPathCoursesAndPrograms = udemyPath;
-  }
+
+  useEffect(() => {
+    if (currentPath === "recommended" && recommendedPath) {
+      setCurrentPathCoursesAndPrograms(
+        recommendedPath.bcitProgram
+          ? recommendedPath.bcitProgram
+          : recommendedPath.bcitCourses
+          ? recommendedPath.bcitCourses
+          : recommendedPath.udemyCourses
+      );
+    } else if (currentPath === "online-only" && udemyPath) {
+      setCurrentPathCoursesAndPrograms(udemyPath);
+    }
+  }, [currentPath, recommendedPath, udemyPath]);
+
+  const [currentPathCoursesAndPrograms, setCurrentPathCoursesAndPrograms] =
+    useState<
+      | {
+          [key: string]:
+            | UdemyCourseWithSkills
+            | ProgramWithSkills
+            | CourseWithSkills;
+        }
+      | undefined
+    >(undefined);
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const handleCourseSelect = (title: string, skills: PathSkill[]) => {
-    setSelectedCourse({ title, skills });
-    (document.getElementById("my_modal_3") as HTMLDialogElement).showModal();
+    setSelectedCourse({
+      title,
+      skills,
+    });
+    setModalOpen(true);
   };
 
   return (
@@ -130,9 +95,12 @@ export default function CommitedCoursesPrograms() {
             <p className="text-lg w-fit place-self-center font-bold pb-3">
               Courses and Programs
             </p>
-            <MyModal
+            <SkillsModal
+              key={selectedCourse?.title || ""}
               title={selectedCourse?.title || ""}
               skills={selectedCourse?.skills || []}
+              open={isModalOpen}
+              setModalOpen={setModalOpen}
             />
             <div className="row-span-6 bg-bright-main h-full rounded-2xl items-center align-middle justify-center grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 md:p-5">
               <>

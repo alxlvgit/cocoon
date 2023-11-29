@@ -8,13 +8,11 @@ import { useRouter } from "next/navigation";
 import CourseProgram from "./CourseProgram";
 
 const PathContainer = ({
-  recommendedPathData,
-  udemyPathData,
+  pathData,
   pathType,
 }: {
   pathType: string;
-  recommendedPathData?: RecommendedPath;
-  udemyPathData?: UdemyPath;
+  pathData: RecommendedPath | UdemyPath;
 }) => {
   const dispatch = useAppDispatch();
   const { courses, program, udemyCourses } = useAppSelector(
@@ -29,18 +27,15 @@ const PathContainer = ({
   return (
     <div className="flex flex-col w-full rounded-lg ">
       <div className="text-xs md:text-sm lg:text-lg text-left w-full">
-        {recommendedPathData &&
-          (recommendedPathData.bcitProgram && program ? (
+        {pathData &&
+          pathType === "recommended" &&
+          (pathData.bcitProgram && program ? (
             <CourseProgram
               type="BCIT"
               title={program.programName + " - BCIT Program"}
-              link={
-                recommendedPathData.bcitProgram[
-                  Object.keys(recommendedPathData.bcitProgram)[0]
-                ].program.url
-              }
+              link={program.url}
             />
-          ) : recommendedPathData.bcitCourses && courses ? (
+          ) : pathData.bcitCourses && courses ? (
             <>
               {courses.map((courseData) => (
                 <CourseProgram
@@ -51,7 +46,7 @@ const PathContainer = ({
                 />
               ))}
             </>
-          ) : recommendedPathData.udemyCourses && udemyCourses ? (
+          ) : pathData.udemyCourses && udemyCourses ? (
             <>
               <CourseProgram
                 type="Udemy"
@@ -61,7 +56,7 @@ const PathContainer = ({
               />
             </>
           ) : null)}
-        {udemyPathData && udemyCourses && (
+        {pathData && pathType === "online-only" && udemyCourses && (
           <>
             {udemyCourses.map((val) => (
               <CourseProgram

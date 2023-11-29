@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import { Course, Program } from "@/types/types";
 import { UdemyCourse } from "@/app/(main-content)/analysis/fetch-udemy";
 
@@ -79,37 +79,100 @@ export const pathSlice = createSlice({
     setUdemyPath: (state, action: PayloadAction<UdemyPath>) => {
       state.udemyPath = action.payload;
     },
-    setCompletedSkills: (state, action: PayloadAction<SkillStatus>) => {
-      const { skill, status } = action.payload;
-      switch (status) {
-        case "Completed": {
-          if (!state.completedSkills.includes(skill)) {
-            state.completedSkills = [...state.completedSkills, skill];
-          }
-          break;
-        }
-        case "Start Soon": {
-          if (state.completedSkills.includes(skill)) {
-            state.completedSkills.splice(
-              state.completedSkills.indexOf(skill),
-              1
-            );
-          }
-          break;
-        }
-        case "In Progress": {
-          if (state.completedSkills.includes(skill)) {
-            state.completedSkills.splice(
-              state.completedSkills.indexOf(skill),
-              1
-            );
-          }
-          break;
-        }
-        default: {
-          break;
+    updateRecommendedPath: (
+      state,
+      action: PayloadAction<{
+        skill: string;
+        acquired: boolean;
+        title: string;
+      }>
+    ) => {
+      const { skill, acquired, title } = action.payload;
+
+      const typeOfRecommendedPath = state.recommendedPath
+        ? state.recommendedPath.bcitProgram
+          ? "bcitProgram"
+          : state.recommendedPath.bcitCourses
+          ? "bcitCourses"
+          : "udemyCourses"
+        : "";
+
+      if (typeOfRecommendedPath) {
+        const pathToUpdate = state.recommendedPath![typeOfRecommendedPath];
+        const itemToUpdate = pathToUpdate?.[title];
+
+        console.log(current(pathToUpdate));
+
+        if (itemToUpdate) {
+          const updatedSkills = itemToUpdate.skills.map((s) => {
+            if (s.skill === skill) {
+              return {
+                ...s,
+                acquired: !acquired,
+              };
+            }
+            return s;
+          });
+
+          const updatedRecommendedPath = {
+            ...state.recommendedPath,
+            [typeOfRecommendedPath]: {
+              ...pathToUpdate,
+              [title]: {
+                ...itemToUpdate,
+                skills: updatedSkills,
+              },
+            },
+          };
+
+          return {
+            ...state,
+            recommendedPath: updatedRecommendedPath,
+          };
         }
       }
+
+      return state;
+    },
+    updateUdemyPath: (
+      state,
+      action: PayloadAction<{
+        skill: string;
+        acquired: boolean;
+        title: string;
+      }>
+    ) => {
+      const { skill, acquired, title } = action.payload;
+
+      const pathToUpdate = state.udemyPath![title];
+      const itemToUpdate = pathToUpdate;
+
+      if (itemToUpdate) {
+        const updatedSkills = itemToUpdate.skills.map((s) => {
+          if (s.skill === skill) {
+            return {
+              ...s,
+              acquired: !acquired,
+            };
+          }
+          return s;
+        });
+
+        const updatedUdemyPath = {
+          ...state.udemyPath,
+          [title]: {
+            ...itemToUpdate,
+            skills: updatedSkills,
+          },
+        };
+
+        return {
+          ...state,
+          udemyPath: updatedUdemyPath,
+        };
+      }
+
+      return state;
     },
     resetState: (state) => {
       state.currentPath = "";
@@ -125,7 +188,8 @@ export const pathSlice = createSlice({
 
 export const {
   setCurrentPath,
-  setCompletedSkills,
+  updateRecommendedPath,
+  updateUdemyPath,
   setProgram,
   setCourses,
   setUdemyCourses,
