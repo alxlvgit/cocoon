@@ -34,27 +34,22 @@ export type UdemyPath = {
 
 type PathState = {
   currentPath: string;
-  completedSkills: string[];
   program: Program | undefined;
   courses: Course[] | undefined;
   udemyCourses: UdemyCourse[] | undefined;
   recommendedPath: RecommendedPath | undefined;
   udemyPath: UdemyPath | undefined;
-};
-
-type SkillStatus = {
-  skill: string;
-  status: string;
+  completedCoursesPrograms: { [title: string]: boolean };
 };
 
 const initialState: PathState = {
   currentPath: "",
-  completedSkills: [],
   program: undefined,
   recommendedPath: undefined,
   udemyPath: undefined,
   courses: undefined,
   udemyCourses: undefined,
+  completedCoursesPrograms: {},
 };
 
 export const pathSlice = createSlice({
@@ -100,8 +95,6 @@ export const pathSlice = createSlice({
       if (typeOfRecommendedPath) {
         const pathToUpdate = state.recommendedPath![typeOfRecommendedPath];
         const itemToUpdate = pathToUpdate?.[title];
-
-        console.log(current(pathToUpdate));
 
         if (itemToUpdate) {
           const updatedSkills = itemToUpdate.skills.map((s) => {
@@ -174,14 +167,35 @@ export const pathSlice = createSlice({
 
       return state;
     },
-    resetState: (state) => {
+    checkIfAllSkillsAcquired: (
+      state,
+      action: PayloadAction<{
+        skills: PathSkill[];
+        title: string;
+      }>
+    ) => {
+      const { skills, title } = action.payload;
+
+      const allSkillsAcquired = skills.every((skill) => skill.acquired);
+
+      const updatedCompletedCoursesPrograms = {
+        ...state.completedCoursesPrograms,
+        [title]: allSkillsAcquired,
+      };
+
+      return {
+        ...state,
+        completedCoursesPrograms: updatedCompletedCoursesPrograms,
+      };
+    },
+    resetPathsState: (state) => {
       state.currentPath = "";
-      state.completedSkills = [];
       state.program = undefined;
       state.courses = undefined;
       state.udemyCourses = undefined;
       state.recommendedPath = undefined;
       state.udemyPath = undefined;
+      state.completedCoursesPrograms = {};
     },
   },
 });
@@ -195,7 +209,8 @@ export const {
   setUdemyCourses,
   setRecommendedPath,
   setUdemyPath,
-  resetState,
+  resetPathsState,
+  checkIfAllSkillsAcquired,
 } = pathSlice.actions;
 
 export default pathSlice.reducer;

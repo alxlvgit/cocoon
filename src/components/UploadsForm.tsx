@@ -27,8 +27,10 @@ import {
   setTransferableSkills,
   setMatchingSkills,
   setRequiredSkills,
+  setSkillsMatchedPercentage,
 } from "@/redux/features/resumeProcessingSlice";
 import GoogleDocForm from "./GoogleDocForm";
+import { resetPathsState } from "@/redux/features/pathSlice";
 
 const UploadsForm = ({ careerCode }: { careerCode: string }) => {
   const dispatch = useAppDispatch();
@@ -64,6 +66,7 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
       dispatch(setTransferableSkills(matchedResumeSkills));
       dispatch(setMatchingSkills(Array.from(matchedCareerSkills)));
       dispatch(setRequiredSkills(requiredTasks));
+      dispatch(setSkillsMatchedPercentage());
       dispatch(setProcessing(false));
       dispatch(setProcessingStatus(null));
       router.push("/analysis");
@@ -76,6 +79,7 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
   // // Handle pdf or docx file upload
   const handleFileUpload = async () => {
     dispatch(resetResumeProcessingState());
+    dispatch(resetPathsState());
     const reader = new FileReader();
     if (!uploadedFile) {
       setErrorMsg("Please upload your resume");

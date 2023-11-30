@@ -2,21 +2,23 @@
 
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { useAppSelector } from "@/redux/hooks";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function SkillsMatchInfo({
-  skillsMatched,
   positionTitle,
 }: {
-  skillsMatched: number;
   positionTitle: string;
 }) {
+  const { skillsMatchedPercentage } = useAppSelector(
+    (state) => state.resumeProcessingSlice
+  );
   const data = {
     labels: ["Matched", "Unmatched"],
     datasets: [
       {
         label: "Skill Analysis",
-        data: [skillsMatched, 100 - skillsMatched],
+        data: [skillsMatchedPercentage, 100 - skillsMatchedPercentage],
         backgroundColor: ["#DBC2CF", "#D0F0F6"],
         borderColor: ["#556ff2", "#B1BEFF"],
         borderWidth: 0,
@@ -47,7 +49,7 @@ export default function SkillsMatchInfo({
     },
     centerLabel: {
       center: {
-        text: `${skillsMatched}%`,
+        text: `${skillsMatchedPercentage}%`,
         color: "#FFFFFF",
         fontStyle: "Arial",
         sidePadding: 20,
@@ -70,7 +72,7 @@ export default function SkillsMatchInfo({
       ctx.textBaseline = "middle";
 
       ctx.fillText(
-        `${skillsMatched}%`,
+        `${skillsMatchedPercentage}%`,
         chart.getDatasetMeta(0).data[0].x,
         chart.getDatasetMeta(0).data[0].y
       );
@@ -88,25 +90,37 @@ export default function SkillsMatchInfo({
           plugins={[textCenter]}
         ></Doughnut>
       </div>
-      <div className="place-self-center">
-        <p className="text-black text-base font-bold md:text-lg">
-          You are a{" "}
-          <span className="font-bold text-gray-900 dark:text-white decoration-blue-500 decoration-double">
-            {skillsMatched}%
-          </span>{" "}
-          match with
-        </p>
-        <p className="font-bold text-base  md:text-lg">
-          <span className="font-bold text-gray-900 dark:text-white decoration-sky-500 decoration-wavy">
-            {positionTitle}
-          </span>
-        </p>
-        <p className="text-black text-xs mt-3">
-          You currently already acquire {skillsMatched}% of the skills required
-          to be certified. Looks like you need a few more to get going. Below is
-          an overview of what skills are required to become fully qualified for
-          a {positionTitle} career.
-        </p>
+      <div className="text-start">
+        {skillsMatchedPercentage === 100 ? (
+          <p className="text-black text-lg font-bold">
+            Congratulations! You are fully qualified for a {positionTitle}{" "}
+            career.
+          </p>
+        ) : (
+          <>
+            <p className="text-black text-base font-bold md:text-lg">
+              You are a{" "}
+              <span className="font-bold text-gray-900 dark:text-white decoration-blue-500 decoration-double">
+                {skillsMatchedPercentage}%
+              </span>{" "}
+              match with
+            </p>
+            <p className="font-bold text-base  md:text-lg">
+              <span className="font-bold text-gray-900 dark:text-white decoration-sky-500 decoration-wavy">
+                {positionTitle}
+              </span>
+            </p>
+            <p className="text-black text-xs mt-3">
+              You currently already acquire {skillsMatchedPercentage}% of the
+              skills required to be certified.
+            </p>
+            <p className="text-black text-xs">
+              Looks like you need a few more to get going. Below is an overview
+              of what skills are required to become fully qualified for a{" "}
+              {positionTitle} career.
+            </p>
+          </>
+        )}
       </div>
     </div>
   );
