@@ -9,7 +9,7 @@ const SavedCareers = () => {
 
   return (
     <>
-      <div className="bg-main-bg shadow-xl rounded-2xl flex-col flex items-center justify-start w-full h-96 p-4 sm:p-8">
+      <div className="h-full bg-main-bg shadow-xl rounded-2xl flex-col flex items-center justify-start w-full  p-4 sm:p-8">
         <div>
           <p className="font-bold text-lg mb-2 text-center">Saved Careers</p>
         </div>

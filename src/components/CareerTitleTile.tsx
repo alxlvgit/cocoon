@@ -20,17 +20,17 @@ const CareerTile = ({ career }: { career: CareerData }) => {
               href={`/career/${career.code}`}
               className={` w-fit text-black bg-button-bg text-center hover:bg-button-bg-hover focus:ring-gray-300 font-medium rounded-lg border border-gray-400 text-sm px-5 py-1  dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700`}
             >
-              Details
+              Show Details
             </Link>
           </div>
-          <div className="invisible justify-center items-center align-middle group-hover:visible grid grid-cols-1">
+          {/* <div className="invisible justify-center items-center align-middle group-hover:visible grid grid-cols-1">
             <Link
               href={`/uploads/${career.code}`}
               className={`group-hover:block hidden w-fit text-black bg-button-bg hover:bg-button-bg-hover focus:ring-gray-300 font-medium rounded-lg border border-gray-400 text-sm px-5 py-1 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700`}
             >
               Start
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -8,7 +8,7 @@ const SkillsProgress = () => {
   );
 
   return (
-    <div className="bg-main-bg h-full col-span-2 w-full rounded-2xl p-4 sm:p-10 text-center flex flex-col  align-middle items-center justify-between shadow-xl">
+    <div className="h-full bg-main-bg col-span-2 w-full rounded-2xl p-4 sm:p-10 text-center flex flex-col  align-middle items-center justify-between shadow-xl">
       {pickedCareer && skillsMatchedPercentage ? (
         <>
           <h1 className="text-center font-bold md:col-span-2 text-lg mb-8">

@@ -34,7 +34,7 @@ const PathContainer = ({
 
   return (
     <div className="flex flex-col w-full rounded-lg ">
-      <div className="text-xs md:text-sm lg:text-lg text-left w-full">
+      <div className="text-xs md:text-sm lg:text-lg text-left w-full ">
         {pathData &&
           pathType === "recommended" &&
           (pathData.bcitProgram && program ? (
@@ -65,7 +65,7 @@ const PathContainer = ({
             </>
           ) : null)}
         {pathData && pathType === "online-only" && udemyCourses && (
-          <>
+          <div className="h-96 overflow-auto">
             {udemyCourses.map((val) => (
               <CourseProgram
                 type="Udemy"
@@ -74,7 +74,7 @@ const PathContainer = ({
                 link={val.url}
               />
             ))}
-          </>
+          </div>
         )}
       </div>
       <div className="flex justify-start items-center">
@@ -85,7 +85,7 @@ const PathContainer = ({
         ) : (
           <button
             onClick={setMyCurrentPath}
-            className="bg-button-bg w-fit hover:bg-gray-100 text-gray-800 font-medium py-1 px-4 mr-2 border border-gray-400 rounded-lg shadow text-sm"
+            className="bg-button-bg w-fit hover:bg-gray-100 text-gray-800 font-medium py-1 px-4 mr-2 mt-2  border border-gray-400 rounded-lg shadow text-sm"
           >
             Commit Path
           </button>
