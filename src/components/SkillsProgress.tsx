@@ -1,64 +1,15 @@
-//@ts-nocheck
-
-import { useEffect, useState } from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
 import Link from "next/link";
 import { useAppSelector } from "@/redux/hooks";
-import { calculateSkillsMatchPercentage } from "@/app/(main-content)/analysis/path-search";
 
 const SkillsProgress = () => {
-  const { currentPath } = useAppSelector((state) => state.pathSlice);
-
-  const {
-    missingCareerSkills,
-    pickedCareer,
-    requiredCareerSkills,
-    matchingCareerSkills,
-  } = useAppSelector((state) => state.resumeProcessingSlice);
-
-  const completedSkills = useAppSelector(
-    (state) => state.pathSlice.completedSkills
+  const { pickedCareer, skillsMatchedPercentage } = useAppSelector(
+    (state) => state.resumeProcessingSlice
   );
-  const [progressPercentage, setProgressPercentage] = useState(0);
-
-  useEffect(() => {
-    if (!missingCareerSkills || !pickedCareer) {
-      return;
-    }
-
-    if (matchingCareerSkills && requiredCareerSkills) {
-      const skillsMatchedPercentage = calculateSkillsMatchPercentage(
-        matchingCareerSkills,
-        requiredCareerSkills
-      );
-
-      setProgressPercentage(skillsMatchedPercentage);
-    }
-
-    if (!matchingCareerSkills || !requiredCareerSkills) {
-      const completedPercentage = Math.trunc(
-        (completedSkills.length / missingCareerSkills.length) * 100
-      );
-      setProgressPercentage(completedPercentage);
-    } else {
-      const skillsMatchedPercentage = calculateSkillsMatchPercentage(
-        matchingCareerSkills,
-        requiredCareerSkills
-      );
-      setProgressPercentage(skillsMatchedPercentage);
-    }
-  }, [
-    missingCareerSkills,
-    pickedCareer,
-    requiredCareerSkills,
-    matchingCareerSkills,
-    completedSkills,
-    currentPath,
-  ]);
 
   return (
     <div className="bg-main-bg h-full col-span-2 w-full rounded-2xl p-4 sm:p-10 text-center flex flex-col  align-middle items-center justify-between shadow-xl">
-      {pickedCareer ? (
+      {pickedCareer && skillsMatchedPercentage ? (
         <>
           <h1 className="text-center font-bold md:col-span-2 text-lg mb-8">
             Career Path: <span>{pickedCareer}</span>
@@ -68,11 +19,11 @@ const SkillsProgress = () => {
               <div className="flex flex-col sm:items-start justify-center sm:justify-start w-full">
                 <p className="text-gray-400">Your progress</p>
                 <p className="text-xl font-extrabold text-gray-600 pb-3">
-                  {progressPercentage}% completed
+                  {skillsMatchedPercentage}% completed
                 </p>
               </div>
               <ProgressBar
-                completed={progressPercentage}
+                completed={skillsMatchedPercentage}
                 maxCompleted={100}
                 bgColor="#6DB8C5"
                 animateOnRender={true}

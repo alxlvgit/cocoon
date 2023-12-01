@@ -14,7 +14,6 @@ import {
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import React, { useEffect, useState } from "react";
 import {
-  calculateSkillsMatchPercentage,
   findRecommendedPath,
   findUdemyPath,
 } from "@/app/(main-content)/analysis/path-search";
@@ -31,12 +30,15 @@ const PathsController = () => {
     pickedCareer,
     requiredCareerSkills,
     matchingCareerSkills,
+    initialMatchingCareerSkills,
+    initialMissingCareerSkills,
+    skillsMatchedPercentage,
   } = useAppSelector((state) => state.resumeProcessingSlice);
 
-  const [skillsMatch, setSkillsMatch] = useState<number | null>(null);
-  const { recommendedPath, udemyPath } = useAppSelector(
+  const { recommendedPath, udemyPath, currentPath } = useAppSelector(
     (state) => state.pathSlice
   );
+
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -46,7 +48,10 @@ const PathsController = () => {
           !missingCareerSkills ||
           !pickedCareer ||
           !requiredCareerSkills ||
-          !matchingCareerSkills
+          !initialMatchingCareerSkills ||
+          !initialMissingCareerSkills ||
+          !matchingCareerSkills ||
+          skillsMatchedPercentage === null
         ) {
           setLoading(false);
           setErrorMessage(
@@ -57,25 +62,17 @@ const PathsController = () => {
           );
           return;
         }
-        const skillsMatchedPercentage = calculateSkillsMatchPercentage(
-          matchingCareerSkills,
-          requiredCareerSkills
-        );
-        if (skillsMatchedPercentage == 100) {
+        if (recommendedPath && udemyPath) {
           setLoading(false);
-          setErrorMessage(
-            "You already have all the skills required for this career."
-          );
-          console.log("The skills match is 100%");
+          setErrorMessage(null);
           return;
         }
-        setSkillsMatch(skillsMatchedPercentage);
         const matchedCoursesResult = await matchCoursesWithKeyPhrases(
-          missingCareerSkills
+          initialMissingCareerSkills
         );
         const matchedProgramResult = await findBestMatchProgram(
           pickedCareer,
-          missingCareerSkills
+          initialMissingCareerSkills
         );
         const { courses, coursesWithSkills } = matchedCoursesResult;
         const { program, programWithSkills } = matchedProgramResult;
@@ -83,22 +80,22 @@ const PathsController = () => {
           dispatch(setCourses(matchedCoursesResult.courses));
           dispatch(setProgram(matchedProgramResult.program));
         }
-        const recommendedPath = await findRecommendedPath(
-          skillsMatchedPercentage,
+        const recommendedPathData = await findRecommendedPath(
+          skillsMatchedPercentage!,
           pickedCareer,
-          missingCareerSkills,
+          initialMissingCareerSkills,
           programWithSkills,
           coursesWithSkills
         );
-        if (recommendedPath) {
-          dispatch(setRecommendedPath(recommendedPath));
+        if (recommendedPathData) {
+          dispatch(setRecommendedPath(recommendedPathData));
         }
         const udemyCoursesResult = await findUdemyPath(
           pickedCareer,
-          missingCareerSkills
+          initialMissingCareerSkills
         );
         const { udemyCourses, udemyCoursesWithSkills } = udemyCoursesResult;
-        if (!udemyCourses || !udemyCoursesWithSkills || !recommendedPath) {
+        if (!udemyCourses || !udemyCoursesWithSkills || !recommendedPathData) {
           setLoading(false);
           setErrorMessage(
             `Could not find suitable paths for this career. Your skills match with this career is ${skillsMatchedPercentage}%.`
@@ -122,7 +119,13 @@ const PathsController = () => {
     missingCareerSkills,
     pickedCareer,
     requiredCareerSkills,
+    initialMissingCareerSkills,
+    initialMatchingCareerSkills,
     matchingCareerSkills,
+    skillsMatchedPercentage,
+    recommendedPath,
+    udemyPath,
+    currentPath,
     dispatch,
   ]);
 
@@ -134,18 +137,16 @@ const PathsController = () => {
           <div className="mx-auto mt-8 animate-spin rounded-full h-16 w-16 border-b-2 border-main-color dark:border-white"></div>
         </>
       ) : pickedCareer &&
-        skillsMatch !== null &&
+        skillsMatchedPercentage !== null &&
         recommendedPath &&
         udemyPath &&
         missingCareerSkills &&
+        !errorMessage &&
         matchingCareerSkills ? (
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 w-full justify-center items-start">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="sm:col-span-2">
-              <SkillsMatchInfo
-                skillsMatched={skillsMatch}
-                positionTitle={pickedCareer}
-              />
+              <SkillsMatchInfo positionTitle={pickedCareer} />
             </div>
             <SkillsContainer
               skills={matchingCareerSkills}

@@ -9,7 +9,10 @@ type ResumeProcessingState = {
   missingCareerSkills: string[] | null;
   requiredCareerSkills: string[] | null;
   matchingCareerSkills: string[] | null;
+  initialMissingCareerSkills: string[] | null;
+  initialMatchingCareerSkills: string[] | null;
   pickedCareer: string | null;
+  skillsMatchedPercentage: number | null;
 };
 
 const initialState: ResumeProcessingState = {
@@ -20,7 +23,10 @@ const initialState: ResumeProcessingState = {
   missingCareerSkills: null,
   requiredCareerSkills: null,
   matchingCareerSkills: null,
+  initialMissingCareerSkills: null,
+  initialMatchingCareerSkills: null,
   pickedCareer: null,
+  skillsMatchedPercentage: null,
 };
 
 export const resumeProcessingSlice = createSlice({
@@ -41,6 +47,25 @@ export const resumeProcessingSlice = createSlice({
     },
     setMissingSkills: (state, action: PayloadAction<string[]>) => {
       state.missingCareerSkills = action.payload;
+      state.initialMissingCareerSkills = action.payload;
+    },
+    resetToInitialMissingSkills: (state) => {
+      state.missingCareerSkills = state.initialMissingCareerSkills;
+    },
+    resetToInitialMatchingSkills: (state) => {
+      state.matchingCareerSkills = state.initialMatchingCareerSkills;
+    },
+    setSkillsMatchedPercentage: (state) => {
+      if (!state.matchingCareerSkills || !state.requiredCareerSkills) {
+        return;
+      }
+      const matchingSkillsCount = state.matchingCareerSkills?.length;
+      const requiredSkillsCount = state.requiredCareerSkills?.length;
+      if (matchingSkillsCount && requiredSkillsCount) {
+        state.skillsMatchedPercentage = Math.round(
+          (matchingSkillsCount / requiredSkillsCount) * 100
+        );
+      }
     },
     updateMissingSkills: (
       state,
@@ -56,11 +81,11 @@ export const resumeProcessingSlice = createSlice({
       const matchingCareerSkills = [...state.matchingCareerSkills];
 
       skills.forEach((skillData) => {
-        if (!missingSkills.includes(skillData.skill) && skillData.acquired) {
+        if (!missingSkills.includes(skillData.skill) && !skillData.acquired) {
           missingSkills.push(skillData.skill);
         } else if (
           missingSkills.includes(skillData.skill) &&
-          !skillData.acquired
+          skillData.acquired
         ) {
           const index = missingSkills.indexOf(skillData.skill);
           missingSkills.splice(index, 1);
@@ -90,6 +115,7 @@ export const resumeProcessingSlice = createSlice({
     },
     setMatchingSkills: (state, action: PayloadAction<string[]>) => {
       state.matchingCareerSkills = action.payload;
+      state.initialMatchingCareerSkills = action.payload;
     },
 
     setPickedCareer: (state, action: PayloadAction<string | null>) => {
@@ -105,6 +131,9 @@ export const resumeProcessingSlice = createSlice({
       state.requiredCareerSkills = [];
       state.matchingCareerSkills = [];
       state.pickedCareer = null;
+      state.initialMissingCareerSkills = [];
+      state.initialMatchingCareerSkills = [];
+      state.skillsMatchedPercentage = null;
     },
   },
 });
@@ -116,10 +145,13 @@ export const {
   setTransferableSkills,
   setMissingSkills,
   updateMissingSkills,
+  resetToInitialMissingSkills,
+  resetToInitialMatchingSkills,
   resetResumeProcessingState,
   setRequiredSkills,
   setMatchingSkills,
   setPickedCareer,
+  setSkillsMatchedPercentage,
 } = resumeProcessingSlice.actions;
 
 export default resumeProcessingSlice.reducer;

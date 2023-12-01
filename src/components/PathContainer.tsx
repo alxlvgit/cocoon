@@ -6,6 +6,11 @@ import {
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
 import CourseProgram from "./CourseProgram";
+import {
+  resetToInitialMatchingSkills,
+  resetToInitialMissingSkills,
+  setSkillsMatchedPercentage,
+} from "@/redux/features/resumeProcessingSlice";
 
 const PathContainer = ({
   pathData,
@@ -15,12 +20,15 @@ const PathContainer = ({
   pathData: RecommendedPath | UdemyPath;
 }) => {
   const dispatch = useAppDispatch();
-  const { courses, program, udemyCourses } = useAppSelector(
+  const { courses, program, udemyCourses, currentPath } = useAppSelector(
     (state) => state.pathSlice
   );
   const router = useRouter();
   const setMyCurrentPath = () => {
     dispatch(setCurrentPath(pathType));
+    dispatch(resetToInitialMatchingSkills());
+    dispatch(resetToInitialMissingSkills());
+    dispatch(setSkillsMatchedPercentage());
     router.push("/home");
   };
 
@@ -70,12 +78,18 @@ const PathContainer = ({
         )}
       </div>
       <div className="flex justify-start items-center">
-        <button
-          onClick={setMyCurrentPath}
-          className="bg-button-bg w-fit hover:bg-gray-100 text-gray-800 font-medium py-1 px-4 mr-2 border border-gray-400 rounded-lg shadow text-sm"
-        >
-          Commit Path
-        </button>
+        {currentPath === pathType ? (
+          <div className="text-xs md:text-sm lg:text-base font-bold text-center w-full px-8 py-2 border text-white border-white rounded-lg">
+            This is your current path
+          </div>
+        ) : (
+          <button
+            onClick={setMyCurrentPath}
+            className="bg-button-bg w-fit hover:bg-gray-100 text-gray-800 font-medium py-1 px-4 mr-2 border border-gray-400 rounded-lg shadow text-sm"
+          >
+            Commit Path
+          </button>
+        )}
       </div>
     </div>
   );

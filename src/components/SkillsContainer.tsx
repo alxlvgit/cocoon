@@ -29,7 +29,7 @@ const SkillsContainer = ({
         <div>
           <p className="font-bold text-lg mb-2 text-center">{skillsType}</p>
         </div>
-        <div className="overflow-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 w-full border shadow-lg border-gray-300 rounded-xl px-3 pt-1 pb-3 bg-bright-main">
+        <div className="overflow-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 w-full h-full border shadow-lg border-gray-300 rounded-xl px-3 pt-1 pb-3 bg-bright-main">
           {capitalizeSentences(skills).map((skill) => (
             <div
               className="bg-button-bg my-2 p-3 text-xs font-medium rounded-md"
@@ -38,6 +38,11 @@ const SkillsContainer = ({
               <p key={skill}>{skill}</p>
             </div>
           ))}
+          {skills.length === 0 && (
+            <div className="my-2 p-3 text-sm flex font-medium w-full justify-center items-center rounded-md">
+              <p>All skills acquired</p>
+            </div>
+          )}
         </div>
       </div>
     </>

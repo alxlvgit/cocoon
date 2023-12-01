@@ -30,7 +30,7 @@ export type KeyPhrases = {
 };
 
 const llm = new ChatOpenAI({
-  modelName: "gpt-3.5-turbo-0613", // use the gpt-3.5-turbo-0613 model for development and  gpt-4-0613 for production
+  modelName: "gpt-4-0613", // use the gpt-3.5-turbo-0613 model for development and  gpt-4-0613 for production
   temperature: 0,
 });
 

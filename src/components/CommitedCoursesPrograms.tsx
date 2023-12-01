@@ -15,9 +15,12 @@ export default function CommitedCoursesPrograms() {
     skills: PathSkill[];
   } | null>(null);
 
-  const { currentPath, recommendedPath, udemyPath } = useAppSelector(
-    (state) => state.pathSlice
-  );
+  const { currentPath, recommendedPath, udemyPath, completedCoursesPrograms } =
+    useAppSelector((state) => state.pathSlice);
+  const [courseOrProgram, setCourseOrProgram] = useState<
+    "Courses" | "Programs" | undefined
+  >(undefined);
+  const [completed, setCompleted] = useState<number>(0);
 
   useEffect(() => {
     if (currentPath === "recommended" && recommendedPath) {
@@ -28,10 +31,31 @@ export default function CommitedCoursesPrograms() {
           ? recommendedPath.bcitCourses
           : recommendedPath.udemyCourses
       );
+      setCourseOrProgram(
+        recommendedPath.bcitProgram
+          ? "Programs"
+          : recommendedPath.bcitCourses
+          ? "Courses"
+          : "Courses"
+      );
     } else if (currentPath === "online-only" && udemyPath) {
       setCurrentPathCoursesAndPrograms(udemyPath);
+      setCourseOrProgram("Courses");
     }
-  }, [currentPath, recommendedPath, udemyPath]);
+
+   const completed = Object.keys(completedCoursesPrograms).reduce(
+      (acc, val) => {
+        if (completedCoursesPrograms[val]) {
+          return acc + 1;
+        } else {
+          return acc;
+        }
+      },
+      0
+    );
+
+    setCompleted(completed);
+  }, [currentPath, recommendedPath, udemyPath, completedCoursesPrograms]);
 
   const [currentPathCoursesAndPrograms, setCurrentPathCoursesAndPrograms] =
     useState<
@@ -89,7 +113,9 @@ export default function CommitedCoursesPrograms() {
                 />
               </svg>
             </div>
-            <p className="font-bold pt-2">Completed Courses: 0</p>
+            <p className="font-bold pt-2">
+              {courseOrProgram} Completed: {completed}
+            </p>
           </div>
           <div className="md:col-span-3 grid grid-rows-7 w-full h-full">
             <p className="text-lg w-fit place-self-center font-bold pb-3">

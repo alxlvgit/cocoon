@@ -258,7 +258,7 @@ export const findUdemyPath = async (
   missingSkills: string[]
 ): Promise<UdemyPathResult> => {
   try {
-    const udemyFetchResult = await searchUdemyCourses(searchTerm, 200);
+    const udemyFetchResult = await searchUdemyCourses(searchTerm, 300);
     const textToEmbed = udemyFetchResult!.map((course) => {
       return `
     Course Title: ${course.title}
@@ -277,7 +277,7 @@ export const findUdemyPath = async (
     } = await semanticSearchLambda(
       missingSkills,
       textToEmbed,
-      0.75,
+      0.73,
       1,
       1,
       metadata

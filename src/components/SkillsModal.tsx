@@ -1,10 +1,16 @@
-import { PathSkill } from "@/redux/features/pathSlice";
+import {
+  PathSkill,
+  checkIfAllSkillsAcquired,
+} from "@/redux/features/pathSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   updateRecommendedPath,
   updateUdemyPath,
 } from "@/redux/features/pathSlice";
-import { updateMissingSkills } from "@/redux/features/resumeProcessingSlice";
+import {
+  setSkillsMatchedPercentage,
+  updateMissingSkills,
+} from "@/redux/features/resumeProcessingSlice";
 import { useState } from "react";
 
 export default function SkillsModal({
@@ -20,9 +26,6 @@ export default function SkillsModal({
 }) {
   const { recommendedPath, udemyPath, currentPath } = useAppSelector(
     (state) => state.pathSlice
-  );
-  const { missingCareerSkills } = useAppSelector(
-    (state) => state.resumeProcessingSlice
   );
   const [skillsAcquired, setSkillsAcquired] = useState<PathSkill[]>(skills);
   const dispatch = useAppDispatch();
@@ -51,10 +54,12 @@ export default function SkillsModal({
         ? { ...data, acquired: !data.acquired }
         : data
     );
-
     setSkillsAcquired(updatedSkillsAcquired);
-
     dispatch(updateMissingSkills({ skills: updatedSkillsAcquired }));
+    dispatch(setSkillsMatchedPercentage());
+    dispatch(
+      checkIfAllSkillsAcquired({ skills: updatedSkillsAcquired, title })
+    );
   };
 
   return (
