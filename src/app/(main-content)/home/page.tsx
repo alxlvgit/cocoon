@@ -54,7 +54,7 @@ export default async function Profile() {
             />
           </div>
         </div>
-        <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 w-full justify-center items-starts">
+        <div className="grid lg:grid-cols-3 grid-cols-1 gap-4 w-full justify-center items-starts">
           <ProfileClient user={user} />
         </div>
       </div>

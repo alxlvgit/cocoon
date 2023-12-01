@@ -23,7 +23,7 @@ export default function TopCareerSuggestions() {
 
   return (
     <>
-      <div className="h-full bg-main-bg p-4 shadow-xl rounded-2xl flex-col flex items-center justify-center w-full ">
+      <div className="h-96 bg-main-bg p-4 shadow-xl rounded-2xl flex-col flex items-center justify-center w-full ">
         <p className="font-bold text-lg mb-2 text-center">
           Top career suggestions
         </p>

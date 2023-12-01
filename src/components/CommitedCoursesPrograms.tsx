@@ -80,7 +80,7 @@ export default function CommitedCoursesPrograms() {
   return (
     <div className="h-full col-span-2">
       <div className="grid items-center w-full">
-        <div className="bg-main-bg h-auto w-full rounded-2xl mx-auto p-4 text-center align-middle items-center justify-center grid grid-cols-1 gap-4 md:grid-cols-4 shadow-xl">
+        <div className="bg-main-bg h-full w-full rounded-2xl mx-auto p-4 text-center align-middle items-center justify-center grid grid-cols-1 gap-4 md:grid-cols-4 shadow-xl">
           <div className="col-span-1 items-center justify-center">
             <div className="flex items-center justify-center">
               <svg
