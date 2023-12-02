@@ -3,6 +3,7 @@ import CareerOutlook from "./CareerOutlook";
 import SalaryDetails from "./SalaryDetails";
 import * as odotnet from "@/app/api/odotnet/fetch-api";
 import * as enums from "@/app/api/odotnet/enums";
+import StartAnalysisContainer from './StartAnalysisContainer';
 
 type CareerDetails = {
   title: string;
@@ -37,6 +38,13 @@ const AllCareerData = async ({ careerCode }: { careerCode: string }) => {
       <h1 className="font-semibold text-xl mb-3 md:col-span-2 text-center">
         {career.title}
       </h1>
+      <StartAnalysisContainer
+        title={"Start Analysis"}
+        data={
+          "This analysis will help you determine if you have enough skills to be successful in this career, and if not, what skills you need to work on."
+        }
+        careerCode={careerCode}
+      />
       {outlook && (
         <CareerOutlook careerOutlook={outlook} brightOutlook={brightOutlook} />
       )}
