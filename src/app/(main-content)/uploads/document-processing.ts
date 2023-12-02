@@ -9,20 +9,25 @@ export const extractKeyPhrasesLambda = async (
   text: string,
   promptMessage: string,
   includeQualifications: boolean
-) => {
-  const data = await fetch(
-    "https://aq26w2ucx5iiz4zyonmmhsey3a0vhdbl.lambda-url.us-west-2.on.aws/",
-    {
-      method: "POST",
-      body: JSON.stringify({
-        text: text,
-        promptMessage: promptMessage,
-        includeQualifications,
-      }),
-    }
-  );
-  const keyPhrases: KeyPhrases = await data.json();
-  return keyPhrases;
+): Promise<KeyPhrases | null> => {
+  try {
+    const data = await fetch(
+      "https://aq26w2ucx5iiz4zyonmmhsey3a0vhdbl.lambda-url.us-west-2.on.aws/",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          text: text,
+          promptMessage: promptMessage,
+          includeQualifications,
+        }),
+      }
+    );
+    const keyPhrases: KeyPhrases = await data.json();
+    return keyPhrases;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 };
 
 // Invoke AWS Lambda function to perform semantic search
@@ -33,27 +38,36 @@ export const semanticSearchLambda = async (
   kIncrement: number,
   maxK: number,
   metadata?: { id: number }[]
-) => {
-  const data = await fetch(
-    "https://4u4plgzyv6amk3jeqp5wmcksla0swhmm.lambda-url.us-west-2.on.aws/",
-    {
-      method: "POST",
-      body: JSON.stringify({
-        inputData: inputData,
-        dataToStoreInVectorStore: dataToStoreInVectorStore,
-        minSimilarityScore: minSimilarityScore,
-        kIncrement: kIncrement,
-        maxK: maxK,
-        metadata: metadata ? metadata : null,
-      }),
-    }
-  );
-  const result = await data.json();
-  return result;
+): Promise<{ [key: string]: SimilaritySearchResult[] } | null> => {
+  try {
+    const data = await fetch(
+      "https://4u4plgzyv6amk3jeqp5wmcksla0swhmm.lambda-url.us-west-2.on.aws/",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          inputData: inputData,
+          dataToStoreInVectorStore: dataToStoreInVectorStore,
+          minSimilarityScore: minSimilarityScore,
+          kIncrement: kIncrement,
+          maxK: maxK,
+          metadata: metadata ? metadata : null,
+        }),
+      }
+    );
+    const result = await data.json();
+    return result;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 };
 
 // Extract key phrases from resume
-export const extractResumeKeyPhrases = async (extractedText: string) => {
+export const extractResumeKeyPhrases = async (
+  extractedText: string
+): Promise<
+  { success: string[]; error?: string } | { error: string; success?: string[] }
+> => {
   const prompt =
     "List all skills, performed tasks, and qualifications mentioned in the following text.";
   const resumeKeyPhrases = await extractKeyPhrasesLambda(
@@ -65,14 +79,19 @@ export const extractResumeKeyPhrases = async (extractedText: string) => {
     const { skills, qualifications, tasks } = resumeKeyPhrases;
     const keyPhrases = [...skills, ...qualifications!, ...tasks];
     if (keyPhrases.length > 0) {
-      return keyPhrases.map((phrase) => phrase.toLowerCase());
+      return { success: keyPhrases.map((phrase) => phrase.toLowerCase()) };
     }
   }
-  return null;
+  return { error: "No key phrases found in resume" };
 };
 
 // Extract key phrases from career. Get career title and required tasks that are performed on the job
-export const extractCareerKeyPhrases = async (careerCode: string) => {
+export const extractCareerKeyPhrases = async (
+  careerCode: string
+): Promise<
+  | { requiredTasks: string[]; title: string; error?: string }
+  | { error: string; requiredTasks?: string[]; title?: string }
+> => {
   const careerData = await odotnet.odotnetCareerOverview(careerCode);
   const title = careerData?.career?.title ?? null;
   let onTheJobTasks = careerData?.career?.on_the_job?.task ?? null;
@@ -105,7 +124,7 @@ export const extractCareerKeyPhrases = async (careerCode: string) => {
   if (requiredTasks && title) {
     return { requiredTasks, title };
   }
-  return null;
+  return { error: "No key phrases found in career" };
 };
 
 // Find missing and matching skills by performing semantic search
@@ -124,6 +143,9 @@ export const findMissingSkills = async (
     6
   );
 
+  if (!result) {
+    return { error: "No missing skills found. Check lambda function." };
+  }
   const matchedCareerSkills = new Set<string>(); // store unique matches from career required skills
 
   // matched resume skills

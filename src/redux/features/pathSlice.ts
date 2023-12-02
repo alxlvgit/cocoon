@@ -188,15 +188,13 @@ export const pathSlice = createSlice({
         completedCoursesPrograms: updatedCompletedCoursesPrograms,
       };
     },
-    resetPathsState: (state) => {
-      state.currentPath = "";
-      state.program = undefined;
-      state.courses = undefined;
-      state.udemyCourses = undefined;
-      state.recommendedPath = undefined;
-      state.udemyPath = undefined;
-      state.completedCoursesPrograms = {};
+    resetCompletedCoursesPrograms: (state) => {
+      return {
+        ...state,
+        completedCoursesPrograms: {},
+      };
     },
+    resetPathsState: () => initialState,
   },
 });
 
@@ -211,6 +209,7 @@ export const {
   setUdemyPath,
   resetPathsState,
   checkIfAllSkillsAcquired,
+  resetCompletedCoursesPrograms,
 } = pathSlice.actions;
 
 export default pathSlice.reducer;
