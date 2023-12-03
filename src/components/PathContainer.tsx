@@ -33,7 +33,8 @@ const PathContainer = ({
   };
 
   return (
-    <div className="flex flex-col w-full rounded-lg ">
+    <>
+    <div className="flex flex-col w-full rounded-lg h-[360px] overflow-auto">
       <div className="text-xs md:text-sm lg:text-lg text-left w-full ">
         {pathData &&
           pathType === "recommended" &&
@@ -65,7 +66,7 @@ const PathContainer = ({
             </>
           ) : null)}
         {pathData && pathType === "online-only" && udemyCourses && (
-          <div className="h-96 overflow-auto">
+          <>
             {udemyCourses.map((val) => (
               <CourseProgram
                 type="Udemy"
@@ -74,10 +75,25 @@ const PathContainer = ({
                 link={val.url}
               />
             ))}
-          </div>
+          </>
         )}
       </div>
-      <div className="flex justify-start items-center">
+      {/* <div className="flex justify-start items-center">
+        {currentPath === pathType ? (
+          <div className="text-xs md:text-sm lg:text-base font-bold text-center w-full px-8 py-2 border text-white border-white rounded-lg">
+            This is your current path
+          </div>
+        ) : (
+          <button
+            onClick={setMyCurrentPath}
+            className="bg-button-bg w-fit hover:bg-gray-100 text-gray-800 font-medium py-1 px-4 mr-2 mt-2  border border-gray-400 rounded-lg shadow text-sm"
+          >
+            Commit Path
+          </button>
+        )}
+      </div> */}
+    </div>
+    <div className="flex justify-start items-center">
         {currentPath === pathType ? (
           <div className="text-xs md:text-sm lg:text-base font-bold text-center w-full px-8 py-2 border text-white border-white rounded-lg">
             This is your current path
@@ -91,7 +107,7 @@ const PathContainer = ({
           </button>
         )}
       </div>
-    </div>
+    </>
   );
 };
 
