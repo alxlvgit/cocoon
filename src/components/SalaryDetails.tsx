@@ -136,7 +136,7 @@ export default function SalaryDetails({
   return (
     <div className="bg-bright-main p-10 rounded-3xl shadow-md flex flex-col items-center overflow-hidden">
       <div>
-        <h1 className="font-semibold text-base mb-3 text-lg">Salary</h1>
+        <h1 className="font-semibold text-base mb-3 md:text-lg">Salary</h1>
       </div>
       <div className="flex flex-col items-center">
         <div className="mb-4">
@@ -160,6 +160,29 @@ export default function SalaryDetails({
             className="mt-2"
             style={{ height: "200px", width: "100%" }}
           />
+        </div>
+      </div>
+      <div className="text-xs pt-10" style={{ opacity: 0.9 }}>
+        <div role="alert" className="alert">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            className="stroke-info shrink-0 w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+          <span>
+            This data is from O.Net Online:{" "}
+            <a href="https://www.onetonline.org/" target="_blank">
+              https://www.onetonline.org/
+            </a>
+          </span>
         </div>
       </div>
     </div>

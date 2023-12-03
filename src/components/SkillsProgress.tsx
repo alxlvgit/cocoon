@@ -11,14 +11,14 @@ const SkillsProgress = () => {
     <div className="bg-main-bg h-full col-span-2 w-full rounded-2xl p-4 sm:p-10 text-center flex flex-col  align-middle items-center justify-between shadow-xl">
       {pickedCareer && skillsMatchedPercentage ? (
         <>
-          <h1 className="text-center font-bold md:col-span-2 text-lg mb-8">
+          <h1 className="text-center font-bold md:col-span-2 text-md mb-8">
             Career Path: <span>{pickedCareer}</span>
           </h1>
           <div className="flex h-full w-full sm:p-8">
-            <div className="bg-white flex flex-col items-center justify-center p-8 rounded-xl w-full">
+            <div className="bg-bright-main flex flex-col items-center justify-center p-8 rounded-xl w-full">
               <div className="flex flex-col sm:items-start justify-center sm:justify-start w-full">
-                <p className="text-gray-400">Your progress</p>
-                <p className="text-xl font-extrabold text-gray-600 pb-3">
+                <p className="text-gray-500">Your progress</p>
+                <p className="text-lg font-extrabold text-gray-600 pb-3">
                   {skillsMatchedPercentage}% completed
                 </p>
               </div>
@@ -27,17 +27,19 @@ const SkillsProgress = () => {
                 maxCompleted={100}
                 bgColor="#6DB8C5"
                 animateOnRender={true}
-                className="w-full sm:p-0"
+                className="w-full sm:p-0 "
+                baseBgColor="#ffffff"
+                height="30px"
               />
             </div>
           </div>
         </>
       ) : (
         <>
-          <h1 className="text-center mb-8 font-bold  text-lg">
+          <h1 className="text-center mb-8 font-bold  text-md">
             No path has been selected, upload your resume to start !
           </h1>
-          <div className="justify-center items-center text-lg">
+          <div className="justify-center items-center text-md">
             <Link
               href="/careers"
               className="relative inline-flex items-center justify-center p-4 px-3 md:px-6 py-2 md:py-3 overflow-hidden font-medium transition duration-300 ease-out border-2 rounded-full shadow-md group border-gray-500"

@@ -43,7 +43,7 @@ export default function CommitedCoursesPrograms() {
       setCourseOrProgram("Courses");
     }
 
-   const completed = Object.keys(completedCoursesPrograms).reduce(
+    const completed = Object.keys(completedCoursesPrograms).reduce(
       (acc, val) => {
         if (completedCoursesPrograms[val]) {
           return acc + 1;
@@ -118,7 +118,7 @@ export default function CommitedCoursesPrograms() {
             </p>
           </div>
           <div className="md:col-span-3 grid grid-rows-7 w-full h-full">
-            <p className="text-lg w-fit place-self-center font-bold pb-3">
+            <p className="text-md w-fit place-self-center font-bold pb-3">
               Courses and Programs
             </p>
             <SkillsModal
