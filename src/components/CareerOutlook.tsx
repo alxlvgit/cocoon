@@ -15,7 +15,7 @@ export default function CareerOutlook({
         <div className="flex flex-col mb-10">
           {careerOutlook[0] === "Bright" && (
             <div
-              className="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 text-center"
+              className="bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3 text-center"
               role="alert"
             >
               <p className="font-bold">Bright Outlook</p>
@@ -24,7 +24,7 @@ export default function CareerOutlook({
           )}
           {careerOutlook[0] === "Average" && (
             <div
-              className="bg-green-100 border-t border-b border-green-500 text-green-700 px-4 py-3 text-center"
+              className="bg-yellow-100 border-t border-b border-yellow-500 text-yellow-700 px-4 py-3 text-center"
               role="alert"
             >
               <p className="font-bold">Average Outlook</p>
@@ -36,7 +36,7 @@ export default function CareerOutlook({
               className="bg-red-100 border-t border-b border-red-500 text-red-700 px-4 py-3 text-center"
               role="alert"
             >
-              <p className="font-bold">Below Outlook</p>
+              <p className="font-bold">Below Average Outlook</p>
               <p className="text-sm">{careerOutlook[1]} </p>
             </div>
           )}

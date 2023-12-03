@@ -3,7 +3,7 @@ import CareerOutlook from "./CareerOutlook";
 import SalaryDetails from "./SalaryDetails";
 import * as odotnet from "@/app/api/odotnet/fetch-api";
 import * as enums from "@/app/api/odotnet/enums";
-import StartAnalysisContainer from './StartAnalysisContainer';
+import StartAnalysisContainer from "./StartAnalysisContainer";
 
 type CareerDetails = {
   title: string;

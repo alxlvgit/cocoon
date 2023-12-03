@@ -13,7 +13,10 @@ async function Careers() {
   return (
     <main className="mt-24 sm:mt-24 pb-10 max-w-screen-2xl m-auto">
       <div className="grid grid-cols-3">
-        <div className="place-content-end animate-fade-right animate-once animate-duration-1000 animate-delay-1000">
+        <h1 className="m-10 text-center col-span-3 md:col-span-2 md:place-self-end font-bold text-2xl">
+          Make Your Next Step With Us!
+        </h1>
+        <div className="col-span-3 mx-3 lg:mx-5 md:col-span-1 animate-fade-right animate-once animate-duration-1000 animate-delay-900">
           <div role="alert" className="alert">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -35,10 +38,6 @@ async function Careers() {
             </span>
           </div>
         </div>
-
-        <h1 className="m-5 text-center font-bold text-2xl">
-          Make Your Next Step With Us!
-        </h1>
       </div>
 
       <div className="grid gap-8 lg:gap-10 justify-center grid-cols-1 xs:grid-cols-2 md:grid-cols-3 w-3/5 xs:w-3/4 m-auto my-10 auto-rows-fr">
