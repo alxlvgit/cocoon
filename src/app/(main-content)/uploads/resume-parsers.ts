@@ -33,13 +33,20 @@ export const extractTextFromDocx = async (
       method: "POST",
       body: JSON.stringify({ file: requestBody }),
     });
-    const data = await extractedText.json();
-    if (data.trim().length === 0) {
+    if (extractedText.status !== 200) {
+      console.log(
+        "Error: " + extractedText.statusText + " " + extractedText.status
+      );
       return undefined;
-    } else {
+    }
+    const data = await extractedText.json();
+    if (data && data.trim().length !== 0) {
       return data;
+    } else {
+      return undefined;
     }
   } catch (err) {
     console.log(err);
+    return undefined;
   }
 };

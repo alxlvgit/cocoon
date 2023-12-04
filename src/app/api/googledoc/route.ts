@@ -25,14 +25,12 @@ type googleDoc = {
 
 // Read the google doc file and return the text
 export const POST = async function handler(req: Request, res: Response) {
-
   // const keys = JSON.parse(keysjson);
   const keys = keysjson;
 
   // Initialize the Google Docs API
   const SCOPES = ["https://www.googleapis.com/auth/documents"];
   const body = await req.json();
-
 
   const docsBody = body as googleDoc;
 
@@ -62,15 +60,6 @@ export const POST = async function handler(req: Request, res: Response) {
     return text;
   }
 
-  const extractGoogleDocId = (url: string): string | undefined => {
-    // Regular expression to match Google Docs URL and extract document ID
-    const regex = /\/document\/d\/([^\/]+)\//;
-    const match = url.match(regex);
-
-    // If there is a match, return the extracted document ID, otherwise, return null
-    return match ? match[1] : undefined;
-  };
-
   try {
     const client = new GoogleAuth({
       credentials: {
@@ -81,11 +70,14 @@ export const POST = async function handler(req: Request, res: Response) {
     });
 
     const docs = google.docs({ version: "v1", auth: client });
-    const onlyDocId = extractGoogleDocId(docsBody.googleDocId);
-    const docsRes = await docs.documents.get({ documentId: onlyDocId });
+
+    const docsRes = await docs.documents.get({ documentId: body.googleDocId });
     // console.log(docsRes);
     if (!docsRes.data.body) return new Response("No data", { status: 500 });
     const text = readStructuralElements(docsRes.data.body.content);
+    if (text.length > 6000)
+      return new Response("Document is Too Long", { status: 500 });
+
     // console.log(text);
     return new Response(JSON.stringify(text), { status: 200 });
   } catch (e) {

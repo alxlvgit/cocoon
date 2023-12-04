@@ -88,6 +88,9 @@ export const findBestMatchProgram = async (
         1,
         1
       );
+      if (!bestMatch) {
+        return { error: "Could not find the best match program" };
+      }
       const bestMatchProgramObject = programs.success.find(
         (program: { programName: string }) =>
           program.programName.toLowerCase() ===
@@ -135,6 +138,10 @@ export const matchProgramsWithKeyPhrases = async (
       1
     );
 
+    if (!programSearch) {
+      return { error: "Could not match the programs with keyphrases" };
+    }
+
     let matchedPrograms = new Set<Program>();
     for (const key in programSearch) {
       matchedPrograms.add(
@@ -166,7 +173,11 @@ export const matchCoursesWithKeyPhrases = async (
 
     const courseSearch: {
       [key: string]: SemanticSearchResult[];
-    } = await semanticSearchLambda(keyPhrases, coursesNames, 0.7, 1, 1);
+    } | null = await semanticSearchLambda(keyPhrases, coursesNames, 0.7, 1, 1);
+
+    if (!courseSearch) {
+      return { error: "Could not match the courses with keyphrases" };
+    }
 
     const matchedCoursesWithSkills: {
       [key: string]: CourseWithSkills;
@@ -274,7 +285,7 @@ export const findUdemyPath = async (
 
     const result: {
       [key: string]: SemanticSearchResult[];
-    } = await semanticSearchLambda(
+    } | null = await semanticSearchLambda(
       missingSkills,
       textToEmbed,
       0.73,
@@ -282,7 +293,9 @@ export const findUdemyPath = async (
       1,
       metadata
     );
-
+    if (!result) {
+      return { error: "Could not find the Udemy path" };
+    }
     const matchingCourses = new Set<UdemyCourse>();
     const matchingCoursesWithSkills: {
       [key: string]: UdemyCourseWithSkills;
