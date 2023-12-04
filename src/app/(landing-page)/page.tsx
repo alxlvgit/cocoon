@@ -29,7 +29,7 @@ function Home() {
             <div className="relative pt-8">
               <Link
                 href="/home"
-                className="relative inline-flex items-center justify-center p-4 px-3 md:px-6 py-2 md:py-3 overflow-hidden font-medium transition duration-300 ease-out border-2 rounded-full shadow-md group border-white"
+                className="relative inline-flex items-center justify-center p-4 px-2 md:px-6 py-1 md:py-1 overflow-hidden font-medium transition duration-300 ease-out border-2 rounded-lg shadow-md group border-white"
               >
                 <span className="absolute inset-0 flex items-center justify-center w-full h-full text-black duration-300 -translate-x-full bg-356CBE group-hover:translate-x-0 ease">
                   <svg
@@ -47,10 +47,10 @@ function Home() {
                     ></path>
                   </svg>
                 </span>
-                <span className="md:text-lg absolute flex items-center justify-center w-full h-full text-white transition-all duration-300 transform group-hover:translate-x-full ease">
+                <span className="md:text-xl absolute flex items-center justify-center w-full h-full text-white transition-all duration-300 transform group-hover:translate-x-full ease">
                   Start Now
                 </span>
-                <span className="text-lg relative invisible">Start Now</span>
+                <span className="text-xl relative invisible">Start Now</span>
               </Link>
             </div>
           </div>

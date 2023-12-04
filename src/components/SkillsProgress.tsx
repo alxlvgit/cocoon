@@ -36,15 +36,15 @@ const SkillsProgress = () => {
         </>
       ) : (
         <>
-          <h1 className="text-center mb-8 font-bold  text-md">
+          <h1 className="text-center mb-8 font-bold text-lg drop-shadow-lg">
             No path has been selected, upload your resume to start !
           </h1>
           <div className="justify-center items-center text-md">
             <Link
               href="/careers"
-              className="relative inline-flex items-center justify-center p-4 px-3 md:px-6 py-2 md:py-3 overflow-hidden font-medium transition duration-300 ease-out border-2 rounded-full shadow-md group border-gray-500"
+              className="relative inline-flex items-center justify-center md:px-8 py-1 md:py-3 overflow-hidden font-medium transition duration-300 ease-out border border-gray-600 rounded-md shadow-md group bg-button-bg mt-4 bottom-5 drop-shadow-lg"
             >
-              <span className="absolute inset-0 flex items-center justify-center w-full h-full text-black duration-300 -translate-x-full bg-356CBE group-hover:translate-x-0 ease">
+              <span className="absolute inset-0 flex items-center justify-center w-full h-full text-black duration-300 -translate-x-full bg- group-hover:translate-x-0 ease">
                 <svg
                   className="w-6 h-6"
                   fill="none"
