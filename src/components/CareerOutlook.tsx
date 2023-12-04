@@ -13,7 +13,7 @@ export default function CareerOutlook({
       <div>
         <div className="flex flex-col mb-10">
           {careerOutlook[0] === "Bright" && (
-            <span className="text-sm text-white text-center font-bold bg-green-500 mb-2 px-2 py-2 rounded-full">
+            <span className="text-sm text-white text-center font-bold bg-green-500 mb-10 py-2 rounded-full w-36 ml-40">
               Bright Outlook
             </span>
           )}
