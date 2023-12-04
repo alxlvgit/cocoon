@@ -4,12 +4,12 @@ import Link from "next/link";
 
 export default async function Career({ params }: { params: { code: string } }) {
   return (
-    <main className="mt-16 md:mt-24 max-w-6xl mx-auto sm:mt-36">
-      <div className="m-3">
+    <main className="mt-16 md:mt-28 max-w-6xl mx-auto sm:mt-36">
+      <div className="m-5">
         <Link href="/careers">
           <button
             type="button"
-            className="grid grid-cols-2 items-center justify-center px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-800"
+            className="grid grid-cols-2 items-center justify-center px-5 py-2 text-sm text-gray-700 transition-colors duration-200 border border-gray-600 bg-button-bg rounded-lg w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-800"
           >
             <svg
               className="w-5 h-5 rtl:rotate-180"
