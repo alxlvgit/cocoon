@@ -47,6 +47,12 @@ const ProcessingStatuses = () => {
       error={true}
       text="Could not analyze your resume. Please upload a file and try again."
     />,
+    // 8
+    <ProcessingStatus
+      key={"failed-extract-text"}
+      error={true}
+      text="Could not extract text from your Google Doc. Please try again or upload a file."
+    />,
   ];
 
   const state = useAppSelector((state) => state.resumeProcessingSlice);

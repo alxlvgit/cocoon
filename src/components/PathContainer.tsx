@@ -1,6 +1,7 @@
 import {
   RecommendedPath,
   UdemyPath,
+  resetCompletedCoursesPrograms,
   setCurrentPath,
 } from "@/redux/features/pathSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -26,6 +27,7 @@ const PathContainer = ({
   const router = useRouter();
   const setMyCurrentPath = () => {
     dispatch(setCurrentPath(pathType));
+    dispatch(resetCompletedCoursesPrograms());
     dispatch(resetToInitialMatchingSkills());
     dispatch(resetToInitialMissingSkills());
     dispatch(setSkillsMatchedPercentage());

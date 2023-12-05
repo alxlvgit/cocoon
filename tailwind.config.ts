@@ -33,6 +33,7 @@ const config: Config = {
         "main-color": "#6DB8C5",
         "bright-main-color": "#D0F0F6",
         "button-main": "#DBC2CF",
+        "logo-colorBrown": "#442a1f",
       },
     },
     screens: {

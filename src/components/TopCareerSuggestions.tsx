@@ -23,8 +23,8 @@ export default function TopCareerSuggestions() {
 
   return (
     <>
-      <div className="h-96 bg-main-bg p-4 shadow-xl rounded-2xl flex-col flex items-center justify-center w-full ">
-        <p className="font-bold text-lg mb-2 text-center">
+      <div className="bg-main-bg p-4 shadow-xl rounded-2xl flex-col flex items-center justify-center w-full h-96">
+        <p className="font-bold text-md mb-2 text-center">
           Top career suggestions
         </p>
         <div className="overflow-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 w-full h-full border shadow-lg border-gray-300 rounded-xl px-3 pt-1 pb-3 bg-bright-main">

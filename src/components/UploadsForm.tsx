@@ -48,7 +48,13 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
   const runAnalysis = async (extractedText: string) => {
     dispatch(setProcessingStatus(3));
     const resumeKeyPhrases = await extractResumeKeyPhrases(extractedText); // Step 2: if text is extracted, extract key phrases by using ChatOpenAI API
-    dispatch(setProcessingStatus(4));
+    if (resumeKeyPhrases.success) {
+      dispatch(setProcessingStatus(4));
+    } else {
+      dispatch(setProcessingStatus(7));
+      dispatch(setProcessing(false));
+      return;
+    }
     const careerSkillsKeyPhrases = await extractCareerKeyPhrases(careerCode); // Step 3: extract key phrases from career skills
     const { title, requiredTasks } = careerSkillsKeyPhrases
       ? careerSkillsKeyPhrases
@@ -57,19 +63,29 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
       dispatch(setProcessingStatus(5));
       const matchingMissingSkills = await findMissingSkills(
         requiredTasks,
-        resumeKeyPhrases
+        resumeKeyPhrases.success
       ); // Step 4: if key phrases are extracted from both resume and career skills, find missing skills by using semantic search
-      const { matchedResumeSkills, missingCareerSkills, matchedCareerSkills } =
-        matchingMissingSkills;
-      dispatch(setPickedCareer(title));
-      dispatch(setMissingSkills(missingCareerSkills));
-      dispatch(setTransferableSkills(matchedResumeSkills));
-      dispatch(setMatchingSkills(Array.from(matchedCareerSkills)));
-      dispatch(setRequiredSkills(requiredTasks));
-      dispatch(setSkillsMatchedPercentage());
-      dispatch(setProcessing(false));
-      dispatch(setProcessingStatus(null));
-      router.push("/analysis");
+      if (
+        !matchingMissingSkills.error &&
+        matchingMissingSkills.matchedCareerSkills &&
+        matchingMissingSkills.matchedResumeSkills &&
+        matchingMissingSkills.missingCareerSkills
+      ) {
+        const {
+          matchedResumeSkills,
+          missingCareerSkills,
+          matchedCareerSkills,
+        } = matchingMissingSkills;
+        dispatch(setPickedCareer(title));
+        dispatch(setMissingSkills(missingCareerSkills));
+        dispatch(setTransferableSkills(matchedResumeSkills));
+        dispatch(setMatchingSkills(Array.from(matchedCareerSkills)));
+        dispatch(setRequiredSkills(requiredTasks));
+        dispatch(setSkillsMatchedPercentage());
+        dispatch(setProcessing(false));
+        dispatch(setProcessingStatus(null));
+        router.push("/analysis");
+      }
     } else {
       dispatch(setProcessing(false));
       dispatch(setProcessingStatus(7));
@@ -85,38 +101,42 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
       setErrorMsg("Please upload your resume");
       return;
     }
-    if (uploadedFile) {
-      setErrorMsg("");
-      reader.readAsBinaryString(uploadedFile!);
-      reader.onload = async () => {
-        const fileContent = reader.result as string;
-        const base64Bytes = Buffer.from(fileContent, "binary").toString(
-          "base64"
-        );
-        dispatch(setProcessing(true));
-        dispatch(setProcessingStatus(1));
-        const isPdf = uploadedFile.name.endsWith(".pdf");
-        const isDocx = uploadedFile.name.endsWith(".docx");
-        if (isPdf) {
-          const numPages = await getNumberOfPDFPages(base64Bytes);
-          if (numPages > 1) {
-            dispatch(setProcessingStatus(6));
-            dispatch(setProcessing(false));
-            return;
-          }
-        }
-        dispatch(setProcessingStatus(2));
-        const extractedText = isDocx
-          ? await extractTextFromDocx(base64Bytes)
-          : await extractTextFromPdf(base64Bytes); // Step 1: extract text from pdf or docx
-        if (extractedText) {
-          await runAnalysis(extractedText);
-        }
-      };
-    } else {
-      dispatch(setProcessingStatus(7));
-      dispatch(setProcessing(false));
+    if (
+      uploadedFile &&
+      uploadedFile.name.endsWith(".docx") &&
+      uploadedFile.size > 100000
+    ) {
+      setErrorMsg("File size is too large. Please upload a smaller file");
+      return;
     }
+    setErrorMsg("");
+    reader.readAsBinaryString(uploadedFile!);
+    reader.onload = async () => {
+      const fileContent = reader.result as string;
+      const base64Bytes = Buffer.from(fileContent, "binary").toString("base64");
+      dispatch(setProcessing(true));
+      dispatch(setProcessingStatus(1));
+      const isPdf = uploadedFile.name.endsWith(".pdf");
+      const isDocx = uploadedFile.name.endsWith(".docx");
+      if (isPdf) {
+        const numPages = await getNumberOfPDFPages(base64Bytes);
+        if (numPages > 1) {
+          dispatch(setProcessingStatus(6));
+          dispatch(setProcessing(false));
+          return;
+        }
+      }
+      dispatch(setProcessingStatus(2));
+      const extractedText = isDocx
+        ? await extractTextFromDocx(base64Bytes)
+        : await extractTextFromPdf(base64Bytes); // Step 1: extract text from pdf or docx
+      if (extractedText) {
+        await runAnalysis(extractedText);
+      } else {
+        dispatch(setProcessingStatus(7));
+        dispatch(setProcessing(false));
+      }
+    };
   };
 
   return (

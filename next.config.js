@@ -4,9 +4,11 @@ const nextConfig = {
     config.resolve.alias.canvas = false;
     return config;
   },
-  // experimental: {
-  //   serverActionsBodySizeLimit: "3mb",
-  // },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "2mb",
+    },
+  },
   reactStrictMode: false,
   images: {
     domains: ["velog.velcdn.com", "avatars.githubusercontent.com"],

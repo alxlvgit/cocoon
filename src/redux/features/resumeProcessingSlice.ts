@@ -122,19 +122,7 @@ export const resumeProcessingSlice = createSlice({
       state.pickedCareer = action.payload;
     },
 
-    resetResumeProcessingState: (state) => {
-      state.processing = false;
-      state.processingStep = null;
-      state.googleDocUrl = null;
-      state.transferableResumeSkills = [];
-      state.missingCareerSkills = [];
-      state.requiredCareerSkills = [];
-      state.matchingCareerSkills = [];
-      state.pickedCareer = null;
-      state.initialMissingCareerSkills = [];
-      state.initialMatchingCareerSkills = [];
-      state.skillsMatchedPercentage = null;
-    },
+    resetResumeProcessingState: () => initialState,
   },
 });
 
