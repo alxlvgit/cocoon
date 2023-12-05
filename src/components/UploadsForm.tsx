@@ -47,14 +47,17 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
   // // Run analysis on extracted text
   const runAnalysis = async (extractedText: string) => {
     dispatch(setProcessingStatus(3));
+    setActivedStepThree(true);
     const resumeKeyPhrases = await extractResumeKeyPhrases(extractedText); // Step 2: if text is extracted, extract key phrases by using ChatOpenAI API
     dispatch(setProcessingStatus(4));
+    setActivedStepFour(true);
     const careerSkillsKeyPhrases = await extractCareerKeyPhrases(careerCode); // Step 3: extract key phrases from career skills
     const { title, requiredTasks } = careerSkillsKeyPhrases
       ? careerSkillsKeyPhrases
       : { title: null, requiredTasks: null };
     if (requiredTasks && resumeKeyPhrases && title) {
       dispatch(setProcessingStatus(5));
+      setActivedStepFive(true);
       const matchingMissingSkills = await findMissingSkills(
         requiredTasks,
         resumeKeyPhrases
@@ -95,6 +98,7 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
         );
         dispatch(setProcessing(true));
         dispatch(setProcessingStatus(1));
+        setActivedStepOne(true);
         const isPdf = uploadedFile.name.endsWith(".pdf");
         const isDocx = uploadedFile.name.endsWith(".docx");
         if (isPdf) {
@@ -106,6 +110,7 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
           }
         }
         dispatch(setProcessingStatus(2));
+        setActivedStepTwo(true);
         const extractedText = isDocx
           ? await extractTextFromDocx(base64Bytes)
           : await extractTextFromPdf(base64Bytes); // Step 1: extract text from pdf or docx
@@ -119,8 +124,24 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
     }
   };
 
+  const [activedStepOne, setActivedStepOne] = useState(false);
+  const [activedStepTwo, setActivedStepTwo] = useState(false);
+  const [activedStepThree, setActivedStepThree] = useState(false);
+  const [activedStepFour, setActivedStepFour] = useState(false);
+  const [activedStepFive, setActivedStepFive] = useState(false);
+
+
   return (
     <>
+      <ul className="steps steps-vertical lg:steps-horizontal">
+        <li className={activedStepOne ? 'step step-primary' : 'step'}>File Uploaded</li>
+        <li className={activedStepTwo ? 'step step-primary' : 'step'}>Extracting text</li>
+        <li className={activedStepThree ? 'step step-primary' : 'step'}>Reading Resume</li>
+        <li className={activedStepFour ? 'step step-primary' : 'step'}>Reading Career Requirement</li>
+        <li className={activedStepFive ? 'step step-primary' : 'step'}>Matching Skills</li>
+
+      </ul>
+
       <div className="flex flex-col my-6 items-center p-4 max-w-sm bg-white border border-gray-300 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 space-y-2">
         <p className="text-base font-semibold">Upload Resume</p>
         <label

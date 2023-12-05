@@ -8,6 +8,8 @@ import { useAppSelector } from "@/redux/hooks";
 import isEmpty from "@/utils/isEmpty";
 import { useEffect, useState } from "react";
 import SkillsModal from "./SkillsModal";
+import CheckDonutCourse from "./CheckDonut";
+
 
 export default function CommitedCoursesPrograms() {
   const [selectedCourse, setSelectedCourse] = useState<{
@@ -43,7 +45,7 @@ export default function CommitedCoursesPrograms() {
       setCourseOrProgram("Courses");
     }
 
-   const completed = Object.keys(completedCoursesPrograms).reduce(
+    const completed = Object.keys(completedCoursesPrograms).reduce(
       (acc, val) => {
         if (completedCoursesPrograms[val]) {
           return acc + 1;
@@ -76,6 +78,9 @@ export default function CommitedCoursesPrograms() {
     });
     setModalOpen(true);
   };
+
+  const [currentCoursePercentage, setCurrentCoursePercentage] = useState<number>(0)
+
 
   return (
     <div className="h-full col-span-2">
@@ -118,22 +123,26 @@ export default function CommitedCoursesPrograms() {
             </p>
           </div>        
           <div className="md:col-span-3 grid grid-rows-7 w-full h-full">
-            <p className="text-lg w-fit place-self-center font-bold pb-3">
+            <p className="text-md w-fit place-self-center font-bold pb-3">
               Courses and Programs
             </p>
-            <SkillsModal
+            {/* <SkillsModal
               key={selectedCourse?.title || ""}
               title={selectedCourse?.title || ""}
               skills={selectedCourse?.skills || []}
               open={isModalOpen}
               setModalOpen={setModalOpen}
-            />
-            <div className="row-span-6 bg-bright-main h-full rounded-2xl items-center align-middle justify-center grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 md:p-5">
+              setCurrentCoursePercentage={setCurrentCoursePercentage}
+            /> */}
+            <div className="row-span-6 bg-bright-main h-[534px] overflow-auto rounded-2xl items-center align-middle justify-center grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 md:p-5">
               <>
+                
                 {currentPathCoursesAndPrograms &&
                 !isEmpty(currentPathCoursesAndPrograms) ? (
                   Object.keys(currentPathCoursesAndPrograms).map((val) => (
-                    <div
+                    <>
+                      <CheckDonutCourse currentCoursePercentage={currentCoursePercentage} setCurrentCoursePercentage={setCurrentCoursePercentage} val={val} currentPathCoursesAndPrograms={currentPathCoursesAndPrograms[val]} />
+                    {/* <div
                       key={val}
                       className="bg-main-bg p-5 md:p-8 w-full relative h-full gap-6 rounded-lg drop-shadow-md place-self-center flex flex-col justify-between items-center"
                     >
@@ -141,6 +150,8 @@ export default function CommitedCoursesPrograms() {
                         <div className="absolute top-2 left-2 sm:top-3 sm:left-3"></div>
                         <p className="mt-6">{val}</p>
                       </div>
+
+                      
 
                       <button
                         className="h-fit px-3 py-1 border border-gray-400 rounded-lg shadow place-self-center hover:bg-white bg-button-bg w-fit text-xs text-center hover:cursor-pointer"
@@ -153,7 +164,8 @@ export default function CommitedCoursesPrograms() {
                       >
                         View Skills
                       </button>
-                    </div>
+                    </div> */}
+                    </>
                   ))
                 ) : (
                   <div className="col-span-2 h-96 flex items-center justify-center">

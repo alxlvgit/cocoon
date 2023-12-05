@@ -33,6 +33,7 @@ const config: Config = {
         "main-color": "#6DB8C5",
         "bright-main-color": "#D0F0F6",
         "button-main": "#DBC2CF",
+        "logo-colorBrown": "#442a1f",
       },
     },
     screens: {
@@ -41,7 +42,10 @@ const config: Config = {
     },
   },
   daisyui: {
-    themes: ["light"],
+    themes: [{"light" : {
+      ...require("daisyui/src/theming/themes")["light"],
+      primary: "#6DB8C5",
+    }}],
   },
   darkMode: "class",
   plugins: [

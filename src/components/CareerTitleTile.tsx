@@ -15,7 +15,7 @@ const CareerTile = ({ career }: { career: CareerData }) => {
         </div>
 
         <div className="hidden lg:flex justify-evenly items-center w-full mt-4">
-          <div className="invisible group-hover:visible grid grid-cols-1 justify-center items-center align-middle">
+          <div className="invisible group-hover:visible grid grid-cols-1 justify-center items-center align-middle pb-2">
             <Link
               href={`/career/${career.code}`}
               className={` w-fit text-black bg-button-bg text-center hover:bg-button-bg-hover focus:ring-gray-300 font-medium rounded-lg border border-gray-400 text-sm px-5 py-1  dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700`}

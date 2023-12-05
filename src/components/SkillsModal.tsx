@@ -18,11 +18,13 @@ export default function SkillsModal({
   skills,
   open,
   setModalOpen,
+  setCurrentCoursePercentage
 }: {
   title: string;
   skills: PathSkill[];
   open: boolean;
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentCoursePercentage: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const { recommendedPath, udemyPath, currentPath } = useAppSelector(
     (state) => state.pathSlice
@@ -62,17 +64,20 @@ export default function SkillsModal({
     );
   };
 
+  // const [currentCoursePercentage, setCurrentCoursePercentage] = useState(0)
+  let fullfilledSkills: string[] = []
+
   return (
     <>
       {open && (
         <div
-          className="z-50 fixed inset-0"
+          className="z-50 inset-0 fixed "
           id="my_modal_3"
           aria-labelledby="modal-title"
           role="dialog"
           aria-modal="true"
         >
-          <div className="modal-box m-auto h-1/3 md:h-2/3 p-5">
+          <div className="modal-box m-auto  h-1/3 md:h-2/3 p-5">
             <form method="dialog">
               <button
                 onClick={() => {
@@ -97,6 +102,15 @@ export default function SkillsModal({
                             className="checkbox checkbox-accent"
                             onChange={() => {
                               handleSkillAcquiredChange(skillData, title);
+                              if (!skillData.acquired) {
+                                fullfilledSkills.push(skillData.skill)
+                                setCurrentCoursePercentage(fullfilledSkills.length / skillsAcquired.length * 100)
+                                console.log(fullfilledSkills)
+                              } else {
+                                fullfilledSkills = fullfilledSkills.filter(skill => skill !== skillData.skill)
+                                setCurrentCoursePercentage(fullfilledSkills.length / skillsAcquired.length * 100)
+                                console.log(fullfilledSkills)
+                              }
                             }}
                           />
                         </label>

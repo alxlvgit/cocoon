@@ -63,7 +63,7 @@ function Home() {
                 loop
                 playsInline
                 controls
-                src="/assets/Ai-generatedCocoonIntro.mp4"
+                src="/assets/TechDemoCocoon.mp4"
               ></video>
             </div>
           </div>
@@ -80,22 +80,29 @@ function Home() {
                 className="float-right relative rounded-lg bottom-20 ml-4 drop-shadow-xl hidden lg:block"
                 src="/assets/about-cocoon.jpg"
               />
+              <br />
               <p className="text-gray-200 text-sm">
-                Cocoon, a pioneering AI-driven company, is revolutionizing the
-                job search and recruitment landscape by harnessing the power of
-                artificial intelligence. By meticulously scanning resumes and
-                extracting essential skills, Cocoon is empowering individuals to
-                find their dream jobs while assisting companies in discovering
-                the ideal candidates. This innovative platform efficiently
-                matches job seekers with career opportunities that align with
-                their expertise, experience, and aspirations. By using AI to
-                bridge the gap between job seekers and employers, Cocoon not
-                only streamlines the job hunt process but also enhances the
-                chances of a perfect fit for both parties. In an era where job
-                markets are rapidly evolving, Cocoon&apos;s AI-driven approach
-                ensures that individuals can seamlessly transition into new
-                roles and contribute their skills to companies seeking top
-                talent.
+                Introducing Cocoon, your personalized gateway to a tailored and
+                successful career path. Cocoon is a cutting-edge application
+                that harnesses the power of artificial intelligence to
+                revolutionize the way individuals navigate their professional
+                journeys. By seamlessly scanning and analyzing resumes, Cocoon
+                intelligently matches an individual&apos;s skills with their
+                chosen career, ensuring a perfect synergy between aspirations
+                and qualifications.{" "}
+              </p>
+              <br />
+              <p className="text-gray-200 text-sm">
+                {" "}
+                What sets Cocoon apart is its proactive approach to career
+                development. Not only does it identify existing skills, but it
+                also highlights any gaps that may hinder one&apos;s eligibility
+                for their desired industry. Recognizing the dynamic nature of
+                the job market, Cocoon takes the initiative to recommend
+                targeted courses and programs. These personalized suggestions
+                empower users to acquire the necessary skills and knowledge,
+                bridging the gap between their current capabilities and the
+                requirements of their chosen field.
               </p>
             </div>
           </div>

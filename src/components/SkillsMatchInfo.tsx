@@ -79,18 +79,18 @@ export default function SkillsMatchInfo({
     },
   };
   return (
-    <div className="bg-main-bg h-96 w-full rounded-2xl mx-auto p-4 text-center align-middle items-center justify-center grid grid-cols-1 md:grid-cols-2 shadow-xl pb-8">
+    <div className="bg-main-bg h-96 overflow-auto w-full rounded-2xl mx-auto p-4 text-center align-middle items-center justify-center grid grid-cols-1 md:grid-cols-2 shadow-xl pb-8">
       <h1 className="m-5 text-center font-bold md:col-span-2 text-lg mb-8">
         {positionTitle}
       </h1>
-      <div className="w-full h-full flex items-center justify-center pb-5">
+      <div className="w-full h-52 flex items-center justify-center pb-5">
         <Doughnut
           data={data}
           options={options}
           plugins={[textCenter]}
         ></Doughnut>
       </div>
-      <div className="text-start">
+      <div className="text-start h-60 overflow-auto">
         {skillsMatchedPercentage === 100 ? (
           <p className="text-black text-lg font-bold">
             Congratulations! You are fully qualified for a {positionTitle}{" "}
