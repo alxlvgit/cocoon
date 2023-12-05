@@ -19,7 +19,7 @@ const SavedCareers = () => {
               {pickedCareer}
             </div>
           ) : (
-            <div className="row-span-6 bg-bright-main h-[400px] m-1.5 rounded-2xl flex items-center justify-center">
+            <div className="row-span-6 bg-bright-main h-[360px] m-1.5 rounded-2xl flex items-center justify-center">
               Nothing to Display
             </div>
           )}

@@ -140,7 +140,7 @@ export default function CommitedCoursesPrograms() {
                     <>
                     <div
                       key={val}
-                      className="bg-main-bg p-5 md:p-8 w-full relative h-full gap-6 rounded-lg drop-shadow-md place-self-center flex flex-col justify-between items-center"
+                      className="bg-main-bg p-5 md:p-8 w-full relative h-[330px]  gap-6 rounded-lg drop-shadow-md place-self-center flex flex-col justify-between items-center"
                     >
                       <div className="text-black h-2/3 place-content-center">
                         <div className="absolute top-2 left-2 sm:top-3 sm:left-3"></div>
