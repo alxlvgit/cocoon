@@ -65,7 +65,6 @@ export default function SkillsModal({
     dispatch(
       checkIfAllSkillsAcquired({ skills: updatedSkillsAcquired, title })
     );
-
     
   };
 

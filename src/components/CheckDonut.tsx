@@ -100,6 +100,7 @@ export default function CheckDonutCourse({val, currentPathCoursesAndPrograms }: 
 
     return (
         <>
+            <p>{currentCoursePercentage}</p>
             {/* <p>val:{JSON.stringify(currentPathCoursesAndPrograms.skills.filter(skill => skill.acquired === true))}</p> */}
             <SkillsModal
                 key={val || ""}
