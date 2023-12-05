@@ -42,7 +42,10 @@ const config: Config = {
     },
   },
   daisyui: {
-    themes: ["light"],
+    themes: [{"light" : {
+      ...require("daisyui/src/theming/themes")["light"],
+      primary: "#6DB8C5",
+    }}],
   },
   darkMode: "class",
   plugins: [

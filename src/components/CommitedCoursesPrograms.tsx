@@ -9,6 +9,7 @@ import isEmpty from "@/utils/isEmpty";
 import { useEffect, useState } from "react";
 import SkillsModal from "./SkillsModal";
 
+
 export default function CommitedCoursesPrograms() {
   const [selectedCourse, setSelectedCourse] = useState<{
     title: string;
@@ -77,6 +78,8 @@ export default function CommitedCoursesPrograms() {
     setModalOpen(true);
   };
 
+
+
   return (
     <div className="h-full col-span-2">
       <div className="grid items-center w-full">       
@@ -128,11 +131,13 @@ export default function CommitedCoursesPrograms() {
               open={isModalOpen}
               setModalOpen={setModalOpen}
             />
-            <div className="row-span-6 bg-bright-main h-full rounded-2xl items-center align-middle justify-center grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 md:p-5">
+            <div className="row-span-6 bg-bright-main h-[534px] overflow-auto rounded-2xl items-center align-middle justify-center grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 md:p-5">
               <>
+                
                 {currentPathCoursesAndPrograms &&
                 !isEmpty(currentPathCoursesAndPrograms) ? (
                   Object.keys(currentPathCoursesAndPrograms).map((val) => (
+                    <>
                     <div
                       key={val}
                       className="bg-main-bg p-5 md:p-8 w-full relative h-full gap-6 rounded-lg drop-shadow-md place-self-center flex flex-col justify-between items-center"
@@ -141,6 +146,8 @@ export default function CommitedCoursesPrograms() {
                         <div className="absolute top-2 left-2 sm:top-3 sm:left-3"></div>
                         <p className="mt-6">{val}</p>
                       </div>
+
+                      
 
                       <button
                         className="h-fit px-3 py-1 border border-gray-400 rounded-lg shadow place-self-center hover:bg-white bg-button-bg w-fit text-xs text-center hover:cursor-pointer"
@@ -154,6 +161,7 @@ export default function CommitedCoursesPrograms() {
                         View Skills
                       </button>
                     </div>
+                    </>
                   ))
                 ) : (
                   <div className="col-span-2 h-96 flex items-center justify-center">

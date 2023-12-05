@@ -1,11 +1,17 @@
+"use client"
 import ProgressBar from "@ramonak/react-progress-bar";
 import Link from "next/link";
 import { useAppSelector } from "@/redux/hooks";
+import { useEffect, useState } from "react";
 
 const SkillsProgress = () => {
   const { pickedCareer, skillsMatchedPercentage } = useAppSelector(
     (state) => state.resumeProcessingSlice
   );
+
+  
+  // Detect when progress reaches 100% and trigger the pop-up
+  
 
   return (
     <div className="h-96 bg-main-bg col-span-2 w-full rounded-2xl p-4 sm:p-10 text-center flex flex-col  align-middle items-center justify-between shadow-xl">

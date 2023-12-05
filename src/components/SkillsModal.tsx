@@ -62,17 +62,19 @@ export default function SkillsModal({
     );
   };
 
+ 
+
   return (
     <>
       {open && (
         <div
-          className="z-50 fixed inset-0"
+          className="z-50 inset-0 fixed "
           id="my_modal_3"
           aria-labelledby="modal-title"
           role="dialog"
           aria-modal="true"
         >
-          <div className="modal-box m-auto h-1/3 md:h-2/3 p-5">
+          <div className="modal-box m-auto  h-1/3 md:h-2/3 p-5">
             <form method="dialog">
               <button
                 onClick={() => {
@@ -96,8 +98,9 @@ export default function SkillsModal({
                             checked={skillData.acquired}
                             className="checkbox checkbox-accent"
                             onChange={() => {
-                              handleSkillAcquiredChange(skillData, title);
-                            }}
+                              handleSkillAcquiredChange(skillData, title);    
+                              }
+                            }
                           />
                         </label>
                       </div>

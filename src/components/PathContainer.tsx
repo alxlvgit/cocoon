@@ -36,7 +36,7 @@ const PathContainer = ({
 
   return (
     <>
-    <div className="flex flex-col w-full rounded-lg h-[360px] overflow-auto">
+      <div className="flex flex-col w-full rounded-lg max-h-[360px] overflow-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
       <div className="text-xs md:text-sm lg:text-lg text-left w-full ">
         {pathData &&
           pathType === "recommended" &&
