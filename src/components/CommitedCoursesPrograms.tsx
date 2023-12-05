@@ -79,7 +79,6 @@ export default function CommitedCoursesPrograms() {
     setModalOpen(true);
   };
 
-  const [currentCoursePercentage, setCurrentCoursePercentage] = useState<number>(0)
 
 
   return (
@@ -141,7 +140,7 @@ export default function CommitedCoursesPrograms() {
                 !isEmpty(currentPathCoursesAndPrograms) ? (
                   Object.keys(currentPathCoursesAndPrograms).map((val) => (
                     <>
-                      <CheckDonutCourse currentCoursePercentage={currentCoursePercentage} setCurrentCoursePercentage={setCurrentCoursePercentage} val={val} currentPathCoursesAndPrograms={currentPathCoursesAndPrograms[val]} />
+                      <CheckDonutCourse key={val} val={val} currentPathCoursesAndPrograms={currentPathCoursesAndPrograms[val]} />
                     {/* <div
                       key={val}
                       className="bg-main-bg p-5 md:p-8 w-full relative h-full gap-6 rounded-lg drop-shadow-md place-self-center flex flex-col justify-between items-center"

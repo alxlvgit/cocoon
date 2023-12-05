@@ -12,13 +12,14 @@ import {
   updateMissingSkills,
 } from "@/redux/features/resumeProcessingSlice";
 import { useState } from "react";
+import { set } from "zod";
 
 export default function SkillsModal({
   title,
   skills,
   open,
   setModalOpen,
-  setCurrentCoursePercentage
+  setCurrentCoursePercentage,
 }: {
   title: string;
   skills: PathSkill[];
@@ -57,15 +58,17 @@ export default function SkillsModal({
         : data
     );
     setSkillsAcquired(updatedSkillsAcquired);
+    setCurrentCoursePercentage(Math.trunc((updatedSkillsAcquired.filter(skill => skill.acquired === true).length / updatedSkillsAcquired.length * 100)))
+
     dispatch(updateMissingSkills({ skills: updatedSkillsAcquired }));
     dispatch(setSkillsMatchedPercentage());
     dispatch(
       checkIfAllSkillsAcquired({ skills: updatedSkillsAcquired, title })
     );
+
+    
   };
 
-  // const [currentCoursePercentage, setCurrentCoursePercentage] = useState(0)
-  let fullfilledSkills: string[] = []
 
   return (
     <>
@@ -102,15 +105,7 @@ export default function SkillsModal({
                             className="checkbox checkbox-accent"
                             onChange={() => {
                               handleSkillAcquiredChange(skillData, title);
-                              if (!skillData.acquired) {
-                                fullfilledSkills.push(skillData.skill)
-                                setCurrentCoursePercentage(fullfilledSkills.length / skillsAcquired.length * 100)
-                                console.log(fullfilledSkills)
-                              } else {
-                                fullfilledSkills = fullfilledSkills.filter(skill => skill !== skillData.skill)
-                                setCurrentCoursePercentage(fullfilledSkills.length / skillsAcquired.length * 100)
-                                console.log(fullfilledSkills)
-                              }
+                              // setCurrentCoursePercentage((skills.filter(skill => skill.acquired === true)).length / skills.length * 100)
                             }}
                           />
                         </label>
