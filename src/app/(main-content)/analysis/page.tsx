@@ -4,9 +4,9 @@ import { redirect } from "next/navigation";
 
 export default async function Path() {
   const session = await auth();
-  // if (!session) {
-  //   redirect("/api/auth/signin?callbackUrl=/path");
-  // }
+  if (!session) {
+    redirect("/api/auth/signin?callbackUrl=/path");
+  }
 
   return (
     <main className="mt-24 sm:mt-36 pb-10 m-auto max-w-screen-2xl">
