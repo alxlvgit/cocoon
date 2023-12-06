@@ -8,8 +8,10 @@ import {
 
 const GoogleDocForm = ({
   runAnalysisFunction,
+  setActivedStepOne,
 }: {
   runAnalysisFunction: (data: string) => Promise<void>;
+  setActivedStepOne: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state.resumeProcessingSlice);
@@ -24,11 +26,14 @@ const GoogleDocForm = ({
     };
     dispatch(setProcessing(true));
     dispatch(setProcessingStatus(1));
+    setActivedStepOne(true);
     const res = await fetch("/api/googledoc", {
       method: "POST",
       body: JSON.stringify(form),
     });
     const data = await res.json();
+    dispatch(setProcessing(true));
+    dispatch(setProcessingStatus(2));
     if (data) {
       await runAnalysisFunction(data);
     } else {
@@ -46,7 +51,7 @@ const GoogleDocForm = ({
       <input
         className="text-sm text-gray-900 border p-2 border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
         type="text"
-        placeholder="Enter Google Doc ID"
+        placeholder="Enter Google Doc URL"
         onChange={(e) => dispatch(setGoogleDocUrl(e.target.value))}
         required
       />

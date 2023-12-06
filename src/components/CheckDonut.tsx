@@ -19,7 +19,6 @@ interface CheckDonutCourseProps {
 }
 export default function CheckDonutCourse({val, currentPathCoursesAndPrograms }: CheckDonutCourseProps) {
     const [currentCoursePercentage, setCurrentCoursePercentage] = useState(0)
-    // let currentCoursePercentagee = Math.trunc((currentPathCoursesAndPrograms.skills.filter(skill => skill.acquired === true).length / currentPathCoursesAndPrograms.skills.length * 100))
     const data = {
         labels: ["Completed", "Uncompleted"],
         datasets: [

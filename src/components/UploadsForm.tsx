@@ -131,16 +131,19 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
   const [activedStepFive, setActivedStepFive] = useState(false);
 
 
+
   return (
     <>
+    <div>
       <ul className="steps steps-vertical lg:steps-horizontal">
         <li className={activedStepOne ? 'step step-primary' : 'step'}>File Uploaded</li>
         <li className={activedStepTwo ? 'step step-primary' : 'step'}>Extracting text</li>
         <li className={activedStepThree ? 'step step-primary' : 'step'}>Reading Resume</li>
         <li className={activedStepFour ? 'step step-primary' : 'step'}>Reading Career Requirement</li>
         <li className={activedStepFive ? 'step step-primary' : 'step'}>Matching Skills</li>
-
       </ul>
+
+    </div>
 
       <div className="flex flex-col my-6 items-center p-4 max-w-sm bg-white border border-gray-300 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 space-y-2">
         <p className="text-base font-semibold">Upload Resume</p>
@@ -174,7 +177,7 @@ const UploadsForm = ({ careerCode }: { careerCode: string }) => {
 
         <hr className="w-48 h-2 mx-auto my-5 bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-700" />
 
-        <GoogleDocForm runAnalysisFunction={runAnalysis} />
+        <GoogleDocForm runAnalysisFunction={runAnalysis} setActivedStepOne={setActivedStepOne}/>
       </div>
     </>
   );
