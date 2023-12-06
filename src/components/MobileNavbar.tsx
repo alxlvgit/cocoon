@@ -91,6 +91,11 @@ const MobileNavbar: React.FC = () => {
           >
             Analysis
           </button>
+          <img
+            src="/assets/newlogo.svg"
+            alt="logo"
+            className="w-15 h-10 place-items-end mt-10"
+          />
         </div>
       )}
     </div>
