@@ -9,10 +9,9 @@ export default async function Profile() {
   const session = await auth();
 
   // Use this for productions
-  // if (!session) {
-  // redirect("/api/auth/signin?callbackUrl=/profile");
-  // }
-  // const { user } = session;
+  if (!session) {
+    redirect("/api/auth/signin?callbackUrl=/home");
+  }
 
   // Keep this here temporary for development
   let user = null;

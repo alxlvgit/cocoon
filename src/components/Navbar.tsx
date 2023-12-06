@@ -39,13 +39,16 @@ export default function NavBar() {
           Analysis
         </Link>
       </div>
-      <div className="flex absolute right-0 mr-6 top-5 items-center text-white font-medium justify-center">
+      <Link
+        href="/"
+        className="flex absolute right-0 mr-6 top-5 items-center text-white font-medium justify-center"
+      >
         <img
           src="/assets/newlogo.svg"
           alt="logo"
           className="w-15 h-10 place-items-end"
         />
-      </div>
+      </Link>
     </nav>
   );
 }

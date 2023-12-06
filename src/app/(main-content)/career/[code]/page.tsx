@@ -1,4 +1,3 @@
-import StartAnalysisContainer from "@/components/StartAnalysisContainer";
 import AllCareerData from "@/components/AllCareerData";
 import Link from "next/link";
 
