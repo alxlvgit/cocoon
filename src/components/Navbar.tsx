@@ -40,7 +40,7 @@ export default function NavBar() {
         </Link>
       </div>
       <Link
-        href="/"
+        href="/home"
         className="flex absolute right-0 mr-6 top-5 items-center text-white font-medium justify-center"
       >
         <img

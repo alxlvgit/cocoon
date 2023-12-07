@@ -60,7 +60,7 @@
     "autoprefixer": "latest",
     "daisyui": "^4.4.7",
     "dotenv": "^16.3.1",
-    "drizzle-kit": "^0.20.4",
+    "drizzle-kit": "^0.20.6",
     "encoding": "^0.1.13",
     "esbuild": "^0.19.7",
     "eslint": "latest",
