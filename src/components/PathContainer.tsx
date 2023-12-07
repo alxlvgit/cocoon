@@ -35,8 +35,9 @@ const PathContainer = ({
   };
 
   return (
-    <div className="flex flex-col w-full rounded-lg ">
-      <div className="text-xs md:text-sm lg:text-lg text-left w-full">
+    <>
+      <div className="flex flex-col w-full rounded-lg max-h-[360px] overflow-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+      <div className="text-xs md:text-sm lg:text-lg text-left w-full ">
         {pathData &&
           pathType === "recommended" &&
           (pathData.bcitProgram && program ? (
@@ -79,7 +80,7 @@ const PathContainer = ({
           </>
         )}
       </div>
-      <div className="flex justify-start items-center">
+      {/* <div className="flex justify-start items-center">
         {currentPath === pathType ? (
           <div className="text-xs md:text-sm lg:text-base font-bold text-center w-full px-8 py-2 border text-white border-white rounded-lg">
             This is your current path
@@ -87,13 +88,28 @@ const PathContainer = ({
         ) : (
           <button
             onClick={setMyCurrentPath}
-            className="bg-button-bg w-fit hover:bg-gray-100 text-gray-800 font-medium py-1 px-4 mr-2 border border-gray-400 rounded-lg shadow text-sm"
+            className="bg-button-bg w-fit hover:bg-gray-100 text-gray-800 font-medium py-1 px-4 mr-2 mt-2  border border-gray-400 rounded-lg shadow text-sm"
+          >
+            Commit Path
+          </button>
+        )}
+      </div> */}
+    </div>
+    <div className="flex justify-start items-center">
+        {currentPath === pathType ? (
+          <div className="text-xs md:text-sm lg:text-base font-bold text-center w-full px-8 py-2 border text-white border-white rounded-lg">
+            This is your current path
+          </div>
+        ) : (
+          <button
+            onClick={setMyCurrentPath}
+            className="bg-button-bg w-fit hover:bg-gray-100 text-gray-800 font-medium py-1 px-4 mr-2 mt-2  border border-gray-400 rounded-lg shadow text-sm"
           >
             Commit Path
           </button>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

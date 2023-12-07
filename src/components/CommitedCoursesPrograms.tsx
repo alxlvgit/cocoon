@@ -9,6 +9,7 @@ import isEmpty from "@/utils/isEmpty";
 import { useEffect, useState } from "react";
 import SkillsModal from "./SkillsModal";
 
+
 export default function CommitedCoursesPrograms() {
   const [selectedCourse, setSelectedCourse] = useState<{
     title: string;
@@ -77,10 +78,12 @@ export default function CommitedCoursesPrograms() {
     setModalOpen(true);
   };
 
+
+
   return (
-    <div className="col-span-2">
-      <div className="grid items-center w-full">
-        <div className="bg-main-bg h-auto w-full rounded-2xl mx-auto p-4 text-center align-middle items-center justify-center grid grid-cols-1 gap-4 md:grid-cols-4 shadow-xl">
+    <div className="h-full col-span-2">
+      <div className="grid items-center w-full">       
+        <div className="bg-main-bg h-full w-full rounded-2xl mx-auto p-4 text-center align-middle items-center justify-center grid grid-cols-1 gap-4 md:grid-cols-4 shadow-xl">
           <div className="col-span-1 items-center justify-center">
             <div className="flex items-center justify-center">
               <svg
@@ -116,7 +119,7 @@ export default function CommitedCoursesPrograms() {
             <p className="font-bold pt-2">
               {courseOrProgram} Completed: {completed}
             </p>
-          </div>
+          </div>        
           <div className="md:col-span-3 grid grid-rows-7 w-full h-full">
             <p className="text-md w-fit place-self-center font-bold pb-3">
               Courses and Programs
@@ -128,19 +131,23 @@ export default function CommitedCoursesPrograms() {
               open={isModalOpen}
               setModalOpen={setModalOpen}
             />
-            <div className="row-span-6 bg-bright-main h-full rounded-2xl items-center align-middle justify-center grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 md:p-5">
+            <div className="row-span-6 bg-bright-main h-[534px] overflow-auto rounded-2xl items-center align-middle justify-center grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 md:p-5">
               <>
+                
                 {currentPathCoursesAndPrograms &&
                 !isEmpty(currentPathCoursesAndPrograms) ? (
                   Object.keys(currentPathCoursesAndPrograms).map((val) => (
+                    <>
                     <div
                       key={val}
-                      className="bg-main-bg p-5 md:p-8 w-full relative h-full gap-6 rounded-lg drop-shadow-md place-self-center flex flex-col justify-between items-center"
+                      className="bg-main-bg p-5 md:p-8 w-full relative h-[330px]  gap-6 rounded-lg drop-shadow-md place-self-center flex flex-col justify-between items-center"
                     >
                       <div className="text-black h-2/3 place-content-center">
                         <div className="absolute top-2 left-2 sm:top-3 sm:left-3"></div>
                         <p className="mt-6">{val}</p>
                       </div>
+
+                      
 
                       <button
                         className="h-fit px-3 py-1 border border-gray-400 rounded-lg shadow place-self-center hover:bg-white bg-button-bg w-fit text-xs text-center hover:cursor-pointer"
@@ -154,6 +161,7 @@ export default function CommitedCoursesPrograms() {
                         View Skills
                       </button>
                     </div>
+                    </>
                   ))
                 ) : (
                   <div className="col-span-2 h-96 flex items-center justify-center">

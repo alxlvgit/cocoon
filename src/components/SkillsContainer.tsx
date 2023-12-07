@@ -25,7 +25,7 @@ const SkillsContainer = ({
 }) => {
   return (
     <>
-      <div className="bg-main-bg p-3 shadow-xl rounded-2xl flex-col flex items-center justify-start w-full h-96">
+      <div className="bg-main-bg p-3  shadow-xl rounded-2xl flex-col flex items-center justify-start w-full h-96">
         <div>
           <p className="font-bold text-lg mb-2 text-center">{skillsType}</p>
         </div>
