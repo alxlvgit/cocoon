@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Cocoon
+Cocoon is an AI-driven app designed to help you switch careers seamlessly. 
 
-## Getting Started
+## What it does
+It scans your resume to identify your skills and then uses open job data, Udemy courses, and college programs to create a tailored roadmap for your new career. By finding transferable skills and suggesting relevant courses, Cocoon makes it easier to fill skill gaps and prepare for a successful transition.
 
-First, run the development server:
+## Tech Stack
+- TypeScript
+- Next.js
+- Tailwind CSS
+- Redux
+- AWS Lambda
+- Amazon Textract
+- LangChain
+- Open AI API
+- Udemy Affiliate API
+- Google Docs API
+- O*NET Web Services API
+- Chart.js
+- daisyUI
+- mammoth 
+- react-pdf 
+- Drizzle ORM
+- Neon
+- PostgreSQL
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Key Features:
+- **Resume Parsing**:
+    - Utilizes Amazon Textract, Mammoth, and Google Docs API for extracting information from resumes uploaded in PDF, DOCX, or Google Docs format.
+ - **Career Information**:
+    - Integrates O*NET Web Services API to provide detailed career information.
+    - Offers users a comprehensive view of various careers, including essential details and requirements.
+- **Text to Structured Data Conversion**:
+    - Employs LangChain and Open AI function calling model for turning the text into structured data.
+    - Extracts skills and qualifications from parsed resume text, as well as duties and responsibilities from career descriptions.
+- **Semantic Search**:
+    - Employs LangChain and Open AI embedding model for semantic search functionality.
+    - Matches skills and qualifications from resumes with duties and responsibilities from career descriptions.
+    - Identifies relevant courses and programs for users to fill skill gaps and prepare for a successful transition.
+- **Udemy Courses Integration**:
+    - Utilizes Udemy Affiliate API to provide users with relevant courses.
+    - Links users with a variety of educational resources from the Udemy database.
+- **User Dashboard**:
+    - Enables users to view their learning path and track their progress.
