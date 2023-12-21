@@ -12,7 +12,7 @@ It scans your resume to identify your skills and then uses open job data, Udemy 
 - AWS Lambda
 - Amazon Textract
 - LangChain
-- Open AI API
+- OpenAI API
 - Udemy Affiliate API
 - Google Docs API
 - O*NET Web Services API
@@ -24,17 +24,17 @@ It scans your resume to identify your skills and then uses open job data, Udemy 
 - Neon
 - PostgreSQL
 
-## Key Features:
+## Key Features
 - **Resume Parsing**:
     - Utilizes Amazon Textract, Mammoth, and Google Docs API for extracting information from resumes uploaded in PDF, DOCX, or Google Docs format.
  - **Career Information**:
     - Integrates O*NET Web Services API to provide detailed career information.
     - Offers users a comprehensive view of various careers, including essential details and requirements.
 - **Text to Structured Data Conversion**:
-    - Employs LangChain and Open AI function calling model for turning the text into structured data.
+    - Employs LangChain and OpenAI function calling model for turning the text into structured data.
     - Extracts skills and qualifications from parsed resume text, as well as duties and responsibilities from career descriptions.
 - **Semantic Search**:
-    - Employs LangChain and Open AI embedding model for semantic search functionality.
+    - Employs LangChain and OpenAI embedding model for semantic search functionality.
     - Matches skills and qualifications from resumes with duties and responsibilities from career descriptions.
     - Identifies relevant courses and programs for users to fill skill gaps and prepare for a successful transition.
 - **Udemy Courses Integration**:
